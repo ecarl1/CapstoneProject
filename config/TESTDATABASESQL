@@ -1,0 +1,10 @@
+const { Sequelize } = require('sequelize');
+
+// Initialize Sequelize with your MySQL database credentials
+const sequelize = new Sequelize('tutor_data', 'Eric', 'Iloverex#1', {
+    host: 'localhost',
+    dialect: 'mysql',
+    logging: false, // Set to true if you want to see SQL logs
+});
+
+module.exports = sequelize;

@@ -7,8 +7,8 @@ const { defaultValueSchemable } = require('sequelize/lib/utils');
 
 const Session = sequelize.define('Session', {
     entryID:{
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true
     },
     date: {
@@ -22,7 +22,9 @@ const Session = sequelize.define('Session', {
     courseID: {
         type: DataTypes.INTEGER,
         allowNull: false
-    }
+    },
+    createdAt: false,
+    updatedAt: false
 });
 
 Session.upload = async function (file){

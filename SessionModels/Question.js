@@ -7,14 +7,14 @@ const Question = sequelize.define('Question', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    questionID: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: SessionAnswer,
-            key: 'questionID'
-        }
-    }
+    // questionID: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false,
+    //     references: {
+    //         model: SessionAnswer,
+    //         key: 'questionID'
+    //     }
+    // }
    
 });
 

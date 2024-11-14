@@ -7,14 +7,14 @@ const Answer = sequelize.define('Answer', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    answerID: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: SessionAnswer,
-            key: 'answerID'
-        }
-    },
+    // answerID: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false,
+    //     references: {
+    //         model: SessionAnswer,
+    //         key: 'answerID'
+    //     }
+    // },
     answerValue: {
         type: DataTypes.INTEGER,
         allowNull: true

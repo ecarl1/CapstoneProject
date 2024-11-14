@@ -1,4 +1,4 @@
-const { parseSessionData, sessionSave } = require('./ParseSessionData'); // Import both functions
+const { save, parse } = require('./SessionModels/Session'); // Import both functions
 const path = require('path');
 
 async function testParseAndSave() {
@@ -6,11 +6,11 @@ async function testParseAndSave() {
     console.log(filePath);
 
     try {
-        const parsedData = await parseSessionData(filePath);
+        const parsedData = await parse(filePath);
 
        
         for (const data of parsedData) {
-            await sessionSave(data); 
+            await save(data); 
         }
 
         console.log('All sessions have been saved successfully.');
