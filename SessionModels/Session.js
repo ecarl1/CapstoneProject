@@ -15,6 +15,7 @@ const Session = sequelize.define('Session', {
         type: DataTypes.DATE,
         allowNull: false
     },
+    
     sessionType: {
         type: DataTypes.STRING,
         allowNull: false
