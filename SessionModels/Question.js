@@ -3,19 +3,33 @@ const sequelize = require('../config/TESTDATABASESQL') // storing the database o
 const SessionAnswer = require('./Session')
 
 const Question = sequelize.define('Question', {
-    questionText: {
+    question_text: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    // questionID: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    //     references: {
-    //         model: SessionAnswer,
-    //         key: 'questionID'
-    //     }
-    // }
+    question_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        references: {
+            model: SessionAnswer,
+            key: 'question_id'
+        }
+    }
    
+}, {
+    timestamps: false // Corrected this to lowercase
 });
+
+Question.questionSave = async function (data) {
+    try{
+        const question = await Question.create({
+            question_text: data.question_text,
+            question_id: data.question_id
+        });
+    }catch(error){
+        console.log(error);
+    };
+}
 
 module.exports = Question;

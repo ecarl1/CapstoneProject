@@ -1,10 +1,24 @@
 const { Sequelize } = require('sequelize');
+const association = require('../SessionModels/Index')
 
-// Initialize Sequelize with your MySQL database credentials
-const sequelize = new Sequelize('tutor_data', 'Eric', 'Iloverex#1', {
-    host: 'localhost',
+const sequelize = new Sequelize('BobcatTracksDB', 'adminBobcat', 'BCtracks2024*', {
+    host: 'rds-mysql-bobcattracks.c126wkoiaw5v.us-east-1.rds.amazonaws.com',
+    port: 3306, 
     dialect: 'mysql',
-    logging: false, // Set to true if you want to see SQL logs
+    logging: false, // set to false to not seeSQL logs
 });
+
+const Session = require('../SessionModels/Session');
+const SessionAnswer = require('../SessionModels/SessionAnswer');
+const Question = require('../SessionModels/Question');
+const Answer = require('../SessionModels/Answer');
+
+Session.init(sequelize);
+SessionAnswer.init(sequelize);
+Question.init(sequelize);
+Answer.init(sequelize);
+
+defineAssociations();
+
 
 module.exports = sequelize;

@@ -4,9 +4,12 @@ const csv = require('csv-parser');
 const {DataTypes} = require('sequelize')
 const sequelize = require('../config/TESTDATABASESQL'); // storing the database on the computers memory
 const { defaultValueSchemable } = require('sequelize/lib/utils');
+const {save} = require('./SessionAnswer');
+// const SessionAnswer = require('./SessionAnswer');
+const { timeStamp } = require('console');
 
 const Session = sequelize.define('Session', {
-    entryID:{
+    entry_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
@@ -15,25 +18,27 @@ const Session = sequelize.define('Session', {
         type: DataTypes.DATE,
         allowNull: false
     },
-    
     sessionType: {
         type: DataTypes.STRING,
-        allowNull: false
     },
-    courseID: {
+    course_id: {
         type: DataTypes.INTEGER,
         allowNull: false
-    },
-    createdAt: false,
-    updatedAt: false
+    }
+}, {
+    timestamps: false // Corrected this to lowercase
 });
+
+
+// Session.belongsTo(Course, {
+//     foreignKey: 'course_id',
+// });
 
 Session.upload = async function (file){
     //not sure what to do here
 }
 
 Session.parse = async function(filePath){
-    //const parsedText = { entryID: {}, date: {}, sessionType: {}, courseID: {}}
     const parsedData = [];
     let read = false;
     let count = 0;
@@ -55,7 +60,7 @@ Session.parse = async function(filePath){
                     
                     const parsedRow ={
                         date: rowValues[1],
-                        courseID: rowValues[7].split(" ")[0],
+                        course_id: rowValues[7].split(" ")[0],
                         courseName: rowValues[7].split(" ").slice(1).join(" "),
                         sessionType: rowValues[8],
                         questionText: rowValues[10],
@@ -81,14 +86,13 @@ Session.save = async function (parsedData) {
     try{
         const session = await Session.create({
             date: parsedData.date,
-            courseID: parsedData.courseID,
+            course_id: parsedData.course_id,
             sessionType: parsedData.sessionType,
         });
+        await SessionAnswer.save(parsedData);
     }catch(error){
         console.log(error);
     };
-
-    
 }
 
 module.exports = Session;
