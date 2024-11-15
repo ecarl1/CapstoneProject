@@ -1,14 +1,16 @@
 const fs = require('fs');
 const csv = require('csv-parser');
 
-const {DataTypes} = require('sequelize')
+const {Model, DataTypes} = require('sequelize')
 const sequelize = require('../config/TESTDATABASESQL'); // storing the database on the computers memory
 const { defaultValueSchemable } = require('sequelize/lib/utils');
 const {save} = require('./SessionAnswer');
 // const SessionAnswer = require('./SessionAnswer');
 const { timeStamp } = require('console');
 
-const Session = sequelize.define('Session', {
+class Session extends Model{}
+
+Session.init({
     entry_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -26,7 +28,11 @@ const Session = sequelize.define('Session', {
         allowNull: false
     }
 }, {
+    sequelize,
+    modelName: 'Session',
+    tableName: 'Sessions',
     timestamps: false // Corrected this to lowercase
+
 });
 
 

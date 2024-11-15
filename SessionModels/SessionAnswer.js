@@ -1,4 +1,4 @@
-const {DataTypes} = require('sequelize')
+const {Model, DataTypes} = require('sequelize')
 const sequelize = require('../config/TESTDATABASESQL') // storing the database on the computers memory
 const Session = require('./Session')
 const Answer = require('./Answer')
@@ -6,8 +6,9 @@ const {answerSave} = require('./Answer')
 const {questionSave} = require('./Question')
 const Question = require('./Question')
 
+class SessionAnswer extends Model{}
 
-const SessionAnswer = sequelize.define('SessionAnswer', {
+SessionAnswer.init( {
     answer_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -27,13 +28,13 @@ const SessionAnswer = sequelize.define('SessionAnswer', {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
-        references:{
-            model: Session,
-            key: 'entry_id'
-        }
+        
     }
    
 }, {
+    sequelize,
+    modelName: 'SessionAnswer',
+    tableName: 'session_answer',
     timestamps: false // Corrected this to lowercase
 }
 );

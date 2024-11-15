@@ -1,16 +1,22 @@
 const sequelize = require('../config/TESTDATABASESQL');
 const Answer = require('./Answer');
-const Question = require('./Question.js/index.js');
+const Question = require('./Question');
 const Session = require('./Session.js');
 const SessionAnswer = require('./SessionAnswer');
 
-function defineAssociations(){
-    Session.hasMany(SessionAnswer, {foreignKey: 'entry_id'});
-    SessionAnswer.belongsTo(Session, {foreignKey: 'entry_id'});
-    SessionAnswer.hasOne(Answer, {foreignKey: 'answer_id'});
-    Answer.belongsTo(SessionAnswer, {foreginKey: 'answer_id'});
-    SessionAnswer.hasOne(Question, {foreginKey: 'question_id'});
-    Question.belongsTo(SessionAnswer, {foreginKey: 'question_id'});
+Session.init(sequelize);
+SessionAnswer.init(sequelize);
+Question.init(sequelize);
+Answer.init(sequelize);
+
+
+function defineAssociations() {
+    Session.hasMany(SessionAnswer, { foreignKey: 'entry_id' });
+    SessionAnswer.belongsTo(Session, { foreignKey: 'entry_id' });
+    SessionAnswer.hasOne(Answer, { foreignKey: 'answer_id' });
+    Answer.belongsTo(SessionAnswer, { foreignKey: 'answer_id' }); 
+    SessionAnswer.hasOne(Question, { foreignKey: 'question_id' }); 
+    Question.belongsTo(SessionAnswer, { foreignKey: 'question_id' }); 
 }
 
 
@@ -19,10 +25,7 @@ function defineAssociations(){
 
 
 
-module.exports = {
-    sequelize,
-    Answer,
-    Question,
-    Session,
-    SessionAnswer
+
+module.exports = () => {
+   console.log('Associations defined');
 }

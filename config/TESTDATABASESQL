@@ -1,5 +1,7 @@
 const { Sequelize } = require('sequelize');
 const association = require('../SessionModels/Index')
+const defineAssociations = require('../SessionModels/Index');
+
 
 const sequelize = new Sequelize('BobcatTracksDB', 'adminBobcat', 'BCtracks2024*', {
     host: 'rds-mysql-bobcattracks.c126wkoiaw5v.us-east-1.rds.amazonaws.com',

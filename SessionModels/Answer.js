@@ -1,8 +1,10 @@
-const {DataTypes} = require('sequelize')
+const {Model, DataTypes} = require('sequelize')
 const sequelize = require('../config/TESTDATABASESQL') // storing the database on the computers memory
 const SessionAnswer = require('./SessionAnswer')
 
-const Answer = sequelize.define('Answer', {
+class Answer extends Model{}
+
+Answer.init( {
     answer_text: {
         type: DataTypes.STRING,
         allowNull: false
@@ -11,10 +13,6 @@ const Answer = sequelize.define('Answer', {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        references: {
-            model: SessionAnswer,
-            key: 'answer_id'
-        }
     },
     //this needs to be set to assign an int
     answer_int: {
@@ -23,6 +21,9 @@ const Answer = sequelize.define('Answer', {
     }
    
 }, {
+    sequelize,
+    modelName: 'Answer',
+    tableName: 'answer',
     timestamps: false // Corrected this to lowercase
 });
 

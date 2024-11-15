@@ -1,8 +1,10 @@
-const {DataTypes} = require('sequelize')
+const {DataTypes, Model} = require('sequelize')
 const sequelize = require('../config/TESTDATABASESQL') // storing the database on the computers memory
 const SessionAnswer = require('./Session')
 
-const Question = sequelize.define('Question', {
+class Question extends Model{}
+
+Question.init( {
     question_text: {
         type: DataTypes.STRING,
         allowNull: false
@@ -11,13 +13,13 @@ const Question = sequelize.define('Question', {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        references: {
-            model: SessionAnswer,
-            key: 'question_id'
-        }
+       
     }
    
 }, {
+    sequelize, 
+    modelName: 'Question', 
+    tableName: 'question', 
     timestamps: false // Corrected this to lowercase
 });
 
