@@ -4,6 +4,8 @@ const csv = require('csv-parser');
 const {DataTypes} = require('sequelize')
 const sequelize = require('../config/TESTDATABASESQL'); // storing the database on the computers memory
 const { defaultValueSchemable } = require('sequelize/lib/utils');
+const Course = require('./Course')
+
 
 const Session = sequelize.define('Session', {
     entry_id:{
@@ -58,8 +60,7 @@ Session.parse = async function(filePath){
                     //fix this 
                     const parsedRow ={
                         date: rowValues[1],
-                        course_id: rowValues[7].split(" ")[0],
-                        courseName: rowValues[7].split(" ").slice(1).join(" "),
+                        course_name: rowValues[7].split(" ")[0],
                         sessionType: rowValues[8],
                         question_text: rowValues[10],
                         answer_text: rowValues[11]
@@ -82,9 +83,18 @@ Session.parse = async function(filePath){
 
 Session.save = async function (parsedData) {
     try{
+
+        await Course.sync()
+        // Get related course id
+        const [course_record, created_new] = await Course.findOrCreate({
+            where: { course_name: parsedData.course_name },
+          });
+        console.log(course_record.course_id)
         const session = await Session.create({
             date: parsedData.date,
-            course_id: parsedData.course_id,
+            //need to search for course ID based on course name in the course section on the database
+           
+            course_id: course_record.course_id,
             sessionType: parsedData.sessionType,
         });
     }catch(error){
