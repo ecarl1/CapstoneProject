@@ -1,7 +1,5 @@
 const { save, parse } = require('./SessionModels/Session'); // Import both functions
 const path = require('path');
-const defineAssociations = require('./SessionModels/Index')
-defineAssociations();
 
 async function testParseAndSave() {
     const filePath = path.join(__dirname, 'test.csv'); // Adjust to the correct test file path

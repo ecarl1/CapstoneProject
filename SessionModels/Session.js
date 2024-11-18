@@ -1,50 +1,42 @@
 const fs = require('fs');
 const csv = require('csv-parser');
 
-const {Model, DataTypes} = require('sequelize')
+const {DataTypes} = require('sequelize')
 const sequelize = require('../config/TESTDATABASESQL'); // storing the database on the computers memory
 const { defaultValueSchemable } = require('sequelize/lib/utils');
-const {save} = require('./SessionAnswer');
-// const SessionAnswer = require('./SessionAnswer');
-const { timeStamp } = require('console');
 
-class Session extends Model{}
-
-Session.init({
-    entry_id: {
+const Session = sequelize.define('Session', {
+    entry_id:{
         type: DataTypes.INTEGER,
+        default: DataTypes.DATE,
         autoIncrement: true,
         primaryKey: true
     },
     date: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: false,
     },
+    
     sessionType: {
         type: DataTypes.STRING,
+        allowNull: false,
     },
     course_id: {
         type: DataTypes.INTEGER,
-        allowNull: false
-    }
-}, {
-    sequelize,
-    modelName: 'Session',
-    tableName: 'Sessions',
-    timestamps: false // Corrected this to lowercase
-
-});
-
-
-// Session.belongsTo(Course, {
-//     foreignKey: 'course_id',
-// });
+        allowNull: false,
+    },
+},
+{
+    timestamps: false,
+}
+);
 
 Session.upload = async function (file){
     //not sure what to do here
 }
 
 Session.parse = async function(filePath){
+    //const parsedText = { entryID: {}, date: {}, sessionType: {}, courseID: {}}
     const parsedData = [];
     let read = false;
     let count = 0;
@@ -63,14 +55,14 @@ Session.parse = async function(filePath){
                     //console.log('Row Values:', rowValues);
                     console.log(rowValues[1]);
 
-                    
+                    //fix this 
                     const parsedRow ={
                         date: rowValues[1],
                         course_id: rowValues[7].split(" ")[0],
                         courseName: rowValues[7].split(" ").slice(1).join(" "),
                         sessionType: rowValues[8],
-                        questionText: rowValues[10],
-                        answerText: rowValues[11]
+                        question_text: rowValues[10],
+                        answer_text: rowValues[11]
 
 
                     };
@@ -95,10 +87,11 @@ Session.save = async function (parsedData) {
             course_id: parsedData.course_id,
             sessionType: parsedData.sessionType,
         });
-        await SessionAnswer.save(parsedData);
     }catch(error){
         console.log(error);
     };
+
+    
 }
 
 module.exports = Session;
