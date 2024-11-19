@@ -4,7 +4,7 @@ const Session = require('./Session')
 const Question = require('./Question')
 const Answer = require('./Answer')
 
-const SessionAnswer = sequelize.define('SessionAnswer', {
+const Session_Answer = sequelize.define('Session_Answer', {
     answer_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -30,8 +30,9 @@ const SessionAnswer = sequelize.define('SessionAnswer', {
 
 
 
-SessionAnswer.saveSA = async function  (parsedData) {
+Session_Answer.saveSA = async function  (parsedData) {
     try{
+        console.log(question_record.question_id);
         await sequelize.sync()
         await Question.sync()
         const [question_record, question_new] = await Question.findOrCreate({
@@ -48,7 +49,7 @@ SessionAnswer.saveSA = async function  (parsedData) {
 
         await Answer.sync()
         await Question.sync()
-        const sessionAnswer = await sessionAnswer.create({
+        const Session_Answer = await Session_Answer.create({
             entry_id: parsedData.entry_id,
             question_id: question_record.question_id,
             answer_id: answer_record.answer_id
@@ -62,4 +63,4 @@ SessionAnswer.saveSA = async function  (parsedData) {
 
 
 
-module.exports = SessionAnswer;
+module.exports = Session_Answer;

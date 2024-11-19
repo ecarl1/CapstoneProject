@@ -2,14 +2,14 @@ const sequelize = require('../config/TESTDATABASESQL');
 const Answer = require('./Answer');
 const Question = require('./Question.js/index.js');
 const Session = require('./Session.js');
-const SessionAnswer = require('./Session_Answer.js');
+const Session_Answer = require('./Session_Answer.js');
 
-// Session.hasMany(SessionAnswer, {foreignKey: 'entryID'});
-// SessionAnswer.belongsTo(Session, {foreignKey: 'entryID'});
-// SessionAnswer.hasOne(Answer, {foreignKey: 'answerID'});
-// Answer.belongsTo(SessionAnswer, {foreginKey: 'answerID'});
-// SessionAnswer.hasOne(Question, {foreginKey: 'questionID'});
-// Question.belongsTo(SessionAnswer, {foreginKey: 'questionID'});
+// Session.hasMany(Session_Answer, {foreignKey: 'entryID'});
+// Session_Answer.belongsTo(Session, {foreignKey: 'entryID'});
+// Session_Answer.hasOne(Answer, {foreignKey: 'answerID'});
+// Answer.belongsTo(Session_Answer, {foreginKey: 'answerID'});
+// Session_Answer.hasOne(Question, {foreginKey: 'questionID'});
+// Question.belongsTo(Session_Answer, {foreginKey: 'questionID'});
 
 
 
@@ -18,5 +18,5 @@ module.exports = {
     Answer,
     Question,
     Session,
-    SessionAnswer
+    Session_Answer
 }

@@ -1,6 +1,6 @@
 const {DataTypes} = require('sequelize')
 const sequelize = require('../config/TESTDATABASESQL') // storing the database on the computers memory
-const SessionAnswer = require('./Session')
+const Session_Answer = require('./Session')
 
 const Question = sequelize.define('Question', {
     question_id: {
