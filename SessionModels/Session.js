@@ -5,12 +5,16 @@ const {DataTypes} = require('sequelize')
 const sequelize = require('../config/TESTDATABASESQL'); // storing the database on the computers memory
 const { defaultValueSchemable } = require('sequelize/lib/utils');
 const Course = require('./Course')
+const SessionAnswer = require('./Session_Answer')
+const Answer = require('./Answer');
+const Question = require('./Question')
+
 
 
 const Session = sequelize.define('Session', {
     entry_id:{
         type: DataTypes.INTEGER,
-        default: DataTypes.DATE,
+        allowNull: false,
         autoIncrement: true,
         primaryKey: true
     },
@@ -85,11 +89,21 @@ Session.save = async function (parsedData) {
     try{
 
         await Course.sync()
+        await SessionAnswer.sync()
+        await Question.sync()
+        await Answer.sync()
         // Get related course id
         const [course_record, created_new] = await Course.findOrCreate({
             where: { course_name: parsedData.course_name },
-          });
-        console.log(course_record.course_id)
+        });
+        //console.log(course_record.course_id)
+
+        
+        // const [question_record, question_new] = await Question.findOrCreate({
+        //     where: { question_text: parsedData.question_text },
+        // });
+
+        
         const session = await Session.create({
             date: parsedData.date,
             //need to search for course ID based on course name in the course section on the database
@@ -97,6 +111,10 @@ Session.save = async function (parsedData) {
             course_id: course_record.course_id,
             sessionType: parsedData.sessionType,
         });
+
+        
+        const sessionAnswer = await SessionAnswer.saveSA(parsedData);
+        
     }catch(error){
         console.log(error);
     };

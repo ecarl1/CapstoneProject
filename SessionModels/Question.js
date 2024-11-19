@@ -3,20 +3,20 @@ const sequelize = require('../config/TESTDATABASESQL') // storing the database o
 const SessionAnswer = require('./Session')
 
 const Question = sequelize.define('Question', {
-    question_text: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
     question_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: SessionAnswer,
-            key: 'question_id'
-        }
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    timestamps: false
-   
-});
+    question_text: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true, 
+    },
+  }, {
+    timestamps: false,
+  });
+  
 
 module.exports = Question;
