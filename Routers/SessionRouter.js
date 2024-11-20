@@ -1,28 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const Session = require('../SessionModels/Session'); // Adjust path as needed
+const Session = require('../SessionModels/Session'); 
 
-// POST route for parse and save
 router.post('/sessions/parse-and-save', async (req, res) => {
     try {
-        const { filePath } = req.body; // Expect filePath in the request body
-
+        const { filePath } = req.body;
         if (!filePath) {
-            return res.status(400).json({ error: 'filePath is required.' });
+            return res.status(400).json({ error: 'filePath needed' });
         }
-
-        // Parse the file
         const parsedData = await Session.parse(filePath);
-
-        // Save each parsed session
         for (const data of parsedData) {
             await Session.save(data);
         }
-
-        res.status(200).json({ message: 'All sessions have been saved successfully.' });
+        res.status(200).json({ message: 'All sessions saved' });
     } catch (error) {
-        console.error('Error during parsing or saving:', error);
-        res.status(500).json({ error: 'An error occurred while processing the file.' });
+        console.error('error when parsing or saving', error);
+        res.status(500).json({ error: 'error occured' });
     }
 });
 
