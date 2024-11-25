@@ -14,6 +14,7 @@ const Answer = sequelize.define('Answer', {
         autoIncrement: true,
         primaryKey: true
     },
+    //this is for specifc answers that have scales (1-5 for how well prepared you are)
     answer_int: {
         type: DataTypes.INTEGER,
         allowNull: true,
