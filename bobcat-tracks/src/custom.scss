@@ -1,38 +1,93 @@
-.login-window {
-  max-width: 50%;
-  margin-left: auto;
-  margin-right: auto;
-  min-block-size: 200px;
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+
+* {
+  font-family: "Lexend", sans-serif;
+  font-style: normal;
+  border: 1px solid red !important;
+}
+h1 {
+  font-weight: 700 !important;
+}
+
+h2 {
+  font-size: 40px !important;
+}
+
+h3 {
+  font-size: 35px;
+}
+
+.b1 {
+}
+
+.b2 {
+}
+.m1 {
+}
+
+.container {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+.navbar {
+  background-color: pink !important;
+  margin-bottom: 0px;
+}
+// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 100 to 900
+
+.lexend-regular {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lexend-bold {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
 }
 
 //LOGIN PAGE SPECIFIC
 //the strip of blue on the Login page
+
 .big-banner {
   background-color: #418fde;
+  margin-top: 10%;
 
   height: 100px;
-  margin-top: 10%;
   display: flex;
+  align-items: center;
 }
 //basic, just the text on the banner
 .banner-text {
   color: #fff;
   text-align: center;
-  align-self: center;
-  margin-right: 30%;
-  margin-left: 30%;
+  margin-left: 10%;
 }
 
 //the picture of boomer overlapping the banner & responsive!
 .over-image {
-  height: auto !important;
+  height: fit-content;
   width: 20% !important;
   min-width: 50px;
-  float: left;
-
-  position: absolute;
-  top: 10%;
+  float: inline-end;
+  position: relative;
   left: 3%;
+}
+
+//window that all the login text entries & button are in
+.login-window {
+  margin-top: 3%;
+  min-width: 300px;
+  width: 30%;
+  margin-left: 30%;
+  margin-right: auto;
+  min-block-size: 200px;
 }
 
 // for the text box inputs (login)

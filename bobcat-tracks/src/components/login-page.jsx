@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import LoginForm from "../components/login-input";
+import LoginForm from "./login-input";
+import NavBar from "./navBar";
 
 class LoginPage extends Component {
   render() {
     return (
       <div>
-        <h1>NAV BAR (disabled)</h1>
+        <NavBar />
 
+        {/* boomer banner */}
         <div className="big-banner">
           <img
             className="over-image"
@@ -16,6 +18,7 @@ class LoginPage extends Component {
           />
           <h1 className="banner-text">Bobcat Tracks</h1>
         </div>
+        {/* end boomer banner */}
 
         <div className="login-window">
           <LoginForm />
@@ -23,6 +26,7 @@ class LoginPage extends Component {
 
         <h1>FOOTER</h1>
       </div>
+      // end container
     );
   }
 }
