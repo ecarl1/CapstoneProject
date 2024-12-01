@@ -1,0 +1,69 @@
+.login-window {
+  max-width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  min-block-size: 200px;
+}
+
+//LOGIN PAGE SPECIFIC
+//the strip of blue on the Login page
+.big-banner {
+  background-color: #418fde;
+
+  height: 100px;
+  margin-top: 10%;
+  display: flex;
+}
+//basic, just the text on the banner
+.banner-text {
+  color: #fff;
+  text-align: center;
+  align-self: center;
+  margin-right: 30%;
+  margin-left: 30%;
+}
+
+//the picture of boomer overlapping the banner & responsive!
+.over-image {
+  height: auto !important;
+  width: 20% !important;
+  min-width: 50px;
+  float: left;
+
+  position: absolute;
+  top: 10%;
+  left: 3%;
+}
+
+// for the text box inputs (login)
+.login-form-element {
+  margin-bottom: 1%;
+  margin-top: 1%;
+  min-height: 50px;
+}
+
+//login button basically
+.submit-btn {
+  background: #ffb81c !important;
+  color: #0c2340 !important;
+  border-radius: 5 !important;
+}
+
+.submit-btn:hover {
+  background: #ffb81c !important;
+  color: #fff !important;
+  border-radius: 5 !important;
+}
+
+.submit-btn:disabled {
+  background: #c67117 !important;
+  color: #0c2340 !important;
+  border-radius: 5 !important;
+}
+
+// .form-group {
+//   padding-bottom: 1%;
+//   padding-top: 1%;
+// }
+
+@import "~bootstrap/scss/bootstrap.scss";
