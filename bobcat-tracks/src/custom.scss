@@ -5,6 +5,25 @@
   font-style: normal;
   border: 1px solid red !important;
 }
+
+// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 100 to 900
+//FONT STYLES from google fonts (import at top)
+
+.lexend-regular {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lexend-bold {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
 h1 {
   font-weight: 700 !important;
 }
@@ -21,8 +40,13 @@ h3 {
 }
 
 .b2 {
+  font-size: 30;
+  font-style: italic;
 }
 .m1 {
+  font-size: 20px;
+  margin: 0px !important;
+  padding: 0px !important;
 }
 
 .container {
@@ -31,25 +55,58 @@ h3 {
   width: 100% !important;
 }
 
+//navbar styles
 .navbar {
-  background-color: pink !important;
-  margin-bottom: 0px;
-}
-// <uniquifier>: Use a unique and descriptive class name
-// <weight>: Use a value from 100 to 900
-
-.lexend-regular {
-  font-family: "Lexend", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 700;
-  font-style: normal;
+  background-color: #0c2340 !important;
 }
 
-.lexend-bold {
-  font-family: "Lexend", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 700;
-  font-style: normal;
+.nav-item {
+  width: 8% !important;
+  display: flex !important;
+  align-items: center !important;
+  padding-left: auto;
+  padding-right: auto;
+  text-align: center;
+}
+
+.dummy {
+  color: #fff;
+  min-width: 50%;
+  display: flex !important;
+  align-items: center !important;
+  text-align: right;
+}
+.nav-link {
+  color: #fff !important;
+  padding: 0px;
+  margin: 3px;
+  max-height: min-content;
+}
+
+.nav-icon {
+  width: 8%;
+  min-width: 30px;
+  margin: 0px;
+}
+
+.navbar-brand {
+  padding: 5px;
+  margin: 0px;
+
+  width: 350px;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.brand-icon {
+  margin: 0px;
+
+  float: left;
+  height: 70px;
+}
+
+.brand-txt {
+  color: #fff !important;
 }
 
 //LOGIN PAGE SPECIFIC

@@ -13,7 +13,7 @@ class LoginPage extends Component {
           <img
             className="over-image"
             // i was able to work around it but for the life of me I couldn't get this to be from either of the files in /src/images
-            src="https://upload.wikimedia.org/wikipedia/en/2/2c/Quinnipiac_Bobcats_logo.svg"
+            src="/images/boomer.png"
             alt="boomer the bobcat"
           />
           <h1 className="banner-text">Bobcat Tracks</h1>
