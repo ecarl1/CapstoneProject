@@ -1,5 +1,7 @@
 const {DataTypes} = require('sequelize')
 const sequelize = require('../config/TESTDATABASESQL') // storing the database on the computers memory
+const bcrypt = require('bcrypt');
+const { type } = require('os');
 
 const User = sequelize.define('User', {
     user_id: {
@@ -46,33 +48,74 @@ const User = sequelize.define('User', {
 },
 {
     timestamps: false,
+},
+{
+    hooks: {
+        beforeCreate: async (user) => {
+            if(user.password){
+                const salt = await bcrypt.genSaltSync(10, 'a');
+                user.password = bcrypt.hashSync(user.password, salt);
+            }
+        },
+        beforeUpdate: async (User) =>{
+            if(user.password){
+                const salt = await bcrypt.genSaltSync(10, 'a');
+                user.password = bcrypt.hashSync(user.password, salt)
+            }
+
+        }
+    }
 }
 );
 
 User.findUser = async function (tUsername, tPassword) {
     try{
-
-        
         // Get related course id
+        
         const user = await User.findOne({
             where: { username: tUsername },
         });
         if(!user){
             return "user doesnt not exist";
         }
-        if(tPassword != user.password){
-            return "password is inncorrect";
+        
+        const unhashedPassword = Buffer.isBuffer(user.password)
+        ? user.password.toString('utf-8')
+        : user.password;
+
+        const sanitizedPassword = unhashedPassword.replace(/\0/g, '').trim();
+
+        
+
+        // Log values for debugging
+        console.log("Hashed Password from database:", user.password);
+        console.log("Plaintext Password (user entered):", tPassword);
+        console.log("the Password from database after being unhashed:", sanitizedPassword);
+
+        //console.log(typeof sanitizedPassword);
+        //console.log(typeof tPassword);
+
+        // Ensure the plaintext password is a string
+        //const isMatch = await bcrypt.compare(String(tPassword), user.password);
+
+        
+
+        if (tPassword.trim() === sanitizedPassword.trim()){
+            return {User: {
+                id: user.user_id,
+                fname: user.fname,
+                lname: user.lname,
+                user_type: user.user_type,
+                email: user.email,
+                password: user.password
+                },
+            };
+        } else {
+            return "Password is incorrect";
         }
 
         //will probably have to return a JWT token or some sort of acces toke
-        return {rUser: {
-            id: user.user_id,
-            fname: user.fname,
-            lname: user.lname,
-            user_type: user.user_type,
-            email: user.email
-            },
-        };
+        
         
     }catch(error){
         console.log(error);
@@ -80,6 +123,24 @@ User.findUser = async function (tUsername, tPassword) {
 
     
 }
+
+//does not work //need to process the bcrypt
+User.changePassword = async function (user_id, newPassword){
+    try{
+        await User.findOne({
+            where: { username: user_id },
+        })
+        await User.update(
+            { password: newPassword }, 
+            { where: { user_id: user_id } }
+        );
+        console.log("Found")
+
+    }catch(error){
+        console.log("user not found");
+    }
+}
+
 
 
 

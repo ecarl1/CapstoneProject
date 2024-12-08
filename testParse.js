@@ -7,9 +7,15 @@ async function testParseAndSaveRoute() {
     const url = 'http://localhost:3000/api/sessions/parse-and-save'; 
 
     try {
-        const response = await User.findUser("user", "pass")
+        const diaply = await User.findUser("user", "pass");
+        User.changePassword(1, 'stuff');
+        const diaply2 = await User.findUser("user", "stuff");
 
-        console.log(response);
+      
+
+        console.log(diaply);
+        console.log(diaply2);
+
     } catch (error) {
         console.error('Error API CALL:', error.response?.data || error.message);
     }
