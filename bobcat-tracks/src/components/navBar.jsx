@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { NavLink, Link } from "react-router-dom";
 class NavBar extends Component {
+  //NavBar reactivity doesn't work once it abbreviates- neither does REACT demo
+  //See Ruby after break for help
+
+  state = {
+    login: true,
+  };
+
   render() {
     return (
       //big navbar class
@@ -29,7 +36,7 @@ class NavBar extends Component {
 
           {/* END this is the button that displays when the menu collapses!  */}
 
-          {/* Links & Icons of Nav Bar  */}
+          {/* Links & Icons of Nav Bar, should ONLY show when logged in*/}
 
           <div className="collapse navbar-collapse" id="bobcatNavbar">
             <div class="navbar-nav  w-100 mr-auto">
@@ -55,7 +62,7 @@ class NavBar extends Component {
 
               {/* this should be where the flexible gap is */}
 
-              <p className="b2 dummy mr-auto align-right">Hello NAME</p>
+              <p className="b2 greeting">Hello NAME</p>
 
               <a class="nav-link" href="#">
                 <img src="https://placehold.co/70" className="nav-icon" />

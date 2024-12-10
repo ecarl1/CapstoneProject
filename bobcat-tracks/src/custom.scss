@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
 
+//Applies to all- outline for dev. purposes
 * {
   font-family: "Lexend", sans-serif;
   font-style: normal;
@@ -49,6 +50,7 @@ h3 {
   padding: 0px !important;
 }
 
+//stuff was just adding it's own margins in a way that made organizing things hard.
 .container {
   padding: 0 !important;
   margin: 0 !important;
@@ -69,11 +71,12 @@ h3 {
   text-align: center;
 }
 
-.dummy {
+.greeting {
   color: #fff;
-  min-width: 50%;
-  display: flex !important;
-  align-items: center !important;
+  width: 50%;
+  min-width: fit-content;
+  display: flex;
+  align-items: center;
   text-align: right;
 }
 .nav-link {
@@ -98,6 +101,7 @@ h3 {
   align-items: center !important;
 }
 
+//brand is the pawprint in the opening
 .brand-icon {
   margin: 0px;
 
@@ -110,8 +114,8 @@ h3 {
 }
 
 //LOGIN PAGE SPECIFIC
-//the strip of blue on the Login page
 
+//the strip of blue on the Login page
 .big-banner {
   background-color: #418fde;
   margin-top: 10%;
@@ -144,6 +148,7 @@ h3 {
   width: 30%;
   margin-left: 30%;
   margin-right: auto;
+  margin-bottom: 5%;
   min-block-size: 200px;
 }
 
@@ -154,7 +159,12 @@ h3 {
   min-height: 50px;
 }
 
-//login button basically
+//comtains the content specific to this page
+.login-page {
+  position: relative;
+}
+
+//login button basically, with the styling for default, when it's hovered, and when it's disabled
 .submit-btn {
   background: #ffb81c !important;
   color: #0c2340 !important;
@@ -173,9 +183,108 @@ h3 {
   border-radius: 5 !important;
 }
 
+//LOGIN PAGE PAWS
+.login-paw {
+  rotate: 30deg;
+  width: 7%;
+  margin-left: 800px;
+}
+
+.Lpaw1 {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+}
+
+.Lpaw2 {
+  position: absolute;
+  top: 3%;
+  right: 13%;
+}
+
+.Lpaw3 {
+  position: absolute;
+  top: 33%;
+  right: 8%;
+}
+
+.Lpaw4 {
+  position: absolute;
+  top: 35%;
+  right: 16%;
+}
+
+.Lpaw5 {
+  position: absolute;
+  top: 66%;
+  right: 10%;
+}
+
+.Lpaw6 {
+  position: absolute;
+  top: 68%;
+  right: 18%;
+}
+
+//FOOTER component styling
+.footer {
+  padding: 3% 2% 3% 2%;
+  background-color: #0c2340;
+  color: #fff;
+  position: relative;
+  bottom: 0px;
+}
+
+.footer-txt {
+  margin: 2%;
+}
+
+.footer-paw {
+  rotate: 30deg;
+  width: 4%;
+}
+
+.paw1 {
+  position: absolute;
+  top: 2%;
+  right: 5%;
+}
+
+.paw2 {
+  position: absolute;
+  top: 3%;
+  right: 13%;
+}
+
+.paw3 {
+  position: absolute;
+  top: 33%;
+  right: 8%;
+}
+
+.paw4 {
+  position: absolute;
+  top: 35%;
+  right: 16%;
+}
+
+.paw5 {
+  position: absolute;
+  top: 66%;
+  right: 10%;
+}
+
+.paw6 {
+  position: absolute;
+  top: 68%;
+  right: 18%;
+}
+
+//formerly for login form group, should be safe to remove.
 // .form-group {
 //   padding-bottom: 1%;
 //   padding-top: 1%;
 // }
 
+//imports in the rest of the default bootstrap styles
 @import "~bootstrap/scss/bootstrap.scss";
