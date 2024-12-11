@@ -1,22 +1,16 @@
 import "./App.css";
 import LoginPage from "./components/login-page";
 import NavBar from "./components/navBar";
-import { BarChart } from "./components/Bar.js";
+import { BarChart, Bargraph } from "./components/Bar.js";
 
 function App() {
   return (
-    <div>
+    <div className="App">
+      {/* <Linegraph /> */}
       <h1>Banana</h1>
-      <BarChart />
+      <Bargraph />
+      {/* <Piegraph /> */}
     </div>
-
-    // <LoginPage />
-
-    // <div className="container">
-    //   <NavBar />
-
-    //   <LoginPage />
-    // </div>
   );
 }
 
