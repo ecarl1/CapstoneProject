@@ -3,8 +3,10 @@ const router = express.Router();
 const User = require('../SessionModels/User');
 
 //Login Route
-router.post('/user/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     try {
+        console.log('sadasdasda');
+        console.log('Received Body:', req.body);
         const { username, password } = req.body;
 
         if (!username || !password) {
@@ -25,7 +27,7 @@ router.post('/user/login', async (req, res) => {
 });
 
 //Change Password Route
-router.post('/user/change-password', async (req, res) => {
+router.post('/change-password', async (req, res) => {
     try {
         const { user_id, newPassword } = req.body;
 

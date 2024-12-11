@@ -2,7 +2,7 @@ const fs = require('fs');
 const csv = require('csv-parser');
 
 const {DataTypes} = require('sequelize')
-const sequelize = require('../config/TESTDATABASESQL'); // storing the database on the computers memory
+const sequelize = require('../config/TESTDATABASESQL'); 
 const { defaultValueSchemable } = require('sequelize/lib/utils');
 const Course = require('./Course')
 const Session_Answer = require('./Session_Answer')
@@ -62,6 +62,9 @@ Session.parse = async function(filePath){
                     console.log(rowValues[1]);
 
                     //fix this 
+                    //column k has the topics, questions, and confidence and prep
+                    //I am going to need to enure that each item on the columnn is stored 
+                    //appropiately as opposed to being stored as just questions
                     const parsedRow ={
                         date: rowValues[1],
                         course_name: rowValues[7].split(" ")[0],
