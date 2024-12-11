@@ -19,7 +19,7 @@ class AttendancePage extends Component {
             {/* right graphs & buttons */}
             <div className="col-md-9">
               {/* this is what throws the runtime errors. it's always around a useref method*/}
-              {/* <Bargraph /> */}
+              <Bargraph />
             </div>
           </div>
           {/* end row */}
