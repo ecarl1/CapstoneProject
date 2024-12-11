@@ -1,4 +1,3 @@
-// should contain the 2 text entries (username and pass) as well as the login button
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -20,50 +19,32 @@ const CompareOption = () => {
     }
   };
   return (
-    <div>
-      <h1>BKHSKDFDF</h1>
+    <div className="compareOptionBox">
+      <h1>Compare</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-group login-form-element">
-          <label htmlFor="email">Email Address</label>
+        <div className="form-group options-form-element compare-check">
           <input
-            {...register("email", {
-              required: "Email is required",
-              validate: (value) => {
-                if (!value.includes("@")) return "Email must include @";
-                return true;
-              },
-            })}
-            type="text"
-            name="email"
-            className="form-control"
-            id="email"
+            type="checkbox"
+            name="compare"
+            className="form-check-input custom-checkbox"
+            id="compareFlexCheck"
             aria-describedby="emailHelp"
           />
+          <label htmlFor="compare">Compare Graphs?</label>
         </div>
 
-        <div className="form-group login-form-element">
-          <label htmlFor="password">Password</label>
-          <input
-            {...register("password", {
-              required: "Password is required",
-              minLength: { value: 8, message: "Password must be 8 characters" },
-            })}
-            id="password"
-            name="password"
-            type="password"
-            className="form-control"
-          />
-
-          <button
-            disabled={isSubmitting}
-            className="btn btn-primary submit-btn login-form-element"
-          >
-            {isSubmitting ? "Loading..." : "Login"}
-          </button>
-
-          {errors.root && (
-            <div className="alert alert-danger"> {errors.root.message}</div>
-          )}
+        <div className="form-group options-form-element compare-select-box">
+          <select class="form-select" aria-label="select compare type">
+            <option selected>
+              <p className="b1">Comparison Type</p>
+            </option>
+            <option value="1">
+              <p className="b1">Date Comparison</p>
+            </option>
+            <option value="2">
+              <p className="b1">Course Comparison</p>
+            </option>
+          </select>
         </div>
       </form>
     </div>

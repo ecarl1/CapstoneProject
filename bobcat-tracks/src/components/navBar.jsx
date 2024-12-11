@@ -42,22 +42,22 @@ class NavBar extends Component {
             <div class="navbar-nav  w-100 mr-auto">
               <a class="nav-link" href="#">
                 <img src="https://placehold.co/70" className="nav-icon" />
-                <p className="m1">Link1</p>
+                <p className="m1">Upload</p>
               </a>
 
               <a class="nav-link" href="#">
                 <img src="https://placehold.co/70" className="nav-icon" />
-                <p className="m1">Link2</p>
+                <p className="m1">Attendance</p>
               </a>
 
               <a class="nav-link" href="#">
                 <img src="https://placehold.co/70" className="nav-icon" />
-                <p className="m1">Link3</p>
+                <p className="m1">Skills</p>
               </a>
 
               <a class="nav-link" href="#">
                 <img src="https://placehold.co/70" className="nav-icon" />
-                <p className="m1">Link4</p>
+                <p className="m1">Confidence</p>
               </a>
 
               {/* this should be where the flexible gap is */}

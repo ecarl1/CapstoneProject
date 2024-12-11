@@ -45,7 +45,7 @@ h3 {
   font-style: italic;
 }
 .m1 {
-  font-size: 20px;
+  font-size: 15px;
   margin: 0px !important;
   padding: 0px !important;
 }
@@ -77,11 +77,13 @@ h3 {
   min-width: fit-content;
   display: flex;
   align-items: center;
-  text-align: right;
+  padding-left: 25%;
+  text-align: right !important;
 }
 .nav-link {
   color: #fff !important;
-  padding: 0px;
+  padding: 0px !important;
+  text-align: center !important;
   margin: 3px;
   max-height: min-content;
 }
@@ -280,11 +282,40 @@ h3 {
   right: 18%;
 }
 
-//formerly for login form group, should be safe to remove.
-// .form-group {
-//   padding-bottom: 1%;
-//   padding-top: 1%;
-// }
+//FOR GRAPH OPTIONS ON LEFT SIDE OF PAGE
+.page-options {
+  background: #418fde;
+  padding-left: 3%;
+  padding-right: 5%;
+  color: #fff;
+}
+
+.options-form-element {
+  margin: 3% 3% 5% 3%;
+}
+
+//for date option
+
+//for compare option
+
+.custom-checkbox {
+  border-color: #0c2340 !important;
+  border-width: 3px !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.custom-checkbox:checked {
+  background-color: #0c2340 !important;
+}
+
+//each select item
+.compare-select {
+  height: fit-content !important;
+  width: fit-content !important;
+  background-color: #fff !important;
+  color: #0c2340 !important;
+}
 
 //imports in the rest of the default bootstrap styles
 @import "~bootstrap/scss/bootstrap.scss";
