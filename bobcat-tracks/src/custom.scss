@@ -281,6 +281,14 @@ h3 {
   top: 68%;
   right: 18%;
 }
+//ATENDANCE PAGE
+.graph-box {
+  padding-top: 2%;
+}
+
+.attendance-page {
+  margin-bottom: 0px;
+}
 
 //FOR GRAPH OPTIONS ON LEFT SIDE OF PAGE
 .page-options {
@@ -288,10 +296,22 @@ h3 {
   padding-left: 3%;
   padding-right: 5%;
   color: #fff;
+  margin: 0%;
 }
 
 .options-form-element {
   margin: 3% 3% 5% 3%;
+}
+
+//FOR GRAPHS
+.btn-download {
+  background-color: #0c2340 !important;
+  color: #fff !important;
+}
+
+.btn-download:hover {
+  background-color: #418fde !important;
+  color: #fff;
 }
 
 //for date option

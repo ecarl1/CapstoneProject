@@ -10,21 +10,21 @@ class AttendancePage extends Component {
       <div>
         <NavBar />
 
-        <div className="attendance-page">
-          <div classname="row">
-            {/* left menu component */}
-            <div className="col-sm-3">
-              <PageOptions />
-            </div>
-            {/* right graphs & buttons */}
-            <div className="col-md-9">
-              {/* this is what throws the runtime errors. it's always around a useref method*/}
-              <Bargraph />
-            </div>
+        <div className="attendance-page row">
+          {/* left menu component */}
+          <div className="col-lg-3">
+            <PageOptions />
           </div>
-          {/* end row */}
+          {/* right graphs & buttons */}
+          <div className="col-lg-9 graph-box">
+            {/* this is what throws the runtime errors. it's always around a useref method*/}
+            <Bargraph graphTitle={"HelloWorld"} />
+            <button type="button" class="btn btn-download">
+              DOWNLOAD
+            </button>
+          </div>
         </div>
-        {/* end attendance-page */}
+        {/* end attendance-page row*/}
 
         <Footer />
       </div>

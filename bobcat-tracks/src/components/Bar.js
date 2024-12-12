@@ -9,7 +9,7 @@ import {
   Tooltip,
   scales,
 } from "chart.js"; //from chart library
-import { barChartData } from "../fakeData";
+// import { barChartData } from "../fakeData";
 import { fontString } from "chart.js/helpers";
 import { paletteColors } from "./palette";
 
@@ -23,7 +23,46 @@ ChartJS.register(
 );
 
 export const Bargraph = () => {
+  let barChartLabels = [
+    "Rent",
+    "Groceries",
+    "Utilities",
+    "Entertainment",
+    "Transportation",
+  ];
+
+  let defaultBarLabel = "April Expenses";
+  let defaultBarData = [160, 240, 130, 150, 600];
+
+  let compareBarLabel = "May Expenses";
+  let compareBarData = [600, 240, 240, 150, 130];
+
+  let graphTitle = "Monthly Expenses";
+
+  const barChartData = {
+    labels: barChartLabels,
+    datasets: [
+      {
+        label: defaultBarLabel,
+        data: defaultBarData,
+        borderWidth: 0,
+
+        backgroundColor: paletteColors.mediumBlue,
+        hoverBackgroundColor: paletteColors.navy,
+      },
+      {
+        label: compareBarLabel,
+        data: compareBarData,
+        borderWidth: 0,
+
+        backgroundColor: paletteColors.gold,
+        hoverBackgroundColor: paletteColors.burntGold,
+      },
+    ],
+  };
+
   //options is what gives it all of the styling. Some names hard coded in, will make vars later.
+
   const options = {
     responsive: true,
     plugins: {
@@ -45,7 +84,7 @@ export const Bargraph = () => {
       },
       title: {
         display: true,
-        text: "Monthly Expenses",
+        text: graphTitle,
         position: "top",
         color: paletteColors.navy,
 
