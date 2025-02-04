@@ -25,7 +25,7 @@ ChartJS.register(
 
 //HOW TO USE BARGRAPH
 /*
-State variables to control & what they do-
+State variables to control & what they do- SET BY PROPS
 
 barCharLabels : Label each value in horizontal axis. For our purposes, this should be the DATES
 graphTitle: Overall title of the graph
@@ -42,30 +42,7 @@ compareBarData: An array of the values in each col. Should have same quantity as
  */
 
 class BargraphComp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      barChartLabels: [
-        "Rent",
-        "Groceries",
-        "Utilities",
-        "Entertainment",
-        "Transportation",
-      ],
-      //Should be default graph name
-      defaultBarLabel: "April Expenses",
-      defaultBarData: [160, 240, 130, 170, 600],
-
-      //name of what is being compared & param
-      compareBarLabel: "May Expenses",
-      compareBarData: [600, 240, 240, 150, 130],
-
-      //Default graph name, defined in component call
-      graphTitle: props.graphTitle,
-
-      comparing: false,
-    };
-  }
+  //RECIEVES ALL DATA FROM PARENT COMPONENT
 
   //controls the styling & features of the graph - should be the same for every graph, static
   getOptions = () => {
@@ -90,7 +67,7 @@ class BargraphComp extends React.Component {
         },
         title: {
           display: true,
-          text: this.state.graphTitle,
+          text: this.props.graphTitle,
           position: "top",
           color: paletteColors.navy,
 
@@ -127,24 +104,24 @@ class BargraphComp extends React.Component {
     };
   };
 
-  //THIS can be dynamic
+  //THIS can be dynamic, structures props to be read by the chart
   getData = () => {
-    if (this.state.comparing) {
+    if (this.props.comparing) {
       return {
         // two data sets are being compared
-        labels: this.state.barChartLabels,
+        labels: this.props.barChartLabels,
         datasets: [
           {
-            label: this.state.defaultBarLabel,
-            data: this.state.defaultBarData,
+            label: this.props.defaultBarLabel,
+            data: this.props.defaultBarData,
             borderWidth: 0,
 
             backgroundColor: paletteColors.mediumBlue,
             hoverBackgroundColor: paletteColors.navy,
           },
           {
-            label: this.state.compareBarLabel,
-            data: this.state.compareBarData,
+            label: this.props.compareBarLabel,
+            data: this.props.compareBarData,
             borderWidth: 0,
 
             backgroundColor: paletteColors.gold,
@@ -155,11 +132,11 @@ class BargraphComp extends React.Component {
     } else {
       return {
         //only one type of data should be displayed
-        labels: this.state.barChartLabels,
+        labels: this.props.barChartLabels,
         datasets: [
           {
-            label: this.state.defaultBarLabel,
-            data: this.state.defaultBarData,
+            label: this.props.defaultBarLabel,
+            data: this.props.defaultBarData,
             borderWidth: 0,
 
             backgroundColor: paletteColors.mediumBlue,
@@ -180,6 +157,17 @@ export default BargraphComp;
 //
 //ABOVE converted to a REACT component to allow for state & props to change & pass information
 //
+/*
+
+
+
+
+
+
+
+
+
+*/
 //
 //BELOW first chart.js graph for attendance
 //

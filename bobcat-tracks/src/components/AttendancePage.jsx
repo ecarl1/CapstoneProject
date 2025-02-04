@@ -6,6 +6,55 @@ import PageOptions from "./pageOptions";
 import BargraphComp from "./Bar.js";
 
 class AttendancePage extends Component {
+  /*
+    State variables to control & what they do- SET BY PROPS
+
+    barCharLabels : Label each value in horizontal axis. For our purposes, this should be the DATES
+    graphTitle: Overall title of the graph
+    comparing: Is the graph doing a comparison? False- only default data is shown. true, compare data also displayed.
+
+    defaultBarLabel : This labels this collection of data. Yet to determine policy.
+    defaultBarData: An array of the values in each col. Should have same quantity as the above defaultBarLabel
+
+    WHEN COMPARISON IS ON, defaultBarLabel & compareBarLabel should relate to what is being compared.
+    EX, if two courses are being compared, each BarLabel should be named after the two things being compared.
+
+    compareBarLabel : This labels this collection of data. Yet to determine policy.
+    compareBarData: An array of the values in each col. Should have same quantity as the above compareBarLabel
+ */
+  //INFORMATION SET & CONTROLLED HERE
+  //so that bargraph & page options can both edit & view these props
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      barChartLabels: [
+        "Rent",
+        "Groceries",
+        "Utilities",
+        "Entertainment",
+        "Transportation",
+      ],
+      //Should be default graph name
+      defaultBarLabel: "April Attendence",
+      defaultBarData: [160, 240, 130, 120, 600],
+
+      //name of what is being compared & param
+      compareBarLabel: "Februrary Attendence",
+      compareBarData: [600, 240, 240, 150, 130],
+
+      //Default graph name, defined in component call
+      graphTitle: "Attendance Graph",
+
+      comparing: true,
+    };
+  }
+
+  //methods to change data
+  setGraphTitle = () => {
+    this.setState({ graphTitle: "Banana" });
+  };
+
   render() {
     return (
       <div>
@@ -19,13 +68,25 @@ class AttendancePage extends Component {
           </div>
           {/* right graphs & buttons */}
           <div className="col-lg-9 graph-box">
-            <BargraphComp graphTitle={"HELLO"} />
+            <BargraphComp
+              graphTitle={this.state.graphTitle}
+              barChartLabels={this.state.barChartLabels}
+              defaultBarLabel={this.state.defaultBarLabel}
+              defaultBarData={this.state.defaultBarData}
+              compareBarLabel={this.state.compareBarLabel}
+              compareBarData={this.state.compareBarData}
+              comparing={this.state.comparing}
+            />
             {/* displays data based on filters & params*/}
 
             {/* <Bargraph /> */}
-            <button type="button" class="btn btn-download">
+            {/* <button
+              type="button"
+              class="btn btn-download"
+              onClick={this.setGraphTitle()}
+            >
               DOWNLOAD
-            </button>
+            </button> */}
           </div>
         </div>
         {/* end attendance-page row*/}
