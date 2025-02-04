@@ -1,0 +1,341 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+
+//Applies to all- outline for dev. purposes
+* {
+  font-family: "Lexend", sans-serif;
+  font-style: normal;
+  border: 1px solid red !important;
+}
+
+// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 100 to 900
+//FONT STYLES from google fonts (import at top)
+
+.lexend-regular {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lexend-bold {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+h1 {
+  font-weight: 700 !important;
+}
+
+h2 {
+  font-size: 40px !important;
+}
+
+h3 {
+  font-size: 35px;
+}
+
+.b1 {
+}
+
+.b2 {
+  font-size: 30;
+  font-style: italic;
+}
+.m1 {
+  font-size: 15px;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+//stuff was just adding it's own margins in a way that made organizing things hard.
+.container {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+//navbar styles
+.navbar {
+  background-color: #0c2340 !important;
+}
+
+.nav-item {
+  width: 8% !important;
+  display: flex !important;
+  align-items: center !important;
+  padding-left: auto;
+  padding-right: auto;
+  text-align: center;
+}
+
+.greeting {
+  color: #fff;
+  width: 50%;
+  min-width: fit-content;
+  display: flex;
+  align-items: center;
+  padding-left: 25%;
+  text-align: right !important;
+}
+.nav-link {
+  color: #fff !important;
+  padding: 0px !important;
+  text-align: center !important;
+  margin: 3px;
+  max-height: min-content;
+}
+
+.nav-icon {
+  width: 8%;
+  min-width: 30px;
+  margin: 0px;
+}
+
+.navbar-brand {
+  padding: 5px;
+  margin: 0px;
+
+  width: 350px;
+  display: flex !important;
+  align-items: center !important;
+}
+
+//brand is the pawprint in the opening
+.brand-icon {
+  margin: 0px;
+
+  float: left;
+  height: 70px;
+}
+
+.brand-txt {
+  color: #fff !important;
+}
+
+//LOGIN PAGE SPECIFIC
+
+//the strip of blue on the Login page
+.big-banner {
+  background-color: #418fde;
+  margin-top: 10%;
+
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+//basic, just the text on the banner
+.banner-text {
+  color: #fff;
+  text-align: center;
+  margin-left: 10%;
+}
+
+//the picture of boomer overlapping the banner & responsive!
+.over-image {
+  height: fit-content;
+  width: 20% !important;
+  min-width: 50px;
+  float: inline-end;
+  position: relative;
+  left: 3%;
+}
+
+//window that all the login text entries & button are in
+.login-window {
+  margin-top: 3%;
+  min-width: 300px;
+  width: 30%;
+  margin-left: 30%;
+  margin-right: auto;
+  margin-bottom: 5%;
+  min-block-size: 200px;
+}
+
+// for the text box inputs (login)
+.login-form-element {
+  margin-bottom: 1%;
+  margin-top: 1%;
+  min-height: 50px;
+}
+
+//comtains the content specific to this page
+.login-page {
+  position: relative;
+}
+
+//login button basically, with the styling for default, when it's hovered, and when it's disabled
+.submit-btn {
+  background: #ffb81c !important;
+  color: #0c2340 !important;
+  border-radius: 5 !important;
+}
+
+.submit-btn:hover {
+  background: #ffb81c !important;
+  color: #fff !important;
+  border-radius: 5 !important;
+}
+
+.submit-btn:disabled {
+  background: #c67117 !important;
+  color: #0c2340 !important;
+  border-radius: 5 !important;
+}
+
+//LOGIN PAGE PAWS
+.login-paw {
+  rotate: 30deg;
+  width: 7%;
+  margin-left: 800px;
+}
+
+.Lpaw1 {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+}
+
+.Lpaw2 {
+  position: absolute;
+  top: 3%;
+  right: 13%;
+}
+
+.Lpaw3 {
+  position: absolute;
+  top: 33%;
+  right: 8%;
+}
+
+.Lpaw4 {
+  position: absolute;
+  top: 35%;
+  right: 16%;
+}
+
+.Lpaw5 {
+  position: absolute;
+  top: 66%;
+  right: 10%;
+}
+
+.Lpaw6 {
+  position: absolute;
+  top: 68%;
+  right: 18%;
+}
+
+//FOOTER component styling
+.footer {
+  padding: 3% 2% 3% 2%;
+  background-color: #0c2340;
+  color: #fff;
+  position: relative;
+  bottom: 0px;
+}
+
+.footer-txt {
+  margin: 2%;
+}
+
+.footer-paw {
+  rotate: 30deg;
+  width: 4%;
+}
+
+.paw1 {
+  position: absolute;
+  top: 2%;
+  right: 5%;
+}
+
+.paw2 {
+  position: absolute;
+  top: 3%;
+  right: 13%;
+}
+
+.paw3 {
+  position: absolute;
+  top: 33%;
+  right: 8%;
+}
+
+.paw4 {
+  position: absolute;
+  top: 35%;
+  right: 16%;
+}
+
+.paw5 {
+  position: absolute;
+  top: 66%;
+  right: 10%;
+}
+
+.paw6 {
+  position: absolute;
+  top: 68%;
+  right: 18%;
+}
+//ATENDANCE PAGE
+.graph-box {
+  padding-top: 2%;
+}
+
+.attendance-page {
+  margin-bottom: 0px;
+}
+
+//FOR GRAPH OPTIONS ON LEFT SIDE OF PAGE
+.page-options {
+  background: #418fde;
+  padding-left: 3%;
+  padding-right: 5%;
+  color: #fff;
+  margin: 0%;
+}
+
+.options-form-element {
+  margin: 3% 3% 5% 3%;
+}
+
+//FOR GRAPHS
+.btn-download {
+  background-color: #0c2340 !important;
+  color: #fff !important;
+}
+
+.btn-download:hover {
+  background-color: #418fde !important;
+  color: #fff;
+}
+
+//for date option
+
+//for compare option
+
+.custom-checkbox {
+  border-color: #0c2340 !important;
+  border-width: 3px !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.custom-checkbox:checked {
+  background-color: #0c2340 !important;
+}
+
+//each select item
+.compare-select {
+  height: fit-content !important;
+  width: fit-content !important;
+  background-color: #fff !important;
+  color: #0c2340 !important;
+}
+
+//imports in the rest of the default bootstrap styles
+@import "~bootstrap/scss/bootstrap.scss";
