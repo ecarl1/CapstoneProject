@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import NavBar from "./navBar";
 import Footer from "./footer";
 import PageOptions from "./pageOptions";
-import { Bargraph } from "./Bar.js";
+// import { Bargraph } from "./Bar.js";
+import BargraphComp from "./Bar.js";
 
 class AttendancePage extends Component {
   render() {
@@ -14,11 +15,14 @@ class AttendancePage extends Component {
           {/* left menu component */}
           <div className="col-lg-3">
             <PageOptions />
+            {/* changes what filters & parameters data should be displayed */}
           </div>
           {/* right graphs & buttons */}
           <div className="col-lg-9 graph-box">
-            {/* this is what throws the runtime errors. it's always around a useref method*/}
-            <Bargraph graphTitle={"HelloWorld"} />
+            <BargraphComp graphTitle={"HELLO"} />
+            {/* displays data based on filters & params*/}
+
+            {/* <Bargraph /> */}
             <button type="button" class="btn btn-download">
               DOWNLOAD
             </button>

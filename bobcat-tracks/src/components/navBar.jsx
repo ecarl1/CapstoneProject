@@ -45,7 +45,7 @@ class NavBar extends Component {
                 <p className="m1">Upload</p>
               </a>
 
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/attendance">
                 <img src="https://placehold.co/70" className="nav-icon" />
                 <p className="m1">Attendance</p>
               </a>
@@ -69,7 +69,7 @@ class NavBar extends Component {
 
                 <p className="m1">Profile</p>
               </a>
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/">
                 <img src="https://placehold.co/70" className="nav-icon" />
                 <p className="m1">Logout</p>
               </a>
