@@ -7,8 +7,15 @@ class PageOptions extends Component {
   render() {
     return (
       <div className="page-options">
-        <CompareOption />
-        <DateOption />
+        <CompareOption
+          onComparisonToggle={this.props.onComparisonToggle}
+          onComparisonChange={this.props.onComparisonChange}
+          selectedComparisonType={this.props.selectedComparisonType}
+        />
+        <DateOption
+          comparing={this.props.comparing}
+          comparingType={this.props.comparingType}
+        />
         <CourseOption />
       </div>
     );

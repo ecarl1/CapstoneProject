@@ -25,6 +25,7 @@ class AttendancePage extends Component {
   //INFORMATION SET & CONTROLLED HERE
   //so that bargraph & page options can both edit & view these props
 
+  //THIS is all the data from the DB held by attendance AND the filter information needed
   constructor(props) {
     super(props);
     this.state = {
@@ -46,13 +47,28 @@ class AttendancePage extends Component {
       //Default graph name, defined in component call
       graphTitle: "Attendance Graph",
 
-      comparing: true,
+      comparing: false,
+      comparingType: null, // value 1 means DATE compare, value 2 means COURSE compare, value 0 means unselected
     };
   }
 
+  handleComparisonToggle = (isChecked) => {
+    this.setState({ comparing: isChecked });
+    if (!isChecked) {
+      this.handleComparisonType(0);
+    }
+    console.log("compare");
+  };
+
+  handleComparisonType = (value) => {
+    this.setState({ comparingType: value });
+    console.log(value);
+  };
+
   //methods to change data
-  setGraphTitle = () => {
+  testMethod = () => {
     this.setState({ graphTitle: "Banana" });
+    console.log("Banana Title");
   };
 
   render() {
@@ -63,7 +79,11 @@ class AttendancePage extends Component {
         <div className="attendance-page row">
           {/* left menu component */}
           <div className="col-lg-3">
-            <PageOptions />
+            <PageOptions
+              onComparisonToggle={this.handleComparisonToggle}
+              onComparisonChange={this.handleComparisonType}
+              selectedComparisonType={this.state.comparingType}
+            />
             {/* changes what filters & parameters data should be displayed */}
           </div>
           {/* right graphs & buttons */}
@@ -80,13 +100,13 @@ class AttendancePage extends Component {
             {/* displays data based on filters & params*/}
 
             {/* <Bargraph /> */}
-            {/* <button
+            <button
               type="button"
               class="btn btn-download"
-              onClick={this.setGraphTitle()}
+              onClick={this.testMethod}
             >
               DOWNLOAD
-            </button> */}
+            </button>
           </div>
         </div>
         {/* end attendance-page row*/}
