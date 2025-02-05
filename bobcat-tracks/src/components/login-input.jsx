@@ -1,6 +1,9 @@
 // should contain the 2 text entries (username and pass) as well as the login button
 import React from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios"
+const url = "http://localhost:3000/api/user/login";
+
 
 const LoginForm = () => {
   const {
@@ -12,36 +15,54 @@ const LoginForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      //   await new Promise((resolve) => setTimeout(resolve, 1000));
-      //   console.log(data);
-      //   throw new Error();
-    } catch (er) {
-      //   setError("root", { message: "Username is taken" });
+      //console.log(data.username);
+       //const user = await User.findUser("testuser", "password123");
+      console.log("Sending login request:", data);
+
+      const response = await axios.post(url,{
+        username: data.username,
+        password: data.password,
+      });
+
+      console.log("Login successful:", response.data);
+      alert("Login successful!");
+
+      // Redirect user after login (if using React Router)
+      // window.location.href = "/dashboard"; // Or use react-router's useNavigate()
+
+    } catch (error) {
+      console.error("Login error:", error);
+
+      if (error.response) {
+        setError("root", { message: error.response.data.error });
+      } else {
+        setError("root", { message: "Something went wrong. Please try again." });
+      }
     }
   };
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group login-form-element">
-          <label htmlFor="email">Email Address</label>
+          <label htmlFor="username">Username</label>
           <input
-            {...register("email", {
-              required: "Email is required",
-              validate: (value) => {
-                if (!value.includes("@")) return "Email must include @";
-                return true;
-              },
+            {...register("username", {
+              required: "Username is required",
+              // validate: (value) => {
+              //   if (!value.includes("@")) return "Email must include @";
+              //   return true;
+              // },
             })}
             type="text"
-            name="email"
+            name="username"
             className="form-control"
-            id="email"
+            id="username"
             aria-describedby="emailHelp"
           />
         </div>
 
-        {errors.email && (
-          <div className="alert alert-danger"> {errors.email.message}</div>
+        {errors.username && (
+          <div className="alert alert-danger"> {errors.username.message}</div>
         )}
 
         <div className="form-group login-form-element">
