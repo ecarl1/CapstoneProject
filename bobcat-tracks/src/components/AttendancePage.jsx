@@ -4,6 +4,7 @@ import Footer from "./footer";
 import PageOptions from "./pageOptions";
 // import { Bargraph } from "./Bar.js";
 import BargraphComp from "./Bar.js";
+import html2canvas from "html2canvas";
 
 class AttendancePage extends Component {
   /*
@@ -71,9 +72,20 @@ class AttendancePage extends Component {
     console.log("Banana Title");
   };
 
-  testMethod2 = () => {
-    this.setState({ graphTitle: "Orange you glad it isn't Banana?" });
-    console.log("Orange Title");
+  handleDownloadImage = async () => {
+    // TODO: logic
+    console.log("clicked");
+    const element = document.getElementById("print"),
+      canvas = await html2canvas(element),
+      data = canvas.toDataURL("image/jpg"),
+      link = document.createElement("a");
+  
+    link.href = data;
+    link.download = "downloaded-image.jpg";
+  
+    document.body.appendChild(link);
+    link.click();
+    
   };
 
   render() {
@@ -93,6 +105,8 @@ class AttendancePage extends Component {
           </div>
           {/* right graphs & buttons */}
           <div className="col-lg-9 graph-box">
+
+            <div id = "print">
             <BargraphComp
               graphTitle={this.state.graphTitle}
               barChartLabels={this.state.barChartLabels}
@@ -102,6 +116,7 @@ class AttendancePage extends Component {
               compareBarData={this.state.compareBarData}
               comparing={this.state.comparing}
             />
+            </div>
             {/* displays data based on filters & params*/}
 
             {/* CSV BUTTON DOWNLOAD */}
@@ -122,7 +137,7 @@ class AttendancePage extends Component {
             <button
               type="button"
               class="btn btn-download"
-              onClick={this.testMethod2}
+              onClick={this.handleDownloadImage}
             >
               <h2>DOWNLOAD .PNG</h2>
               <img src="/images/imageIcon.png" className="btn-download-img" />
