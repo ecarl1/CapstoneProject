@@ -71,6 +71,11 @@ class AttendancePage extends Component {
     console.log("Banana Title");
   };
 
+  testMethod2 = () => {
+    this.setState({ graphTitle: "Orange you glad it isn't Banana?" });
+    console.log("Orange Title");
+  };
+
   render() {
     return (
       <div>
@@ -99,13 +104,28 @@ class AttendancePage extends Component {
             />
             {/* displays data based on filters & params*/}
 
-            {/* <Bargraph /> */}
+            {/* CSV BUTTON DOWNLOAD */}
             <button
               type="button"
               class="btn btn-download"
               onClick={this.testMethod}
             >
-              DOWNLOAD
+              <h2>DOWNLOAD .CSV</h2>
+
+              <img
+                src="/images/downloadIcon.png"
+                className="btn-download-img"
+              />
+            </button>
+
+            {/* PNG BUTTON DOWNLOAD */}
+            <button
+              type="button"
+              class="btn btn-download"
+              onClick={this.testMethod2}
+            >
+              <h2>DOWNLOAD .PNG</h2>
+              <img src="/images/imageIcon.png" className="btn-download-img" />
             </button>
           </div>
         </div>

@@ -305,6 +305,10 @@ h3 {
 
 //FOR GRAPHS
 .btn-download {
+  margin: 5%;
+  display: flex inline !important;
+  flex-direction: row !important;
+  align-items: center !important;
   background-color: #0c2340 !important;
   color: #fff !important;
 }
@@ -312,6 +316,11 @@ h3 {
 .btn-download:hover {
   background-color: #418fde !important;
   color: #fff;
+}
+
+.btn-download-img {
+  height: 80px;
+  margin: 10px;
 }
 
 //for date option
