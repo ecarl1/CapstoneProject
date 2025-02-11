@@ -44,7 +44,7 @@ const CompareOption = ({
         {/* COMPARING TYPE */}
         <div className="form-group options-form-element compare-select-box">
           <select
-            class="form-select dateInput "
+            class="form-select input"
             aria-label="select compare type"
             value={selectedComparisonType}
             onChange={(e) => onComparisonChange(e.target.value)}

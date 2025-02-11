@@ -36,19 +36,22 @@ const DateOption = ({
             <p className="b1">Select Date Range</p>
           </label>
           <div className="date-input-container">
+            <p className="m1">start date</p>
             <input
               type="date"
               name="startDate"
-              className="form-control dateInput"
+              className="form-control dateInput input"
               id="startDate"
               aria-describedby="dateSelect"
               value={startDate}
               onChange={(e) => onStartDate(e.target.value)}
             />
+            <p className="m1">end date</p>
+
             <input
               type="date"
               name="endDate"
-              className="form-control dateInput"
+              className="form-control dateInput input"
               id="endDate"
               aria-describedby="dateSelect"
               value={endDate}
@@ -66,7 +69,7 @@ const DateOption = ({
           <input
             type="date"
             name="compareDate"
-            className="form-control dateInput"
+            className="form-control dateInput input"
             id="compareDate"
             aria-describedby="dateSelect"
             disabled={!(comparing && comparingType == 1)}

@@ -48,13 +48,19 @@ class AttendancePage extends Component {
       graphTitle: "Attendance Graph",
 
       //PageOptions information
+      pageName: "Attendance",
+      //compare
       comparing: false,
       comparingType: 1, // value 1 means DATE compare, value 2 means COURSE compare,
-
+      //date
       startDate: null,
       endDate: null,
       compareStartDate: null,
       duration: null,
+      //course
+      courseType: 0, //0 means all, 1 means specific course
+      course: null,
+      compareCourse: null,
     };
   }
 
@@ -112,8 +118,14 @@ class AttendancePage extends Component {
   };
 
   handleEndDate = (Date) => {
+    //set end to given date
     this.setState({ endDate: Date }, () => {
       console.log("Updated endDate:", this.state.endDate);
+      //make sure end is after start
+      if (this.calcDuration(this.state.startDate, this.state.endDate) < 0) {
+        this.handleStartDate(this.addDays(Date, -7));
+      }
+
       this.updateDuration(); // Runs after state update
     });
   };
@@ -123,6 +135,11 @@ class AttendancePage extends Component {
     console.log(Date);
   };
   //Course methods
+
+  handleCourseType = (type) => {
+    this.setState({ courseType: type });
+    console.log("New type:", type);
+  };
 
   //methods to change data
   testMethod = () => {
@@ -144,16 +161,25 @@ class AttendancePage extends Component {
           {/* left menu component */}
           <div className="col-lg-3">
             <PageOptions
+              //page info
+              pageName={this.state.pageName}
+              //compare info
               onComparisonToggle={this.handleComparisonToggle}
               onComparisonChange={this.handleComparisonType}
               comparingType={this.state.comparingType}
               comparing={this.state.comparing}
+              //date info
               onStartDate={this.handleStartDate}
               onEndDate={this.handleEndDate}
               onCompareDate={this.handleCompareDate}
               startDate={this.state.startDate}
               endDate={this.state.endDate}
               compareStartDate={this.state.compareStartDate}
+              //course info
+              courseType={this.state.courseType}
+              onCourseType={this.handleCourseType}
+              course={this.state.course}
+              compareCourse={this.state.compareCourse}
             />
             {/* changes what filters & parameters data should be displayed */}
           </div>
