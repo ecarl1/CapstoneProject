@@ -356,5 +356,11 @@ h3 {
   color: #0c2340 !important;
 }
 
+//for UPLOAD page
+.uploadHeader {
+  border: 10px solid #418fde !important;
+  width: 30%;
+}
+
 //imports in the rest of the default bootstrap styles
 @import "~bootstrap/scss/bootstrap.scss";
