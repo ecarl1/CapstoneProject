@@ -5,6 +5,7 @@ import PageOptions from "./pageOptions";
 // import { Bargraph } from "./Bar.js";
 import BargraphComp from "./Bar.js";
 import html2canvas from "html2canvas";
+import convertJSONToCSV from "./CSVDown.js"
 
 class AttendancePage extends Component {
   /*
@@ -66,14 +67,44 @@ class AttendancePage extends Component {
     console.log(value);
   };
 
+  //right now, returns 1 object with many features. Need to split that object into multiple objects
+  createJSON () {
+    let convertedData = this.state.barChartLabels.reduce((obj, label, index) => {
+      obj[label] = this.state.defaultBarData[index];
+      console.log(obj[label]);
+      return obj;
+    }, {});
+    return [convertedData]
+  }
+  
   //methods to change data
-  testMethod = () => {
-    this.setState({ graphTitle: "Banana" });
-    console.log("Banana Title");
+  handleDownloadCSV = () => {
+    console.log("clicked");
+    const elements = this.createJSON()
+    const labels = this.state.barChartLabels
+
+    console.log('Elements:', elements);
+    console.log('Labels:', labels);
+    // Function to initiate CSV download
+    const csvData = convertJSONToCSV(elements, labels);
+  
+    // Check if CSV data is empty
+    if (csvData === "") {
+      alert("No data to export");
+    } else {
+      // Create CSV file and initiate download
+      const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute("download", "product_data.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
+  //Download PNG button handler
   handleDownloadImage = async () => {
-    // TODO: logic
     console.log("clicked");
     const element = document.getElementById("print"),
       canvas = await html2canvas(element),
@@ -123,7 +154,7 @@ class AttendancePage extends Component {
             <button
               type="button"
               class="btn btn-download"
-              onClick={this.testMethod}
+              onClick={this.handleDownloadCSV}
             >
               <h2>DOWNLOAD .CSV</h2>
 
