@@ -5,6 +5,7 @@ const CompareOption = ({
   onComparisonToggle,
   onComparisonChange,
   selectedComparisonType,
+  comparing,
 }) => {
   const {
     register,
@@ -43,14 +44,12 @@ const CompareOption = ({
         {/* COMPARING TYPE */}
         <div className="form-group options-form-element compare-select-box">
           <select
-            class="form-select"
+            class="form-select dateInput "
             aria-label="select compare type"
             value={selectedComparisonType}
             onChange={(e) => onComparisonChange(e.target.value)}
+            disabled={!comparing} //this isn't working
           >
-            <option selected value="0">
-              <p className="b1">Comparison Type</p>
-            </option>
             <option value="1">
               <p className="b1">Date Comparison</p>
             </option>

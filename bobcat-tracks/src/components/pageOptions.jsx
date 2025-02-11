@@ -10,11 +10,18 @@ class PageOptions extends Component {
         <CompareOption
           onComparisonToggle={this.props.onComparisonToggle}
           onComparisonChange={this.props.onComparisonChange}
-          selectedComparisonType={this.props.selectedComparisonType}
+          comparingType={this.props.comparingType}
+          comparing={this.props.comparing}
         />
         <DateOption
           comparing={this.props.comparing}
           comparingType={this.props.comparingType}
+          startDate={this.props.startDate}
+          endDate={this.props.endDate}
+          compareStartDate={this.props.compareStartDate}
+          onStartDate={this.props.onStartDate}
+          onEndDate={this.props.onEndDate}
+          onCompareDate={this.props.onCompareDate}
         />
         <CourseOption />
       </div>

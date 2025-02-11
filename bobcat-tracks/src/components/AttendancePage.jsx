@@ -47,16 +47,20 @@ class AttendancePage extends Component {
       //Default graph name, defined in component call
       graphTitle: "Attendance Graph",
 
+      //PageOptions information
       comparing: false,
-      comparingType: null, // value 1 means DATE compare, value 2 means COURSE compare, value 0 means unselected
+      comparingType: 1, // value 1 means DATE compare, value 2 means COURSE compare,
+
+      startDate: null,
+      endDate: null,
+      compareStartDate: null,
+      duration: null,
     };
   }
 
+  //Compare settings
   handleComparisonToggle = (isChecked) => {
     this.setState({ comparing: isChecked });
-    if (!isChecked) {
-      this.handleComparisonType(0);
-    }
     console.log("compare");
   };
 
@@ -64,6 +68,61 @@ class AttendancePage extends Component {
     this.setState({ comparingType: value });
     console.log(value);
   };
+
+  //Date methods
+
+  calcDuration = (start, end) => {
+    start = new Date(start);
+    end = new Date(end);
+    let days = end.getTime() - start.getTime();
+    days = days / (1000 * 3600 * 24); //convert miliseconds to days
+    //days = Math.floor(days); //whole number
+
+    return days;
+  };
+
+  addDays = (start, add) => {
+    let newDate = new Date(start); // Create a new Date object from the input
+    newDate.setDate(newDate.getDate() + add); // Modify the date
+    return newDate.toISOString().split("T")[0]; // Format as "YYYY-MM-DD"
+  };
+
+  updateDuration = () => {
+    if (this.state.startDate && this.state.endDate) {
+      let days = this.calcDuration(this.state.startDate, this.state.endDate);
+
+      this.setState({
+        duration: days,
+      });
+      console.log("Duration: ", days);
+    }
+  };
+
+  handleStartDate = (Date) => {
+    //set start date to given date
+    this.setState({ startDate: Date }, () => {
+      console.log("Updated start:", this.state.startDate);
+      //make sure end date is before start
+      if (this.calcDuration(this.state.startDate, this.state.endDate) < 0) {
+        this.handleEndDate(this.addDays(Date, 7));
+      }
+
+      this.updateDuration(); // Runs after state update
+    });
+  };
+
+  handleEndDate = (Date) => {
+    this.setState({ endDate: Date }, () => {
+      console.log("Updated endDate:", this.state.endDate);
+      this.updateDuration(); // Runs after state update
+    });
+  };
+
+  handleCompareDate = (Date) => {
+    this.setState({ compareStartDate: Date });
+    console.log(Date);
+  };
+  //Course methods
 
   //methods to change data
   testMethod = () => {
@@ -87,7 +146,14 @@ class AttendancePage extends Component {
             <PageOptions
               onComparisonToggle={this.handleComparisonToggle}
               onComparisonChange={this.handleComparisonType}
-              selectedComparisonType={this.state.comparingType}
+              comparingType={this.state.comparingType}
+              comparing={this.state.comparing}
+              onStartDate={this.handleStartDate}
+              onEndDate={this.handleEndDate}
+              onCompareDate={this.handleCompareDate}
+              startDate={this.state.startDate}
+              endDate={this.state.endDate}
+              compareStartDate={this.state.compareStartDate}
             />
             {/* changes what filters & parameters data should be displayed */}
           </div>

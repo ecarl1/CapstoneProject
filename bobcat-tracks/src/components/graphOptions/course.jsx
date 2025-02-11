@@ -24,14 +24,11 @@ const CourseOption = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group options-form-element compare-select-box">
           <select class="form-select" aria-label="select course type">
-            <option selected>
-              <p className="b1">All or Individual</p>
+            <option value="2">
+              <p className="b1">All</p>
             </option>
             <option value="1">
               <p className="b1">Individual</p>
-            </option>
-            <option value="2">
-              <p className="b1">All</p>
             </option>
           </select>
         </div>
