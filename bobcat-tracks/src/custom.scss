@@ -290,7 +290,7 @@ h3 {
   margin-bottom: 0px;
 }
 
-//FOR GRAPH OPTIONS ON LEFT SIDE OF PAGE
+//FOR GRAPH OPTIONS ON LEFT SIDE OF PAGE PAGE OPTIONS
 .page-options {
   background: #418fde;
   padding-left: 3%;
@@ -299,12 +299,26 @@ h3 {
   margin: 0%;
 }
 
+.input:disabled {
+  //background-color: #0c2340 !important;
+  opacity: 75% !important;
+}
+
 .options-form-element {
   margin: 3% 3% 5% 3%;
 }
 
+.dateInput {
+  max-width: fit-content;
+  margin-top: 1%;
+}
+
 //FOR GRAPHS
 .btn-download {
+  margin: 5%;
+  display: flex inline !important;
+  flex-direction: row !important;
+  align-items: center !important;
   background-color: #0c2340 !important;
   color: #fff !important;
 }
@@ -312,6 +326,11 @@ h3 {
 .btn-download:hover {
   background-color: #418fde !important;
   color: #fff;
+}
+
+.btn-download-img {
+  height: 80px;
+  margin: 10px;
 }
 
 //for date option
@@ -335,6 +354,12 @@ h3 {
   width: fit-content !important;
   background-color: #fff !important;
   color: #0c2340 !important;
+}
+
+//for UPLOAD page
+.uploadHeader {
+  border: 10px solid #418fde !important;
+  width: 30%;
 }
 
 //imports in the rest of the default bootstrap styles
