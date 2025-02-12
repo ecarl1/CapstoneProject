@@ -6,6 +6,7 @@ import LoginNavBar from "./loginNavBar";
 
 const url = "http://localhost:3000/api/user/change-password"; // Backend route for changing password
 
+
 const ChangePasswordPage = () => {
   const {
     register,
@@ -18,26 +19,28 @@ const ChangePasswordPage = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log("Sending password change request:", data);
+        console.log("Sending password change request:", data); // ✅ Log request data
 
-      const response = await axios.post(url, {
-        username: data.username,
-        oldPassword: data.oldPassword,
-        newPassword: data.newPassword,
-      });
+        const response = await axios.post("http://localhost:3000/api/user/change-password", {
+            username: data.username,
+            oldPassword: data.oldPassword,
+            newPassword: data.newPassword,
+        });
 
-      console.log("Password changed successfully:", response.data);
-      alert("Password changed successfully!");
-      navigate("/"); // Redirect to login after password change
+        console.log("Password changed successfully:", response.data);
+        alert("Password changed successfully!");
+        navigate("/"); // Redirect to login after password change
     } catch (error) {
-      console.error("Password change error:", error);
-      if (error.response) {
-        setError("root", { message: error.response.data.error });
-      } else {
-        setError("root", { message: "Something went wrong. Please try again." });
-      }
+        console.error("Password change error:", error);
+        if (error.response) {
+            console.error("Server Response:", error.response.data); // ✅ Log backend response
+            setError("root", { message: error.response.data.message });
+        } else {
+            setError("root", { message: "Something went wrong. Please try again." });
+        }
     }
-  };
+};
+
 
   return (
     <div>

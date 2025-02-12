@@ -69,6 +69,7 @@ const User = sequelize.define('User', {
 }
 );
 
+//this is for user login
 User.findUser = async function (tUsername, tPassword) {
     try{
         // Get related course id
@@ -140,16 +141,35 @@ User.findUser = async function (tUsername, tPassword) {
 }
 
 //does not work //need to process the bcrypt
-User.changePassword = async function (user_id, newPassword){
+User.changePassword = async function (user_id, oldPassword, newPassword){
     try{
-        await User.findOne({
+        const user = await User.findOne({
             where: { username: user_id },
-        })
-        await User.update(
-            { password: newPassword }, 
-            { where: { user_id: user_id } }
-        );
-        console.log("Found")
+        });
+        if(!user){
+            return "user doesnt not exist";
+        }
+        console.log("Found user")
+
+        const unhashedPassword = Buffer.isBuffer(user.password)
+        ? user.password.toString('utf-8')
+        : user.password;
+
+        const sanitizedPassword = unhashedPassword.replace(/\0/g, '').trim();
+
+        console.log("password from database: " + sanitizedPassword)
+        console.log("The old password enter is: " + oldPassword)
+
+        if(oldPassword.trim() == sanitizedPassword.trim()){
+            await user.update(
+                { password: newPassword }, 
+                { where: { user_id: user_id } }
+            );
+            console.log("password has changed")
+        }else{
+            console.log("The current password entered is not correct")
+        }
+       
 
     }catch(error){
         console.log("user not found");
