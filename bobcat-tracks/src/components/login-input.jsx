@@ -1,7 +1,7 @@
-// should contain the 2 text entries (username and pass) as well as the login button
 import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
 const url = "http://localhost:3000/api/user/login";
 
 
@@ -13,6 +13,7 @@ const LoginForm = () => {
     setError,
   } = useForm();
 
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     try {
       //console.log(data.username);
@@ -24,12 +25,22 @@ const LoginForm = () => {
         password: data.password,
       });
 
-      console.log("Login successful:", response.data);
+
+
+      console.log("Login successful:", response.data , "The token is", response.token);
       alert("Login successful!");
+
+      if (response.data.user.token) {
+        localStorage.setItem('token', response.data.user.token);
+        console.log("Token stored, navigating to /attendance...");
+        navigate('/');
+      }
+
+
 
       // Redirect user after login (if using React Router)
       // window.location.href = "/dashboard"; // Or use react-router's useNavigate()
-
+      return response.data;
     } catch (error) {
       console.error("Login error:", error);
 
