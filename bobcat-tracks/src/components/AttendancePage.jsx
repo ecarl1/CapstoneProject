@@ -51,6 +51,9 @@ class AttendancePage extends Component {
 
       comparing: false,
       comparingType: null, // value 1 means DATE compare, value 2 means COURSE compare, value 0 means unselected
+
+      correctBarChartLabels: [],
+      correctDefaultBarData: [],
     };
   }
 
@@ -67,21 +70,26 @@ class AttendancePage extends Component {
     console.log(value);
   };
 
-  //right now, returns 1 object with many features. Need to split that object into multiple objects
   createJSON () {
-    let convertedData = this.state.barChartLabels.reduce((obj, label, index) => {
-      obj[label] = this.state.defaultBarData[index];
+    this.state.correctBarChartLabels = ["Month and Type", ...this.state.barChartLabels];
+    this.state.correctDefaultBarData = [this.state.defaultBarLabel, ...this.state.defaultBarData];
+
+    console.log("Labels:" ,this.state.correctBarChartLabels);
+    console.log("Datat:" ,this.state.correctDefaultBarData);
+
+    let convertedData = this.state.correctBarChartLabels.reduce((obj, label, index) => {
+      obj[label] = this.state.correctDefaultBarData[index];
       console.log(obj[label]);
       return obj;
     }, {});
     return [convertedData]
   }
   
-  //methods to change data
+  //Download CSV handler
   handleDownloadCSV = () => {
     console.log("clicked");
     const elements = this.createJSON()
-    const labels = this.state.barChartLabels
+    const labels = this.state.correctBarChartLabels
 
     console.log('Elements:', elements);
     console.log('Labels:', labels);
