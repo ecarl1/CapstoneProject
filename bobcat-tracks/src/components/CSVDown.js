@@ -4,8 +4,8 @@ import React from "react";
 // Function to convert JSON to CSV string
 const convertJSONToCSV = (jsonData, columnHeaders) =>{
   // Check if JSON data is empty
-  console.log("col headers:" ,columnHeaders); 
-  console.log("JSON:" ,jsonData)
+  //console.log("Col headers:" ,columnHeaders); 
+  //console.log("JSON Data:" ,jsonData) 
   if (jsonData || columnHeaders) {
     if (jsonData === 0) {
       console.log("No data in jsonData")

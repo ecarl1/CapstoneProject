@@ -43,7 +43,7 @@ class AttendancePage extends Component {
       defaultBarData: [160, 240, 130, 120, 600],
 
       //name of what is being compared & param
-      compareBarLabel: "Februrary Attendence",
+      compareBarLabel: "February Attendence",
       compareBarData: [600, 240, 240, 150, 130],
 
       //Default graph name, defined in component call
@@ -52,8 +52,11 @@ class AttendancePage extends Component {
       comparing: false,
       comparingType: null, // value 1 means DATE compare, value 2 means COURSE compare, value 0 means unselected
 
-      correctBarChartLabels: [],
-      correctDefaultBarData: [],
+      //used for csv download
+      CSVBarChartLabels: [],
+      CSVBarData: [],
+      //used for compare csv download
+      compareCSVBarData: [],
     };
   }
 
@@ -71,28 +74,47 @@ class AttendancePage extends Component {
   };
 
   createJSON () {
-    this.state.correctBarChartLabels = ["Month and Type", ...this.state.barChartLabels];
-    this.state.correctDefaultBarData = [this.state.defaultBarLabel, ...this.state.defaultBarData];
+    this.state.CSVBarChartLabels = ["Month and Type", ...this.state.barChartLabels];
+    this.state.CSVBarData = [this.state.defaultBarLabel, ...this.state.defaultBarData];
 
-    console.log("Labels:" ,this.state.correctBarChartLabels);
-    console.log("Datat:" ,this.state.correctDefaultBarData);
+    //console.log("Labels:" ,this.state.CSVBarChartLabels);
+    //console.log("Data:" ,this.state.CSVBarData);
 
-    let convertedData = this.state.correctBarChartLabels.reduce((obj, label, index) => {
-      obj[label] = this.state.correctDefaultBarData[index];
-      console.log(obj[label]);
-      return obj;
-    }, {});
-    return [convertedData]
+    if (this.state.comparing) {
+      this.state.compareCSVBarData = [this.state.compareBarLabel, ...this.state.compareBarData];
+      //console.log("Data2:" ,this.state.compareCSVBarData);
+
+      let convertedData = this.state.CSVBarChartLabels.reduce((obj, label, index) => {
+        obj[label] = this.state.CSVBarData[index];
+        //console.log("originally thingy ",obj[label]);
+        return obj;
+      }, {});
+      let compareConvertedData = this.state.CSVBarChartLabels.reduce((obj, label, index) => {
+        obj[label] = this.state.compareCSVBarData[index];
+        //console.log("compare thingys ",obj[label]);
+        return obj;
+      }, {});
+      //console.log("what is in testy?: ",testy)
+      return [convertedData,compareConvertedData]
+
+    } else {
+      let convertedData = this.state.CSVBarChartLabels.reduce((obj, label, index) => {
+        obj[label] = this.state.CSVBarData[index];
+        //console.log(obj[label]);
+        return obj;
+      }, {});
+      return [convertedData]
+    }
   }
   
   //Download CSV handler
   handleDownloadCSV = () => {
     console.log("clicked");
     const elements = this.createJSON()
-    const labels = this.state.correctBarChartLabels
-
-    console.log('Elements:', elements);
-    console.log('Labels:', labels);
+    const labels = this.state.CSVBarChartLabels
+    
+    //console.log('Elements:', elements);
+    //console.log('Labels:', labels);
     // Function to initiate CSV download
     const csvData = convertJSONToCSV(elements, labels);
   
