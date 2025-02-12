@@ -69,8 +69,8 @@ class NavBar extends Component {
 
                 <p className="m1">Profile</p>
               </a>
-              <a class="nav-link" href="/login-page"> {/* need to add the proper href to send the user to the login page  */}
-                <img src="https://placehold.co/70" className="nav-icon" />
+              <a class="nav-link" href="/">
+                <img src="/images/Logout.png" className="nav-icon" />
                 <p className="m1">Logout</p>
               </a>
             </div>

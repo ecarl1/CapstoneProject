@@ -33,7 +33,7 @@ const LoginForm = () => {
       if (response.data.user.token) {
         localStorage.setItem('token', response.data.user.token);
         console.log("Token stored, navigating to /attendance...");
-        navigate('/');
+        navigate('/attendance');
       }
 
 
