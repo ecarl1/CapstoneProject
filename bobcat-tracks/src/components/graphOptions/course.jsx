@@ -1,7 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const CourseOption = () => {
+const CourseOption = ({
+  courseType,
+  onCourseType,
+  comparing,
+  comparingType,
+}) => {
   const {
     register,
     handleSubmit,
@@ -23,15 +28,17 @@ const CourseOption = () => {
       <h1>Course</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group options-form-element compare-select-box">
-          <select class="form-select" aria-label="select course type">
-            <option selected>
-              <p className="b1">All or Individual</p>
+          <select
+            class="form-select"
+            aria-label="select course type"
+            onChange={(e) => onCourseType(e.target.value)}
+            value={courseType}
+          >
+            <option value="0">
+              <p className="b1">All</p>
             </option>
             <option value="1">
               <p className="b1">Individual</p>
-            </option>
-            <option value="2">
-              <p className="b1">All</p>
             </option>
           </select>
         </div>
@@ -48,10 +55,11 @@ const CourseOption = () => {
         <div className="form-group options-form-element">
           <input
             type="datalist"
-            className="form-control"
+            className="form-control input"
             list="datalistOptions"
             aria-describedby="dateSelect"
             placeholder="ABC 123"
+            disabled={courseType == 0}
           />
           <label htmlFor="course">
             <p className="b1">Select Course</p>
@@ -61,10 +69,11 @@ const CourseOption = () => {
         <div className="form-group options-form-element">
           <input
             type="datalist"
-            className="form-control"
+            className="form-control input"
             list="datalistOptions"
             aria-describedby="dateSelect"
             placeholder="ABC 123"
+            disabled={!(comparing && comparingType == 2)}
           />
           <label htmlFor="course">
             <p className="b1">Select Course</p>

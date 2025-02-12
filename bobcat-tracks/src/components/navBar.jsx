@@ -40,23 +40,23 @@ class NavBar extends Component {
 
           <div className="collapse navbar-collapse" id="bobcatNavbar">
             <div class="navbar-nav  w-100 mr-auto">
-              <a class="nav-link" href="#">
-                <img src="https://placehold.co/70" className="nav-icon" />
+              <a class="nav-link" href="/upload">
+                <img src="/images/Upload Icon.png" className="nav-icon" />
                 <p className="m1">Upload</p>
               </a>
 
-              <a class="nav-link" href="#">
-                <img src="https://placehold.co/70" className="nav-icon" />
+              <a class="nav-link" href="/attendance">
+                <img src="/images/attendanceMenu.png" className="nav-icon" />
                 <p className="m1">Attendance</p>
               </a>
 
               <a class="nav-link" href="#">
-                <img src="https://placehold.co/70" className="nav-icon" />
+                <img src="/images/skillsMenu.png" className="nav-icon" />
                 <p className="m1">Skills</p>
               </a>
 
               <a class="nav-link" href="#">
-                <img src="https://placehold.co/70" className="nav-icon" />
+                <img src="/images/CPT menu.png" className="nav-icon" />
                 <p className="m1">Confidence</p>
               </a>
 
@@ -65,7 +65,7 @@ class NavBar extends Component {
               <p className="b2 greeting">Hello NAME</p>
 
               <a class="nav-link" href="#">
-                <img src="https://placehold.co/70" className="nav-icon" />
+                <img src="/images/profileIcon.png" className="nav-icon" />
 
                 <p className="m1">Profile</p>
               </a>

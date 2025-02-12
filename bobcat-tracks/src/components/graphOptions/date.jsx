@@ -1,7 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const DateOption = () => {
+const DateOption = ({
+  comparing,
+  comparingType,
+  onStartDate,
+  onEndDate,
+  onCompareDate,
+  startDate,
+  endDate,
+  compareStartDate,
+}) => {
   const {
     register,
     handleSubmit,
@@ -22,30 +31,51 @@ const DateOption = () => {
     <div className="dateOptionBox">
       <h1>Date</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-group options-form-element">
-          <input
-            type="date"
-            name="dateOne"
-            className="form-control"
-            id="dateOne"
-            aria-describedby="dateSelect"
-          />
+        <div className="form-group options-form-element date-container">
           <label htmlFor="date">
-            <p className="b1">Select Date</p>
+            <p className="b1">Select Date Range</p>
           </label>
+          <div className="date-input-container">
+            <p className="m1">start date</p>
+            <input
+              type="date"
+              name="startDate"
+              className="form-control dateInput input"
+              id="startDate"
+              aria-describedby="dateSelect"
+              value={startDate}
+              onChange={(e) => onStartDate(e.target.value)}
+            />
+            <p className="m1">end date</p>
+
+            <input
+              type="date"
+              name="endDate"
+              className="form-control dateInput input"
+              id="endDate"
+              aria-describedby="dateSelect"
+              value={endDate}
+              onChange={(e) => onEndDate(e.target.value)}
+            />
+          </div>
         </div>
 
+        {/* SECOND DATE INPUTS FOR COMPARING */}
+
         <div className="form-group options-form-element">
-          <input
-            type="date"
-            name="dateOne"
-            className="form-control"
-            id="dateOne"
-            aria-describedby="dateSelect"
-          />
           <label htmlFor="date">
             <p className="b1">Select Date for Comparison</p>
           </label>
+          <input
+            type="date"
+            name="compareDate"
+            className="form-control dateInput input"
+            id="compareDate"
+            aria-describedby="dateSelect"
+            disabled={!(comparing && comparingType == 1)}
+            value={compareStartDate}
+            onChange={(e) => onCompareDate(e.target.value)}
+          />
         </div>
       </form>
     </div>
