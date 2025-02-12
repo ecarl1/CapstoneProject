@@ -2,6 +2,7 @@ const {DataTypes} = require('sequelize')
 const sequelize = require('../config/TESTDATABASESQL') // storing the database on the computers memory
 const bcrypt = require('bcrypt');
 const { type } = require('os');
+const jwt = require('jsonwebtoken');
 
 const User = sequelize.define('User', {
     user_id: {
@@ -98,10 +99,22 @@ User.findUser = async function (tUsername, tPassword) {
         // Ensure the plaintext password is a string
         //const isMatch = await bcrypt.compare(String(tPassword), user.password);
 
+        const token = jwt.sign(
+            {
+                userId: user.user_id,
+                username: user.username,
+                userType: user.user_type,
+            },
+            'key', //secret key and store in environment variables
+            { expiresIn: '1h' }
+        );
         
 
         if (tPassword.trim() === sanitizedPassword.trim()){
-            return {User: {
+            return {
+                token,
+                User: {
+                username: user.username,
                 id: user.user_id,
                 fname: user.fname,
                 lname: user.lname,
@@ -113,6 +126,8 @@ User.findUser = async function (tUsername, tPassword) {
         } else {
             return "Password is incorrect";
         }
+
+        
 
         //will probably have to return a JWT token or some sort of acces toke
         

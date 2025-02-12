@@ -4,7 +4,7 @@
 * {
   font-family: "Lexend", sans-serif;
   font-style: normal;
-  border: 1px solid red !important;
+  //border: 1px solid red !important;
 }
 
 // <uniquifier>: Use a unique and descriptive class name
@@ -90,7 +90,7 @@ h3 {
 
 .nav-icon {
   width: 8%;
-  min-width: 30px;
+  min-width: 40px;
   margin: 0px;
 }
 
@@ -171,6 +171,7 @@ h3 {
   background: #ffb81c !important;
   color: #0c2340 !important;
   border-radius: 5 !important;
+  border-width: 0px !important;
 }
 
 .submit-btn:hover {
@@ -290,17 +291,33 @@ h3 {
   margin-bottom: 0px;
 }
 
-//FOR GRAPH OPTIONS ON LEFT SIDE OF PAGE
+//FOR GRAPH OPTIONS ON LEFT SIDE OF PAGE PAGE OPTIONS
 .page-options {
   background: #418fde;
   padding-left: 3%;
   padding-right: 5%;
   color: #fff;
-  margin: 0%;
+  //margin: 0px;
+}
+
+.options {
+  //border: 1px solid red !important;
+  background: #418fde;
+  padding-top: 1%;
+}
+
+.input:disabled {
+  //background-color: #0c2340 !important;
+  opacity: 75% !important;
 }
 
 .options-form-element {
   margin: 3% 3% 5% 3%;
+}
+
+.dateInput {
+  max-width: fit-content;
+  margin-top: 1%;
 }
 
 //FOR GRAPHS
@@ -344,6 +361,12 @@ h3 {
   width: fit-content !important;
   background-color: #fff !important;
   color: #0c2340 !important;
+}
+
+//for UPLOAD page
+.uploadHeader {
+  border: 10px solid #418fde !important;
+  width: 30%;
 }
 
 //imports in the rest of the default bootstrap styles

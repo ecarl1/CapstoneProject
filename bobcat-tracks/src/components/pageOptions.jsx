@@ -5,20 +5,37 @@ import CourseOption from "./graphOptions/course";
 
 class PageOptions extends Component {
   render() {
-    return (
-      <div className="page-options">
-        <CompareOption
-          onComparisonToggle={this.props.onComparisonToggle}
-          onComparisonChange={this.props.onComparisonChange}
-          selectedComparisonType={this.props.selectedComparisonType}
-        />
-        <DateOption
-          comparing={this.props.comparing}
-          comparingType={this.props.comparingType}
-        />
-        <CourseOption />
-      </div>
-    );
+    let currPage = this.props.pageName;
+    if (currPage == "Attendance") {
+      return (
+        <div className="page-options">
+          <CompareOption
+            onComparisonToggle={this.props.onComparisonToggle}
+            onComparisonChange={this.props.onComparisonChange}
+            comparingType={this.props.comparingType}
+            comparing={this.props.comparing}
+          />
+          <DateOption
+            comparing={this.props.comparing}
+            comparingType={this.props.comparingType}
+            startDate={this.props.startDate}
+            endDate={this.props.endDate}
+            compareStartDate={this.props.compareStartDate}
+            onStartDate={this.props.onStartDate}
+            onEndDate={this.props.onEndDate}
+            onCompareDate={this.props.onCompareDate}
+          />
+          <CourseOption
+            comparingType={this.props.comparingType}
+            comparing={this.props.comparing}
+            courseType={this.props.courseType}
+            onCourseType={this.props.onCourseType}
+            // course={this.props.course}
+            // compareCourse={this.props.compareCourse}
+          />
+        </div>
+      );
+    }
   }
 }
 
