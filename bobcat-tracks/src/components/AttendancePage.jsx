@@ -4,6 +4,8 @@ import Footer from "./footer";
 import PageOptions from "./pageOptions";
 // import { Bargraph } from "./Bar.js";
 import BargraphComp from "./Bar.js";
+import html2canvas from "html2canvas";
+import convertJSONToCSV from "./CSVDown.js"
 
 class AttendancePage extends Component {
   /*
@@ -41,7 +43,7 @@ class AttendancePage extends Component {
       defaultBarData: [160, 240, 130, 120, 600],
 
       //name of what is being compared & param
-      compareBarLabel: "Februrary Attendence",
+      compareBarLabel: "February Attendence",
       compareBarData: [600, 240, 240, 150, 130],
 
       //Default graph name, defined in component call
@@ -61,6 +63,12 @@ class AttendancePage extends Component {
       courseType: 0, //0 means all, 1 means specific course
       course: null,
       compareCourse: null,
+
+      //used for csv download
+      CSVBarChartLabels: [],
+      CSVBarData: [],
+      //used for compare csv download
+      compareCSVBarData: [],
     };
   }
 
@@ -76,7 +84,6 @@ class AttendancePage extends Component {
   };
 
   //Date methods
-
   calcDuration = (start, end) => {
     start = new Date(start);
     end = new Date(end);
@@ -141,15 +148,80 @@ class AttendancePage extends Component {
     console.log("New type:", type);
   };
 
-  //methods to change data
-  testMethod = () => {
-    this.setState({ graphTitle: "Banana" });
-    console.log("Banana Title");
+  createJSON () {
+    this.state.CSVBarChartLabels = ["Month and Type", ...this.state.barChartLabels];
+    this.state.CSVBarData = [this.state.defaultBarLabel, ...this.state.defaultBarData];
+
+    //console.log("Labels:" ,this.state.CSVBarChartLabels);
+    //console.log("Data:" ,this.state.CSVBarData);
+
+    if (this.state.comparing) {
+      this.state.compareCSVBarData = [this.state.compareBarLabel, ...this.state.compareBarData];
+      //console.log("Data2:" ,this.state.compareCSVBarData);
+
+      let convertedData = this.state.CSVBarChartLabels.reduce((obj, label, index) => {
+        obj[label] = this.state.CSVBarData[index];
+        //console.log("originally thingy ",obj[label]);
+        return obj;
+      }, {});
+      let compareConvertedData = this.state.CSVBarChartLabels.reduce((obj, label, index) => {
+        obj[label] = this.state.compareCSVBarData[index];
+        //console.log("compare thingys ",obj[label]);
+        return obj;
+      }, {});
+      //console.log("what is in testy?: ",testy)
+      return [convertedData,compareConvertedData]
+
+    } else {
+      let convertedData = this.state.CSVBarChartLabels.reduce((obj, label, index) => {
+        obj[label] = this.state.CSVBarData[index];
+        //console.log(obj[label]);
+        return obj;
+      }, {});
+      return [convertedData]
+    }
+  }
+  
+  //Download CSV handler
+  handleDownloadCSV = () => {
+    console.log("clicked");
+    const elements = this.createJSON()
+    const labels = this.state.CSVBarChartLabels
+    
+    //console.log('Elements:', elements);
+    //console.log('Labels:', labels);
+    // Function to initiate CSV download
+    const csvData = convertJSONToCSV(elements, labels);
+  
+    // Check if CSV data is empty
+    if (csvData === "") {
+      alert("No data to export");
+    } else {
+      // Create CSV file and initiate download
+      const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute("download", "product_data.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
-  testMethod2 = () => {
-    this.setState({ graphTitle: "Orange you glad it isn't Banana?" });
-    console.log("Orange Title");
+  //Download PNG button handler
+  handleDownloadImage = async () => {
+    console.log("clicked");
+    const element = document.getElementById("print"),
+      canvas = await html2canvas(element),
+      data = canvas.toDataURL("image/jpg"),
+      link = document.createElement("a");
+  
+    link.href = data;
+    link.download = "downloaded-image.jpg";
+  
+    document.body.appendChild(link);
+    link.click();
+    
   };
 
   render() {
@@ -185,6 +257,8 @@ class AttendancePage extends Component {
           </div>
           {/* right graphs & buttons */}
           <div className="col-lg-9 graph-box">
+
+            <div id = "print">
             <BargraphComp
               graphTitle={this.state.graphTitle}
               barChartLabels={this.state.barChartLabels}
@@ -194,13 +268,14 @@ class AttendancePage extends Component {
               compareBarData={this.state.compareBarData}
               comparing={this.state.comparing}
             />
+            </div>
             {/* displays data based on filters & params*/}
 
             {/* CSV BUTTON DOWNLOAD */}
             <button
               type="button"
               class="btn btn-download"
-              onClick={this.testMethod}
+              onClick={this.handleDownloadCSV}
             >
               <h2>DOWNLOAD .CSV</h2>
 
@@ -214,7 +289,7 @@ class AttendancePage extends Component {
             <button
               type="button"
               class="btn btn-download"
-              onClick={this.testMethod2}
+              onClick={this.handleDownloadImage}
             >
               <h2>DOWNLOAD .PNG</h2>
               <img src="/images/imageIcon.png" className="btn-download-img" />
