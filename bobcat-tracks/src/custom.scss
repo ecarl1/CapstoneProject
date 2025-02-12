@@ -171,6 +171,7 @@ h3 {
   background: #ffb81c !important;
   color: #0c2340 !important;
   border-radius: 5 !important;
+  border-width: 0px !important;
 }
 
 .submit-btn:hover {
@@ -296,7 +297,13 @@ h3 {
   padding-left: 3%;
   padding-right: 5%;
   color: #fff;
-  margin: 0%;
+  //margin: 0px;
+}
+
+.options {
+  //border: 1px solid red !important;
+  background: #418fde;
+  padding-top: 1%;
 }
 
 .input:disabled {

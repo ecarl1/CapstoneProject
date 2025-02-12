@@ -157,9 +157,9 @@ class AttendancePage extends Component {
       <div>
         <NavBar />
 
-        <div className="attendance-page row">
+        <div className="attendance-page row ">
           {/* left menu component */}
-          <div className="col-lg-3">
+          <div className="col-lg-3 options">
             <PageOptions
               //page info
               pageName={this.state.pageName}
