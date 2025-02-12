@@ -156,6 +156,22 @@ User.changePassword = async function (user_id, newPassword){
     }
 }
 
+User.resetPassword = async function (user_id, newPassword, oldPassword){
+    try{
+        await User.findOne({
+            where: { username: user_id, password: oldPassword }
+        })
+        await User.update(
+            { password: newPassword }, 
+            { where: { user_id: user_id } }
+        );
+        console.log("Found")
+
+    }catch(error){
+        console.log("user not found");
+    }
+}
+
 
 
 

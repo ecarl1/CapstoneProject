@@ -99,6 +99,15 @@ const LoginForm = () => {
             {isSubmitting ? "Loading..." : "Login"}
           </button>
 
+          <button 
+          type="button" 
+          className="btn btn-secondary login-form-element"
+          onClick={() => navigate("/change-password")}
+        >
+          Change Your Password
+        </button>
+
+
           {errors.root && (
             <div className="alert alert-danger"> {errors.root.message}</div>
           )}
