@@ -40,7 +40,7 @@ class NavBar extends Component {
 
           <div className="collapse navbar-collapse" id="bobcatNavbar">
             <div class="navbar-nav  w-100 mr-auto">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/upload">
                 <img src="https://placehold.co/70" className="nav-icon" />
                 <p className="m1">Upload</p>
               </a>
