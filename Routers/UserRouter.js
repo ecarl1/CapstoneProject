@@ -27,7 +27,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// //Change Password Route
+// //reset Password Route
 // router.post('/reset-password', async (req, res) => {
 //     try {
 //         const { user_id, newPassword } = req.body;
@@ -50,18 +50,20 @@ router.post('/login', async (req, res) => {
     
 // });
 
+//route for changing password
 router.post("/change-password", async (req, res) => {
     try {
         console.log("Received password change request:", req.body);
 
         const { username, oldPassword, newPassword } = req.body;
 
+        //requires all fields
         if (!username || !oldPassword || !newPassword) {
             console.error("Missing required fields:", req.body);
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        // Find user by username
+        //Find user by username
         const user = await User.findOne({ where: { username } });
         console.log("User found:", user ? user.toJSON() : "No user found");
 
@@ -70,6 +72,7 @@ router.post("/change-password", async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
+        //changing the password from the user model
         await User.changePassword(username, oldPassword, newPassword);
     
 
@@ -78,7 +81,7 @@ router.post("/change-password", async (req, res) => {
         console.log("Password changed successfully for user:", username);
         res.json({ message: "Password changed successfully" });
     } catch (error) {
-        console.error("🔥 Error in /change-password route:", error);
+        console.error("Error in /change-password route:", error);
         res.status(500).json({ message: "Server error", error: error.message });
     }
 });

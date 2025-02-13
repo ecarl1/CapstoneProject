@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import LoginNavBar from "./loginNavBar";
+import Footer from "./footer";
 
 const url = "http://localhost:3000/api/user/change-password"; // Backend route for changing password
 
-
+//when the change password is executed
 const ChangePasswordPage = () => {
   const {
     register,
@@ -17,9 +18,10 @@ const ChangePasswordPage = () => {
 
   const navigate = useNavigate();
 
+  //submit function
   const onSubmit = async (data) => {
     try {
-        console.log("Sending password change request:", data); // ✅ Log request data
+        console.log("Sending password change request:", data); 
 
         const response = await axios.post("http://localhost:3000/api/user/change-password", {
             username: data.username,
@@ -29,11 +31,11 @@ const ChangePasswordPage = () => {
 
         console.log("Password changed successfully:", response.data);
         alert("Password changed successfully!");
-        navigate("/"); // Redirect to login after password change
+        navigate("/"); //Redirecting to login after password change
     } catch (error) {
         console.error("Password change error:", error);
         if (error.response) {
-            console.error("Server Response:", error.response.data); // ✅ Log backend response
+            console.error("Server Response:", error.response.data); 
             setError("root", { message: error.response.data.message });
         } else {
             setError("root", { message: "Something went wrong. Please try again." });
@@ -92,6 +94,7 @@ const ChangePasswordPage = () => {
 
         {errors.root && <div className="alert alert-danger">{errors.root.message}</div>}
       </form>
+      <Footer/>
     </div>
   );
 };

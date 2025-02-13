@@ -27,12 +27,12 @@ const LoginForm = () => {
 
 
 
-      console.log("Login successful:", response.data , "The token is", response.token);
-      alert("Login successful!");
+      console.log("Login is successful:", response.data , "The token is", response.token);
+      //alert("Login is successful!");
 
       if (response.data.user.token) {
         localStorage.setItem('token', response.data.user.token);
-        console.log("Token stored, navigating to /attendance...");
+        console.log("Token is stored navigating to /attendance");
         navigate('/attendance');
       }
 

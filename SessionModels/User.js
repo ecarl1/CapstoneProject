@@ -140,9 +140,10 @@ User.findUser = async function (tUsername, tPassword) {
     
 }
 
-//does not work //need to process the bcrypt
+//chaning password function
 User.changePassword = async function (user_id, oldPassword, newPassword){
     try{
+        //retrieving the user
         const user = await User.findOne({
             where: { username: user_id },
         });
@@ -151,10 +152,13 @@ User.changePassword = async function (user_id, oldPassword, newPassword){
         }
         console.log("Found user")
 
+        //unhashing the password
         const unhashedPassword = Buffer.isBuffer(user.password)
         ? user.password.toString('utf-8')
         : user.password;
 
+
+        //sanitizing the password
         const sanitizedPassword = unhashedPassword.replace(/\0/g, '').trim();
 
         console.log("password from database: " + sanitizedPassword)
