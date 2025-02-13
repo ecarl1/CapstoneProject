@@ -4,6 +4,7 @@ const cors = require("cors");
 const sessionRouter = require('./Routers/SessionRouter');
 const multiSelectRouter = require('./Routers/MultiselectRouter');
 const userRouter = require('./Routers/UserRouter');
+const attendanceRouter = require('./Routers/AttendanceRouter')
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use('/api/session', sessionRouter);
 app.use('/api/multiselect', multiSelectRouter);
 app.use('/api/user', userRouter);
+app.use('/api/attendance', attendanceRouter)
 
 const PORT = 3000;
 app.listen(PORT, () => {

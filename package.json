@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "chart.js": "^4.4.7",
     "cors": "^2.8.5",
@@ -14,7 +15,11 @@
     "react-hook-form": "^7.54.0",
     "react-router-dom": "^7.0.1",
     "react-scripts": "^5.0.1",
+    "sass": "^1.84.0",
     "sequelize": "^6.37.5",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "util": "^0.12.5",
     "web-vitals": "^4.2.4"
   }
 }
