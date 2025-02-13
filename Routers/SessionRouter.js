@@ -1,6 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Session = require('../SessionModels/Session'); 
+const Session_Answer = require('../SessionModels/Session_Answer');
+const Question = require('../SessionModels/Question');
+
+Session.hasOne(Session_Answer, {foreignKey: 'entry_id'})
+// Session_Answer.belongsTo(Session, {foreignKey: 'entry_id'})
+
+// Session.hasOne(Session_Answer)
 
 router.post('/sessions/parse-and-save', async (req, res) => {
     try {
@@ -18,5 +25,65 @@ router.post('/sessions/parse-and-save', async (req, res) => {
         res.status(500).json({ error: 'error occured' });
     }
 });
+
+router.get('/sessions', async (req, res) => {
+    try {
+        const data = await Session.findAll(); // Fetch all data from the "session" table
+        res.json(data); // Send the data as a JSON response
+      } catch (err) {
+        res.status(500).json({ error: 'Failed to retrieve session data' });
+      }
+  });
+
+router.get('/sessionsjoined', async (req, res) => {
+    try {
+        // const data = 
+        await Session.findAll({
+            include: [{
+              model: Session_Answer
+            //   where: [Session_Answer.entry_id = Session.entry_id],
+            //   required: true,
+             }]
+          }).then(function(sessions) {
+            // console.log(JSON.stringify(sessions))
+            res.json(sessions)
+          }); // Fetch all data from the "Session" table and join it with the 'session_Answer" table data
+        // res.json(data); // Send the data as a JSON response
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to retrieve session data' });
+    }
+});  
+
+
+
+
+router.get('/sessions_answers', async (req, res) => {
+    try {
+        const data = await Session_Answer.findAll(); // Fetch all data from the "session_answer" table
+        res.json(data); // Send the data as a JSON response
+      } catch (err) {
+        res.status(500).json({ error: 'Failed to retrieve session answer data' });
+      }
+});
+
+router.get('/questions', async (req, res) => {
+    try {
+        const data = await Question.findAll(); // Fetch all data from the "Question" table
+        res.json(data); // Send the data as a JSON response
+      } catch (err) {
+        res.status(500).json({ error: 'Failed to retrieve question data' });
+      }
+});
+
+router.get('/answers', async (req, res) => {
+    try {
+        const data = await Answer.findAll(); // Fetch all data from the "answer" table
+        res.json(data); // Send the data as a JSON response
+      } catch (err) {
+        res.status(500).json({ error: 'Failed to retrieve answer data' });
+      }
+});
+
+
 
 module.exports = router;
