@@ -6,6 +6,8 @@ import PageOptions from "./pageOptions";
 import BargraphComp from "./Bar.js";
 import html2canvas from "html2canvas";
 import convertJSONToCSV from "./CSVDown.js"
+import axios from "axios"
+const url = "http://localhost:3000/api/attendance";
 
 class AttendancePage extends Component {
   /*
@@ -30,6 +32,24 @@ class AttendancePage extends Component {
   //THIS is all the data from the DB held by attendance AND the filter information needed
   constructor(props) {
     super(props);
+    const request = async (data) => {
+      try {
+        
+        console.log("Sending attendance request:", data);
+        
+        const response = await axios.get(url);
+  
+  
+  
+        console.log("Request successful:", response.data);
+        alert("Request successful!");
+
+        return response.data;
+      } catch (error) {
+        console.error("Request error:", error);
+      }
+    };
+    request()
     this.state = {
       barChartLabels: [
         "Rent",
