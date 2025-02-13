@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-
+//ensures that the authenticate token is used to protect routes
+//ensures users provide lavid JWT before accessing certain endpoints
 //middleware for token authorization
 const authenticateToken = (req, res, next) => {
     const token = req.headers['authorization'];
