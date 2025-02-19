@@ -86,7 +86,7 @@ class BargraphComp extends React.Component {
           ticks: {
             color: paletteColors.burntGold,
             font: {
-              size: 35,
+              size: 20,
             },
           },
         },

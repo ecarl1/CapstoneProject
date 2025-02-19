@@ -5,8 +5,8 @@ import PageOptions from "./pageOptions";
 // import { Bargraph } from "./Bar.js";
 import BargraphComp from "./Bar.js";
 import html2canvas from "html2canvas";
-import convertJSONToCSV from "./CSVDown.js"
-import axios from "axios"
+import convertJSONToCSV from "./CSVDown.js";
+import axios from "axios";
 const url = "http://localhost:3000/api/attendance";
 
 class AttendancePage extends Component {
@@ -34,23 +34,46 @@ class AttendancePage extends Component {
     super(props);
     const request = async (data) => {
       try {
-        
         console.log("Sending attendance request:", data);
-        
+
         const response = await axios.get(url);
-  
-  
-  
+
         console.log("Request successful:", response.data);
         alert("Request successful!");
 
-        return response.data;
+        return response.data; //Attendance Data being returned
       } catch (error) {
         console.error("Request error:", error);
       }
     };
-    request()
+    //request();
     this.state = {
+      //
+      //rawData: request(),
+      rawData: [
+        { date: "2025-02-13", courseName: "EN101" },
+        { date: "2025-02-13", courseName: "QU105" },
+        { date: "2025-02-14", courseName: "BIO101" },
+        { date: "2025-02-14", courseName: "EN101" },
+        { date: "2025-02-15", courseName: "CHE101" },
+        { date: "2025-02-15", courseName: "FYS101" },
+        { date: "2025-02-16", courseName: "QU105" },
+        { date: "2025-02-16", courseName: "CHE101" },
+        { date: "2025-02-16", courseName: "EN101" },
+        { date: "2025-02-17", courseName: "BIO101" },
+        { date: "2025-02-17", courseName: "FYS101" },
+        { date: "2025-02-18", courseName: "QU105" },
+        { date: "2025-02-18", courseName: "CHE101" },
+        { date: "2025-02-18", courseName: "EN101" },
+        { date: "2025-02-19", courseName: "BIO101" },
+        { date: "2025-02-19", courseName: "CHE101" },
+        { date: "2025-02-19", courseName: "FYS101" },
+        { date: "2025-02-20", courseName: "QU105" },
+        { date: "2025-02-20", courseName: "EN101" },
+        { date: "2025-02-20", courseName: "BIO101" },
+      ],
+
+      //USED FOR GRAPH
       barChartLabels: [
         "Rent",
         "Groceries",
@@ -84,6 +107,7 @@ class AttendancePage extends Component {
       course: null,
       compareCourse: null,
 
+      //USED FOR CSVDOWNLOAD
       //used for csv download
       CSVBarChartLabels: [],
       CSVBarData: [],
@@ -91,6 +115,64 @@ class AttendancePage extends Component {
       compareCSVBarData: [],
     };
   }
+
+  //update filter
+  //called at updateDuration (runs every time a date is changed)
+  //called at ____ to handle course changes
+  updateFilter = () => {
+    console.log("entered updateFilter()");
+    //check HERE if an update is even possible
+    //update regular data first, then check if compare is occuring
+    var processedData = this.state.rawData; //begin with rawData, then filter before passing this processedData into the state vars used by the graph
+    console.log("A processedData: ", processedData);
+
+    //if start & end are not defined, no filtering can be done (In final, these should be defined on init)
+    if (this.state.startDate == null || this.state.endDate == null) return;
+
+    //filter date
+    processedData = processedData.filter((entry) => {
+      const entryDate = new Date(entry.date); //turns value of entry into date object
+      return (
+        entryDate >= new Date(this.state.startDate) && //after or on start date
+        entryDate <= new Date(this.state.endDate) //before or on end date
+      );
+    });
+    console.log("B processedData: ", processedData);
+
+    // //filter course
+
+    //update states
+    //processedData should be processed to all params of the default data
+    var newBarData = new Array(this.state.duration + 1); //+1 since indexing starts at 0
+    var newBarLabel = new Array(this.state.duration + 1);
+    var currDate = this.state.startDate; //will walk from start date to end
+    //count occurences on each date
+    while (currDate <= this.state.endDate && currDate >= this.state.startDate) {
+      const onCurrDate = processedData.filter(
+        (entry) => entry.date === currDate
+      );
+      const index = this.calcDuration(this.state.startDate, currDate); //duration from start to curr = index in arr
+      newBarData[index] = onCurrDate.length;
+      newBarLabel[index] = currDate;
+      currDate = this.addDays(currDate, 1);
+    }
+
+    this.setState(
+      {
+        barChartLabels: newBarLabel,
+        defaultBarData: newBarData,
+      },
+      () => {
+        console.log("data updated successfully!");
+      }
+    );
+
+    //update graphTitle
+    const newGraphTitle =
+      "Attendance data: " + this.state.startDate + " to " + this.state.endDate;
+    this.setState({ graphTitle: newGraphTitle });
+    //update X axis labels barChartLabels[duration]
+  };
 
   //Compare settings
   handleComparisonToggle = (isChecked) => {
@@ -128,6 +210,7 @@ class AttendancePage extends Component {
         duration: days,
       });
       console.log("Duration: ", days);
+      this.updateFilter();
     }
   };
 
@@ -168,51 +251,68 @@ class AttendancePage extends Component {
     console.log("New type:", type);
   };
 
-  createJSON () {
-    this.state.CSVBarChartLabels = ["Month and Type", ...this.state.barChartLabels];
-    this.state.CSVBarData = [this.state.defaultBarLabel, ...this.state.defaultBarData];
+  createJSON() {
+    this.state.CSVBarChartLabels = [
+      "Month and Type",
+      ...this.state.barChartLabels,
+    ];
+    this.state.CSVBarData = [
+      this.state.defaultBarLabel,
+      ...this.state.defaultBarData,
+    ];
 
     //console.log("Labels:" ,this.state.CSVBarChartLabels);
     //console.log("Data:" ,this.state.CSVBarData);
 
     if (this.state.comparing) {
-      this.state.compareCSVBarData = [this.state.compareBarLabel, ...this.state.compareBarData];
+      this.state.compareCSVBarData = [
+        this.state.compareBarLabel,
+        ...this.state.compareBarData,
+      ];
       //console.log("Data2:" ,this.state.compareCSVBarData);
 
-      let convertedData = this.state.CSVBarChartLabels.reduce((obj, label, index) => {
-        obj[label] = this.state.CSVBarData[index];
-        //console.log("originally thingy ",obj[label]);
-        return obj;
-      }, {});
-      let compareConvertedData = this.state.CSVBarChartLabels.reduce((obj, label, index) => {
-        obj[label] = this.state.compareCSVBarData[index];
-        //console.log("compare thingys ",obj[label]);
-        return obj;
-      }, {});
+      let convertedData = this.state.CSVBarChartLabels.reduce(
+        (obj, label, index) => {
+          obj[label] = this.state.CSVBarData[index];
+          //console.log("originally thingy ",obj[label]);
+          return obj;
+        },
+        {}
+      );
+      let compareConvertedData = this.state.CSVBarChartLabels.reduce(
+        (obj, label, index) => {
+          obj[label] = this.state.compareCSVBarData[index];
+          //console.log("compare thingys ",obj[label]);
+          return obj;
+        },
+        {}
+      );
       //console.log("what is in testy?: ",testy)
-      return [convertedData,compareConvertedData]
-
+      return [convertedData, compareConvertedData];
     } else {
-      let convertedData = this.state.CSVBarChartLabels.reduce((obj, label, index) => {
-        obj[label] = this.state.CSVBarData[index];
-        //console.log(obj[label]);
-        return obj;
-      }, {});
-      return [convertedData]
+      let convertedData = this.state.CSVBarChartLabels.reduce(
+        (obj, label, index) => {
+          obj[label] = this.state.CSVBarData[index];
+          //console.log(obj[label]);
+          return obj;
+        },
+        {}
+      );
+      return [convertedData];
     }
   }
-  
+
   //Download CSV handler
   handleDownloadCSV = () => {
     console.log("clicked");
-    const elements = this.createJSON()
-    const labels = this.state.CSVBarChartLabels
-    
+    const elements = this.createJSON();
+    const labels = this.state.CSVBarChartLabels;
+
     //console.log('Elements:', elements);
     //console.log('Labels:', labels);
     // Function to initiate CSV download
     const csvData = convertJSONToCSV(elements, labels);
-  
+
     // Check if CSV data is empty
     if (csvData === "") {
       alert("No data to export");
@@ -235,13 +335,12 @@ class AttendancePage extends Component {
       canvas = await html2canvas(element),
       data = canvas.toDataURL("image/jpg"),
       link = document.createElement("a");
-  
+
     link.href = data;
     link.download = "downloaded-image.jpg";
-  
+
     document.body.appendChild(link);
     link.click();
-    
   };
 
   render() {
@@ -277,17 +376,16 @@ class AttendancePage extends Component {
           </div>
           {/* right graphs & buttons */}
           <div className="col-lg-9 graph-box">
-
-            <div id = "print">
-            <BargraphComp
-              graphTitle={this.state.graphTitle}
-              barChartLabels={this.state.barChartLabels}
-              defaultBarLabel={this.state.defaultBarLabel}
-              defaultBarData={this.state.defaultBarData}
-              compareBarLabel={this.state.compareBarLabel}
-              compareBarData={this.state.compareBarData}
-              comparing={this.state.comparing}
-            />
+            <div id="print">
+              <BargraphComp
+                graphTitle={this.state.graphTitle}
+                barChartLabels={this.state.barChartLabels}
+                defaultBarLabel={this.state.defaultBarLabel}
+                defaultBarData={this.state.defaultBarData}
+                compareBarLabel={this.state.compareBarLabel}
+                compareBarData={this.state.compareBarData}
+                comparing={this.state.comparing}
+              />
             </div>
             {/* displays data based on filters & params*/}
 
