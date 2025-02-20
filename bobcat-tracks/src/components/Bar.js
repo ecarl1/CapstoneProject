@@ -109,7 +109,7 @@ class BargraphComp extends React.Component {
     if (this.props.comparing) {
       return {
         // two data sets are being compared
-        labels: this.props.barChartLabels,
+        labels: this.props.xAxisLabels,
         datasets: [
           {
             label: this.props.defaultBarLabel,
@@ -132,7 +132,7 @@ class BargraphComp extends React.Component {
     } else {
       return {
         //only one type of data should be displayed
-        labels: this.props.barChartLabels,
+        labels: this.props.xAxisLabels,
         datasets: [
           {
             label: this.props.defaultBarLabel,
@@ -154,130 +154,3 @@ class BargraphComp extends React.Component {
 } //end react component
 
 export default BargraphComp;
-//
-//ABOVE converted to a REACT component to allow for state & props to change & pass information
-//
-/*
-
-
-
-
-
-
-
-
-
-*/
-//
-//BELOW first chart.js graph for attendance
-//
-//PROTOTYPE BELOW
-
-// export const Bargraph = () => {
-//   //these should be dates
-//   let barChartLabels = [
-//     "Rent",
-//     "Groceries",
-//     "Utilities",
-//     "Entertainment",
-//     "Transportation",
-//   ];
-
-//   //Should be default graph name
-//   let defaultBarLabel = "April Expenses";
-//   let defaultBarData = [160, 240, 130, 150, 600];
-
-//   //name of what is being compared & param
-//   let compareBarLabel = "May Expenses";
-//   let compareBarData = [600, 240, 240, 150, 130];
-
-//   //Default graph name
-//   let graphTitle = "Monthly Expenses";
-
-//   //Where the variables are packaged for the graph- simply combining previous variables into correct format
-//   const barChartData = {
-//     labels: barChartLabels,
-//     datasets: [
-//       {
-//         label: defaultBarLabel,
-//         data: defaultBarData,
-//         borderWidth: 0,
-
-//         backgroundColor: paletteColors.mediumBlue,
-//         hoverBackgroundColor: paletteColors.navy,
-//       },
-//       {
-//         label: compareBarLabel,
-//         data: compareBarData,
-//         borderWidth: 0,
-
-//         backgroundColor: paletteColors.gold,
-//         hoverBackgroundColor: paletteColors.burntGold,
-//       },
-//     ],
-//   };
-
-//   //options is what gives it all of the styling.
-//   const options = {
-//     responsive: true,
-//     plugins: {
-//       ticks: {
-//         font: {
-//           size: 40,
-//         },
-//       },
-//       legend: {
-//         position: "top",
-
-//         labels: {
-//           color: paletteColors.navy,
-
-//           font: {
-//             size: 20,
-//           },
-//         },
-//       },
-//       title: {
-//         display: true,
-//         text: graphTitle,
-//         position: "top",
-//         color: paletteColors.navy,
-
-//         font: {
-//           size: 45,
-//           color: paletteColors.navy,
-//         },
-//       },
-//     },
-//     grouped: true,
-//     offset: true,
-//     barPercentage: 1,
-//     scales: {
-//       x: {
-//         grid: { display: false },
-//         ticks: {
-//           color: paletteColors.burntGold,
-//           font: {
-//             size: 35,
-//           },
-//         },
-//       },
-//       y: {
-//         grid: { color: paletteColors.navy },
-//         ticks: {
-//           color: paletteColors.navy,
-
-//           font: {
-//             size: 25,
-//           },
-//         },
-//       },
-//     },
-//   };
-
-//   //Created at top of page, data lives in this file
-//   const data = barChartData;
-
-//   //actual element created
-//   return <Bar options={options} data={data} />;
-// };

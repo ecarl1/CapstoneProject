@@ -74,7 +74,7 @@ class AttendancePage extends Component {
       ],
 
       //USED FOR GRAPH
-      barChartLabels: [
+      xAxisLabels: [
         "Rent",
         "Groceries",
         "Utilities",
@@ -117,19 +117,22 @@ class AttendancePage extends Component {
   }
 
   //update filter
-  //called at updateDuration (runs every time a date is changed)
-  //called at ____ to handle course changes
+  //needs to be called whenever a state changes, so probably in all the handlers
+  //when any one param is changed, all filtering needs to be re-done (otherwise the filters will stack)
   updateFilter = () => {
     console.log("entered updateFilter()");
-    //check HERE if an update is even possible
-    //update regular data first, then check if compare is occuring
     var processedData = this.state.rawData; //begin with rawData, then filter before passing this processedData into the state vars used by the graph
-    console.log("A processedData: ", processedData);
+    var processedCompareData = this.state.rawData;
+    //console.log("A processedData: ", processedData);
+    var newBarData = new Array(this.state.duration + 1); //+1 since indexing starts at 0
+    var newCompareBarData = new Array(this.state.duration + 1); //+1 since indexing starts at 0
+    var newXLabel = new Array(this.state.duration + 1);
 
-    //if start & end are not defined, no filtering can be done (In final, these should be defined on init)
+    //if start & end are not defined, no filtering can be done (In final, these should be defined on init with most recent week in DB)
     if (this.state.startDate == null || this.state.endDate == null) return;
 
-    //filter date
+    //PROCESSING DEFAULT DATA
+    //filter date on defaultData
     processedData = processedData.filter((entry) => {
       const entryDate = new Date(entry.date); //turns value of entry into date object
       return (
@@ -139,49 +142,103 @@ class AttendancePage extends Component {
     });
     console.log("B processedData: ", processedData);
 
-    // //filter course
+    // //filter course on default Data
 
-    //update states
-    //processedData should be processed to all params of the default data
-    var newBarData = new Array(this.state.duration + 1); //+1 since indexing starts at 0
-    var newBarLabel = new Array(this.state.duration + 1);
+    //count data on each date
+    //processedData should be processed to all params of the default data by here
+
     var currDate = this.state.startDate; //will walk from start date to end
     //count occurences on each date
     while (currDate <= this.state.endDate && currDate >= this.state.startDate) {
       const onCurrDate = processedData.filter(
         (entry) => entry.date === currDate
       );
-      const index = this.calcDuration(this.state.startDate, currDate); //duration from start to curr = index in arr
-      newBarData[index] = onCurrDate.length;
-      newBarLabel[index] = currDate;
-      currDate = this.addDays(currDate, 1);
+      const index = this.calcDuration(this.state.startDate, currDate); //duration from start to curr == index in arr because I'm a genius
+      newBarData[index] = onCurrDate.length; //puts the sum of how many entries are on that date in that index of the array (which is what actually is passed to the graph)
+      newXLabel[index] = currDate; // X label will be each date
+      currDate = this.addDays(currDate, 1); //increment currDate by adding a day
     }
+    //END PROCESSING DEFAULT DATA
+
+    //PROCESSING COMPARE DATA
+    if (
+      this.state.comparing //if we are comparing
+    ) {
+      if (
+        //if we are comparing DATES
+        this.state.comparingType == 1 &&
+        this.state.compareStartDate != null
+      ) {
+        const compareStart = this.state.compareStartDate;
+        const compareEnd = this.addDays(compareStart, this.state.duration);
+
+        //filter date on compareDate where date is being compared
+        processedCompareData = processedCompareData.filter((entry) => {
+          const entryDate = new Date(entry.date); //turns value of entry into date object
+          return (
+            entryDate >= new Date(compareStart) && //after or on start date
+            entryDate <= new Date(compareEnd) //before or on end date
+          );
+        });
+        //console.log("B processedData: ", processedData);
+
+        // //filter course on compare Data
+
+        //count data on each date
+        //processedData should be processed to all params of the default data by here
+
+        var currDate = compareStart; //will walk from start date to end
+
+        //count occurences on each date
+        while (currDate >= compareStart && currDate <= compareEnd) {
+          const onCurrDate = processedData.filter(
+            (entry) => entry.date === currDate
+          );
+          const index = this.calcDuration(compareStart, currDate); //duration from start to curr == index in arr because I'm a genius
+          newCompareBarData[index] = onCurrDate.length; //puts the sum of how many entries are on that date in that index of the array (which is what actually is passed to the graph)
+          newXLabel[index] = newXLabel[index] + " vs " + currDate; // X label will be each date
+          currDate = this.addDays(currDate, 1); //increment currDate by adding a day
+        }
+      }
+      //END PROCESSING COMPARE DATA
+    } else {
+      //comparing is false
+      newCompareBarData = [0, 0, 0];
+    }
+
+    //THESE SHOULD ALL BE UPDATED & READY
+    //var newBarData
+    //var newCompareBarData
+    //var newXLabel
+
+    console.log("newCompareBarData: ", newCompareBarData);
+    console.log("newBarData: ", newBarData);
 
     this.setState(
       {
-        barChartLabels: newBarLabel,
+        xAxisLabels: newXLabel, //adjusts X axis labels
         defaultBarData: newBarData,
+        compareBarData: newCompareBarData,
       },
       () => {
         console.log("data updated successfully!");
       }
     );
-
-    //update graphTitle
-    const newGraphTitle =
-      "Attendance data: " + this.state.startDate + " to " + this.state.endDate;
-    this.setState({ graphTitle: newGraphTitle });
-    //update X axis labels barChartLabels[duration]
   };
 
   //Compare settings
   handleComparisonToggle = (isChecked) => {
-    this.setState({ comparing: isChecked });
+    this.setState({ comparing: isChecked }, () => {
+      this.updateFilter();
+    });
     console.log("compare");
+    this.updateFilter();
   };
 
   handleComparisonType = (value) => {
-    this.setState({ comparingType: value });
+    this.setState({ comparingType: value }, () => {
+      this.updateFilter();
+    });
     console.log(value);
   };
 
@@ -210,7 +267,6 @@ class AttendancePage extends Component {
         duration: days,
       });
       console.log("Duration: ", days);
-      this.updateFilter();
     }
   };
 
@@ -224,6 +280,7 @@ class AttendancePage extends Component {
       }
 
       this.updateDuration(); // Runs after state update
+      this.updateFilter();
     });
   };
 
@@ -237,24 +294,33 @@ class AttendancePage extends Component {
       }
 
       this.updateDuration(); // Runs after state update
+      this.updateFilter();
     });
   };
 
   handleCompareDate = (Date) => {
-    this.setState({ compareStartDate: Date });
-    console.log(Date);
+    // this.setState({ compareStartDate: Date });
+    // console.log(Date);
+    // this.updateFilter();
+
+    //make sure updateFilter() is a callback of the state update so that it WAITS until state is done updating to run
+    this.setState({ compareStartDate: Date }, () => {
+      this.updateFilter();
+    });
   };
   //Course methods
 
   handleCourseType = (type) => {
-    this.setState({ courseType: type });
+    this.setState({ courseType: type }, () => {
+      this.updateFilter();
+    });
     console.log("New type:", type);
   };
 
   createJSON() {
     this.state.CSVBarChartLabels = [
       "Month and Type",
-      ...this.state.barChartLabels,
+      ...this.state.xAxisLabels,
     ];
     this.state.CSVBarData = [
       this.state.defaultBarLabel,
@@ -379,7 +445,7 @@ class AttendancePage extends Component {
             <div id="print">
               <BargraphComp
                 graphTitle={this.state.graphTitle}
-                barChartLabels={this.state.barChartLabels}
+                xAxisLabels={this.state.xAxisLabels}
                 defaultBarLabel={this.state.defaultBarLabel}
                 defaultBarData={this.state.defaultBarData}
                 compareBarLabel={this.state.compareBarLabel}
