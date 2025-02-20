@@ -82,11 +82,23 @@ class BargraphComp extends React.Component {
       barPercentage: 1,
       scales: {
         x: {
-          grid: { display: false },
+          grid: { display: true },
           ticks: {
-            color: paletteColors.burntGold,
+            color: (context) => {
+              return context.index % 2 === 0
+                ? paletteColors.burntGold
+                : paletteColors.gold; // Alternating colors
+            },
             font: {
-              size: 20,
+              size: 15,
+            },
+            //maxRotation: 0, // Prevents slanted text
+            //minRotation: 0, // Forces text to stay horizontal
+            align: "center",
+            autoSkip: false,
+            callback: function (value, index, values) {
+              const label = this.getLabelForValue(value);
+              return label.includes(" vs ") ? label.split("vs") : label;
             },
           },
         },
