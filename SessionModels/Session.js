@@ -41,6 +41,7 @@ Session.upload = async function (file){
     //not sure what to do here
 }
 
+//has to be refined 
 Session.parse = async function(filePath){
     //const parsedText = { entryID: {}, date: {}, sessionType: {}, courseID: {}}
     const parsedData = [];

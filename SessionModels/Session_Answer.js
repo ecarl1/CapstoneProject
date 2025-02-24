@@ -5,12 +5,14 @@ const Question = require('./Question')
 const Answer = require('./Answer')
 
 const Session_Answer = sequelize.define('Session_Answer', {
+
+    //need to change this so there can be multiple answer and question ids
     answer_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
        
-    },
+    },  
     question_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
