@@ -127,6 +127,7 @@ class AttendancePage extends Component {
     var processedCompareData = this.state.rawData;
 
     //processed data vars above will be tallied per date & stored in the below arrays, which will be what gets passed to the graph
+    console.log("duration:", this.state.duration);
     var newBarData = new Array(this.state.duration + 1); //+1 since indexing starts at 0
     var newCompareBarData = new Array(this.state.duration + 1); //+1 since indexing starts at 0
 
@@ -306,7 +307,6 @@ class AttendancePage extends Component {
       this.updateFilter();
     });
     console.log("compare");
-    this.updateFilter();
   };
 
   handleComparisonType = (value) => {
@@ -334,13 +334,14 @@ class AttendancePage extends Component {
   };
 
   updateDuration = () => {
+    console.log("enter duration change");
     if (this.state.startDate && this.state.endDate) {
       let days = this.calcDuration(this.state.startDate, this.state.endDate);
 
       this.setState({ duration: days }, () => {
         this.updateFilter();
       });
-      console.log("Duration: ", days);
+      console.log("Duration set : ", days);
     }
   };
 
@@ -351,9 +352,9 @@ class AttendancePage extends Component {
       //make sure end date is before start
       if (this.calcDuration(this.state.startDate, this.state.endDate) < 0) {
         this.handleEndDate(this.addDays(Date, 7));
+      } else {
+        this.updateDuration();
       }
-
-      this.updateDuration(); // Runs after state update
     });
   };
 
@@ -361,11 +362,17 @@ class AttendancePage extends Component {
     //set end to given date
     this.setState({ endDate: Date }, () => {
       console.log("Updated endDate:", this.state.endDate);
+      //THIS IS WHERE THE CODE JUST STOPS
+      console.log(
+        "Duration handleEndDate check: ",
+        this.calcDuration(this.state.startDate, this.state.endDate)
+      );
       //make sure end is after start
       if (this.calcDuration(this.state.startDate, this.state.endDate) < 0) {
         this.handleStartDate(this.addDays(Date, -7));
+      } else {
+        this.updateDuration(); // Runs after state update
       }
-      this.updateDuration(); // Runs after state update
     });
   };
 
