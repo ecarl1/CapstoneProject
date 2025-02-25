@@ -98,7 +98,11 @@ class BargraphComp extends React.Component {
             autoSkip: false,
             callback: function (value, index, values) {
               const label = this.getLabelForValue(value);
-              return label.includes(" vs ") ? label.split("vs") : label;
+              // Check if label is defined and contains " vs "
+              if (label && label.includes(" vs ")) {
+                return label.split(" vs ");
+              }
+              return label; // Return label if it doesn't contain " vs "
             },
           },
         },

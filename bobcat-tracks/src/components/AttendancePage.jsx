@@ -98,9 +98,9 @@ class AttendancePage extends Component {
       comparing: false,
       comparingType: 1, // value 1 means DATE compare, value 2 means COURSE compare,
       //date
-      startDate: null,
-      endDate: null,
-      compareStartDate: null,
+      startDate: "2025-01-01",
+      endDate: "2025-01-01",
+      compareStartDate: "2025-01-01",
       duration: null,
       //course
       courseType: 0, //0 means all, 1 means specific course
@@ -127,7 +127,7 @@ class AttendancePage extends Component {
     var processedCompareData = this.state.rawData;
 
     //processed data vars above will be tallied per date & stored in the below arrays, which will be what gets passed to the graph
-    console.log("duration:", this.state.duration);
+    //console.log("duration:", this.state.duration);
     var newBarData = new Array(this.state.duration + 1); //+1 since indexing starts at 0
     var newCompareBarData = new Array(this.state.duration + 1); //+1 since indexing starts at 0
 
@@ -137,34 +137,46 @@ class AttendancePage extends Component {
     //if start & end are not defined, no filtering can be done (In final, these should be defined on init with most recent week in DB)
     if (this.state.startDate == null || this.state.endDate == null) return;
 
+    const startDate = this.state.startDate;
+    const endDate = this.state.endDate;
+    const compareStartDate = this.state.compareStartDate;
+    const comapreEndDate = this.addDays(
+      this.state.compareStartDate,
+      this.state.duration
+    );
+
+    const duration = this.state.duration;
+    console.log("filter Duration: ", duration);
+
+    console.log(
+      "start, end, compare start, comare end ",
+      startDate,
+      endDate,
+      compareStartDate,
+      comapreEndDate
+    );
+
     //PROCESSING DEFAULT DATA
     //filter date on defaultData
-    processedData = this.filterDates(
-      processedData,
-      this.state.startDate,
-      this.state.endDate
-    );
-    // //filter course on default Data
+    processedData = this.filterDates(processedData, startDate, endDate);
+    console.log("end filterDates: ", processedData);
+
+    // // //filter course on default Data
 
     //Now that processedData is filtered, we need to count occurances on each date
-    newBarData = this.dataToCountArray(
-      this.state.startDate,
-      this.state.endDate,
-      processedData
-    );
+    console.log("starting dataToCountArray");
+    newBarData = this.dataToCountArray(startDate, endDate, processedData);
+    console.log("end dataToCountArray", newBarData);
+
     //change X axis to reflect the dates. Append is FALSE because we aren't adding to an existing label (the compare WILL add to an existing label- the one made here!)
-    newXLabel = this.createXaxisLabels(
-      this.state.startDate,
-      this.state.endDate,
-      false,
-      null
-    );
+    console.log("starting create X labels");
+    newXLabel = this.createXaxisLabels(startDate, endDate, false, null);
     console.log("newXlabel after default ", newXLabel);
 
-    //PROCESSING COMPARE DATA
-    //this is a little trickier because there are 2 different ways to compare (date & time)
+    // //PROCESSING COMPARE DATA
+    // //this is a little trickier because there are 2 different ways to compare (date & time)
 
-    //if we are comparing
+    // //if we are comparing
     if (this.state.comparing) {
       //if we are comparing DATES
       //should have the same COURSE filter as default data, but a different DATE filter.
@@ -204,16 +216,16 @@ class AttendancePage extends Component {
       }
     }
 
-    //THESE SHOULD ALL BE UPDATED & READY
-    //var newBarData
-    //var newCompareBarData
-    //var newXLabel
+    // //THESE SHOULD ALL BE UPDATED & READY
+    var newBarData;
+    var newCompareBarData;
+    var newXLabel;
 
     console.log("newCompareBarData: ", newCompareBarData);
     console.log("newBarData: ", newBarData);
 
-    //need to update titles
-    //defaultBarLabel compareBarLabel
+    // //need to update titles
+    // //defaultBarLabel compareBarLabel
 
     var newGraphTitle = "";
     var newDefaultTitle = "";
@@ -245,6 +257,7 @@ class AttendancePage extends Component {
     }
 
     //SET STATE WITH ALL UPDATED VARS
+    console.log("starting state change on Filter");
     this.setState(
       {
         xAxisLabels: newXLabel, //adjusts X axis labels
@@ -255,22 +268,25 @@ class AttendancePage extends Component {
         compareBarLabel: newCompareTitle,
       },
       () => {
-        console.log("data updated successfully!");
+        console.log("data updated successfully! (END FILTER)");
       }
     );
+    console.log(" (END FILTER)");
   };
 
   filterDates = (objectArr, startDate, endDate) => {
+    console.log("enter filterDates");
     return objectArr.filter((entry) => {
-      const entryDate = new Date(entry.date); //turns value of entry into date object
+      const entryDate = new Date(entry.date + "T00:00:00Z"); //turns value of entry into date object
       return (
-        entryDate >= new Date(startDate) && //after or on start date
-        entryDate <= new Date(endDate) //before or on end date
+        entryDate >= new Date(startDate + "T00:00:00Z") && //after or on start date
+        entryDate <= new Date(endDate + "T00:00:00Z") //before or on end date
       );
     });
   };
 
   dataToCountArray = (start, end, data) => {
+    console.log("enter dataCountToArray");
     var returnData = new Array(this.state.duration + 1); //+1 since indexing starts at 0
     var currDate = start; //will walk from start date to end
 
@@ -282,6 +298,7 @@ class AttendancePage extends Component {
       //returnXLabel[index] = Xlabel[index] + " vs " + currDate; // X label will be each date
       currDate = this.addDays(currDate, 1); //increment currDate by adding a day
     }
+    console.log("returning dataCountToArray");
 
     return returnData;
   };
@@ -289,7 +306,14 @@ class AttendancePage extends Component {
     var returnXLabel = new Array(this.state.duration + 1); //+1 since indexing starts at 0
     var currDate = start; //will walk from start date to end
 
+    // for (var i; i <= this.state.duration; i++) {
+    //   var currDate = this.addDays(start, i);
+    //   returnXLabel[i] = append ? Xlabel[i] + " vs " + currDate : currDate;
+    //   //currDate = this.addDays(currDate, 1); //increment currDate by adding a day
+    // }
+
     while (currDate >= start && currDate <= end) {
+      console.log(currDate);
       const index = this.calcDuration(start, currDate); //duration from start to curr == index in arr because I'm a genius
       returnXLabel[index] = append
         ? Xlabel[index] + " vs " + currDate
@@ -303,10 +327,18 @@ class AttendancePage extends Component {
 
   //Compare settings
   handleComparisonToggle = (isChecked) => {
+    console.log("handleComparisonToggle called with:", isChecked);
+    console.log("Previous state:", this.state.comparing);
+
     this.setState({ comparing: isChecked }, () => {
+      console.log(
+        "calling updateFilter, new state comparing: ",
+        this.state.comparing
+      );
       this.updateFilter();
     });
-    console.log("compare");
+
+    console.log("compare toggled, state update requested:");
   };
 
   handleComparisonType = (value) => {
@@ -318,37 +350,63 @@ class AttendancePage extends Component {
 
   //Date methods
   calcDuration = (start, end) => {
-    start = new Date(start);
-    end = new Date(end);
+    start = new Date(start + "T00:00:00Z");
+    end = new Date(end + "T00:00:00Z");
     let days = end.getTime() - start.getTime();
     days = days / (1000 * 3600 * 24); //convert miliseconds to days
-    //days = Math.floor(days); //whole number
+    days = Math.floor(days); //whole number
 
     return days;
   };
 
   addDays = (start, add) => {
-    let newDate = new Date(start); // Create a new Date object from the input
-    newDate.setDate(newDate.getDate() + add); // Modify the date
-    return newDate.toISOString().split("T")[0]; // Format as "YYYY-MM-DD"
+    let newDate = new Date(start + "T00:00:00Z"); // Create a new Date object from the input
+    newDate.setDate(newDate.getDate() + add + 0.5); // Modify the date
+    newDate = newDate.toISOString().split("T")[0];
+
+    console.log("ADD DATE start " + start + " add " + add + " new " + newDate);
+
+    //needed because March 9th is longer than 1 day (daylight savings) and shit gets WHACK if this isn't here (infinite loop of march 9ths)
+    if (start == "2025-03-09") {
+      add = add - 1;
+      return this.addDays("2025-03-10", add);
+    }
+    return newDate; // Format as "YYYY-MM-DD"
   };
 
   updateDuration = () => {
-    console.log("enter duration change");
-    if (this.state.startDate && this.state.endDate) {
+    console.log(
+      "enter updateDuration: ",
+      this.state.startDate,
+      " ",
+      this.state.endDate
+    );
+    // console.log("start:", this.state.startDate);
+    // console.log("end:", this.state.endDate);
+    //console.log("test:" + (this.state.startDate && this.state.endDate));
+
+    if (this.state.startDate != null && this.state.endDate != null) {
+      console.log("true, end and start defined");
       let days = this.calcDuration(this.state.startDate, this.state.endDate);
+      console.log("Duration calc : ", days);
 
       this.setState({ duration: days }, () => {
         this.updateFilter();
       });
       console.log("Duration set : ", days);
     }
+
+    console.log("End updateDuration");
   };
 
   handleStartDate = (Date) => {
     //set start date to given date
     this.setState({ startDate: Date }, () => {
-      console.log("Updated start:", this.state.startDate);
+      // console.log("Updated start:", this.state.startDate);
+      // console.log(
+      //   "Duration handleEndDate check: ",
+      //   this.calcDuration(this.state.startDate, this.state.endDate)
+      // );
       //make sure end date is before start
       if (this.calcDuration(this.state.startDate, this.state.endDate) < 0) {
         this.handleEndDate(this.addDays(Date, 7));
@@ -361,12 +419,11 @@ class AttendancePage extends Component {
   handleEndDate = (Date) => {
     //set end to given date
     this.setState({ endDate: Date }, () => {
-      console.log("Updated endDate:", this.state.endDate);
-      //THIS IS WHERE THE CODE JUST STOPS
-      console.log(
-        "Duration handleEndDate check: ",
-        this.calcDuration(this.state.startDate, this.state.endDate)
-      );
+      //console.log("Updated endDate:", this.state.endDate);
+      // console.log(
+      //   "Duration handleEndDate check: ",
+      //   this.calcDuration(this.state.startDate, this.state.endDate)
+      // );
       //make sure end is after start
       if (this.calcDuration(this.state.startDate, this.state.endDate) < 0) {
         this.handleStartDate(this.addDays(Date, -7));
@@ -379,7 +436,7 @@ class AttendancePage extends Component {
   handleCompareDate = (Date) => {
     // this.setState({ compareStartDate: Date });
     // console.log(Date);
-    // this.updateFilter();
+    // ////this.updateFilter();
 
     //make sure updateFilter() is a callback of the state update so that it WAITS until state is done updating to run
     this.setState({ compareStartDate: Date }, () => {
