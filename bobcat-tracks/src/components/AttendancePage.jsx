@@ -361,14 +361,16 @@ class AttendancePage extends Component {
 
   addDays = (start, add) => {
     let newDate = new Date(start + "T00:00:00Z"); // Create a new Date object from the input
+    start = newDate;
     newDate.setDate(newDate.getDate() + add + 0.5); // Modify the date
     newDate = newDate.toISOString().split("T")[0];
 
     console.log("ADD DATE start " + start + " add " + add + " new " + newDate);
 
     //needed because March 9th is longer than 1 day (daylight savings) and shit gets WHACK if this isn't here (infinite loop of march 9ths)
-    if (start == "2025-03-09") {
-      add = add - 1;
+    if (start.getMonth() === 2 && start.getDate() === 9) {
+      console.log(" START DATE" + start + " MAR 9th");
+      add = add;
       return this.addDays("2025-03-10", add);
     }
     return newDate; // Format as "YYYY-MM-DD"

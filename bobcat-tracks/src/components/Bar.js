@@ -110,6 +110,8 @@ class BargraphComp extends React.Component {
           grid: { color: paletteColors.navy },
           ticks: {
             color: paletteColors.navy,
+            beginAtZero: true, // Ensures the y-axis starts at 0
+            stepSize: 1, // Sets the interval of ticks to 1 (whole numbers)
 
             font: {
               size: 25,
