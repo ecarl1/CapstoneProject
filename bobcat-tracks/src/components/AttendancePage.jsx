@@ -140,20 +140,23 @@ class AttendancePage extends Component {
     const startDate = this.state.startDate;
     const endDate = this.state.endDate;
     const compareStartDate = this.state.compareStartDate;
-    const comapreEndDate = this.addDays(
+    const compareEndDate = this.addDays(
       this.state.compareStartDate,
       this.state.duration
     );
+
+    const courseType = this.state.courseType;
+    const course = this.state.course
 
     const duration = this.state.duration;
     console.log("filter Duration: ", duration);
 
     console.log(
-      "start, end, compare start, comare end ",
+      "start, end, compare start, compare end ",
       startDate,
       endDate,
       compareStartDate,
-      comapreEndDate
+      compareEndDate
     );
 
     //PROCESSING DEFAULT DATA
@@ -162,6 +165,8 @@ class AttendancePage extends Component {
     console.log("end filterDates: ", processedData);
 
     // // //filter course on default Data
+    processedData = this.filterCourses(processedData, courseType, course);
+    console.log("end filterCourses: ", processedData)
 
     //Now that processedData is filtered, we need to count occurances on each date
     console.log("starting dataToCountArray");
@@ -285,6 +290,17 @@ class AttendancePage extends Component {
     });
   };
 
+  filterCourses = (objectArr, courseType, course) => {
+    console.log("enter filterCourses");
+    console.log(`Object Arr: ${objectArr}, Course Type: ${courseType}, Course: ${course}`)
+    if (courseType == 1) {
+      return objectArr.filter((entry) => {
+        return entry.courseName == course
+      });
+    };
+    return objectArr
+  };
+
   dataToCountArray = (start, end, data) => {
     console.log("enter dataCountToArray");
     var returnData = new Array(this.state.duration + 1); //+1 since indexing starts at 0
@@ -365,11 +381,11 @@ class AttendancePage extends Component {
     newDate.setDate(newDate.getDate() + add + 0.5); // Modify the date
     newDate = newDate.toISOString().split("T")[0];
 
-    console.log("ADD DATE start " + start + " add " + add + " new " + newDate);
+    //console.log("ADD DATE start " + start + " add " + add + " new " + newDate);
 
     //needed because March 9th is longer than 1 day (daylight savings) and shit gets WHACK if this isn't here (infinite loop of march 9ths)
     if (start.getMonth() === 2 && start.getDate() === 9) {
-      console.log(" START DATE" + start + " MAR 9th");
+      //console.log(" START DATE" + start + " MAR 9th");
       add = add;
       return this.addDays("2025-03-10", add);
     }

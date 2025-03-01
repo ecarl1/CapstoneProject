@@ -50,6 +50,8 @@ const CourseOption = ({
           <option value="BIO 101L" />
           <option value="FYS 101H" />
           <option value="QU 105" />
+          <option value="EN101" />
+
         </datalist>
 
         <div className="form-group options-form-element">
