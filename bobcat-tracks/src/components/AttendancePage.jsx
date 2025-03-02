@@ -147,6 +147,7 @@ class AttendancePage extends Component {
 
     const courseType = this.state.courseType;
     const course = this.state.course;
+    const compareCourse = this.state.compareCourse;
 
     const duration = this.state.duration;
     console.log("filter Duration: ", duration);
@@ -186,6 +187,7 @@ class AttendancePage extends Component {
       //if we are comparing DATES
       //should have the same COURSE filter as default data, but a different DATE filter.
 
+      //DATE comparison
       if (
         this.state.comparingType == 1 &&
         this.state.compareStartDate != null
@@ -199,6 +201,11 @@ class AttendancePage extends Component {
         );
 
         // //filter course on default Data
+        processedCompareData = this.filterCourses(
+          processedCompareData,
+          courseType,
+          course
+        );
 
         //Now that processedData is filtered, we need to count occurances on each date
         newCompareBarData = this.dataToCountArray(
@@ -218,13 +225,41 @@ class AttendancePage extends Component {
       }
       if (this.state.comparingType == 2 && this.state.compareCourse != null) {
         //should have the same DATE filter as default data, but a different COURSE filter.
+        console.log("step 1", startDate, endDate, processedCompareData);
+
+        processedCompareData = this.filterDates(
+          processedCompareData,
+          startDate,
+          endDate
+        );
+
+        console.log("step 2", processedCompareData);
+
+        //different COURSE filtering - cannot be "all", so pass 1 in manually
+        processedCompareData = this.filterCourses(
+          processedCompareData,
+          1,
+          compareCourse
+        );
+        console.log("step 3", processedCompareData);
+
+        //compare data should be properly filtered.
+        newCompareBarData = this.dataToCountArray(
+          startDate,
+          endDate,
+          processedCompareData
+        );
+        console.log("step 4", processedCompareData);
+        console.log("step 4 data", newCompareBarData);
+
+        //X axis does not need updating
       }
     }
 
-    // //THESE SHOULD ALL BE UPDATED & READY
-    var newBarData;
-    var newCompareBarData;
-    var newXLabel;
+    /* //THESE SHOULD ALL BE UPDATED & READY
+    // var newBarData;
+    // var newCompareBarData;
+    // var newXLabel;*/
 
     console.log("newCompareBarData: ", newCompareBarData);
     console.log("newBarData: ", newBarData);
@@ -237,6 +272,7 @@ class AttendancePage extends Component {
     var newCompareTitle = "";
 
     if (this.state.comparing) {
+      //comparing 2 dates
       if (this.state.comparingType == 1) {
         newGraphTitle =
           "Attendance Data: " +
@@ -249,6 +285,21 @@ class AttendancePage extends Component {
 
         newDefaultTitle = "start:" + this.state.startDate;
         newCompareTitle = "start:" + this.state.compareStartDate;
+      }
+      //comparing 2 courses
+      if (this.state.comparingType == 2) {
+        const inputString =
+          this.state.courseType == 0 ? "All courses" : this.state.course;
+        newGraphTitle =
+          "Attendance Data: " +
+          inputString +
+          " VS " +
+          this.state.compareCourse +
+          " starting on " +
+          startDate;
+
+        newDefaultTitle = inputString;
+        newCompareTitle = this.state.compareCourse;
       }
     } //not comparing
     else {
@@ -479,6 +530,13 @@ class AttendancePage extends Component {
     console.log("New course:", course);
   };
 
+  handleCompareCourseChange = (course) => {
+    this.setState({ compareCourse: course }, () => {
+      this.updateFilter();
+    });
+    console.log("New compare course:", course);
+  };
+
   //download method
 
   createJSON() {
@@ -602,6 +660,7 @@ class AttendancePage extends Component {
               course={this.state.course}
               compareCourse={this.state.compareCourse}
               onCourseChange={this.handleCourseChange}
+              onCompareCourseChange={this.handleCompareCourseChange}
             />
             {/* changes what filters & parameters data should be displayed */}
           </div>

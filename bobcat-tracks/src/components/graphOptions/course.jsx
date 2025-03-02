@@ -7,6 +7,7 @@ const CourseOption = ({
   comparing,
   comparingType,
   onCourseChange,
+  onCompareCourseChange,
 }) => {
   const {
     register,
@@ -76,6 +77,7 @@ const CourseOption = ({
             list="datalistOptions"
             aria-describedby="dateSelect"
             placeholder="ABC 123"
+            onChange={(e) => onCompareCourseChange(e.target.value)}
             disabled={!(comparing && comparingType == 2)}
           />
           <label htmlFor="course">
