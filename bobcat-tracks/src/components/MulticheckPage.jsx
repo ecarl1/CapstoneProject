@@ -66,10 +66,10 @@ class MulticheckPage extends Component {
       compareBarData: [600, 240, 240, 150, 130],
 
       //Default graph name, defined in component call
-      graphTitle: "Multiselect Graph",
+      graphTitle: "Multicheck Graph",
 
       //PageOptions information
-      pageName: "Multiselect",
+      pageName: "Multicheck",
       //compare
       comparing: false,
       comparingType: 1, // value 1 means DATE compare, value 2 means COURSE compare,
@@ -82,7 +82,8 @@ class MulticheckPage extends Component {
       courseType: 0, //0 means all, 1 means specific course
       course: null,
       compareCourse: null,
-      //topic
+      //skill
+      skill: null,
 
       //used for csv download
       CSVBarChartLabels: [],
@@ -167,6 +168,14 @@ class MulticheckPage extends Component {
     this.setState({ courseType: type });
     console.log("New type:", type);
   };
+
+  //skill method
+  handleSkillChange = (skill) => {
+    this.setState({ skill: skill });
+    console.log("New type:", skill);
+  };
+
+  //Download methods
 
   createJSON() {
     this.state.CSVBarChartLabels = [
@@ -288,6 +297,8 @@ class MulticheckPage extends Component {
               onCourseType={this.handleCourseType}
               course={this.state.course}
               compareCourse={this.state.compareCourse}
+              //skill info
+              onSkillChange={this.handleSkillChange}
             />
             {/* changes what filters & parameters data should be displayed */}
           </div>
