@@ -146,7 +146,7 @@ class AttendancePage extends Component {
     );
 
     const courseType = this.state.courseType;
-    const course = this.state.course
+    const course = this.state.course;
 
     const duration = this.state.duration;
     console.log("filter Duration: ", duration);
@@ -166,7 +166,7 @@ class AttendancePage extends Component {
 
     // // //filter course on default Data
     processedData = this.filterCourses(processedData, courseType, course);
-    console.log("end filterCourses: ", processedData)
+    console.log("end filterCourses: ", processedData);
 
     //Now that processedData is filtered, we need to count occurances on each date
     console.log("starting dataToCountArray");
@@ -292,13 +292,15 @@ class AttendancePage extends Component {
 
   filterCourses = (objectArr, courseType, course) => {
     console.log("enter filterCourses");
-    console.log(`Object Arr: ${objectArr}, Course Type: ${courseType}, Course: ${course}`)
+    console.log(
+      `Object Arr: ${objectArr}, Course Type: ${courseType}, Course: ${course}`
+    );
     if (courseType == 1) {
       return objectArr.filter((entry) => {
-        return entry.courseName == course
+        return entry.courseName == course;
       });
-    };
-    return objectArr
+    }
+    return objectArr;
   };
 
   dataToCountArray = (start, end, data) => {
@@ -470,6 +472,15 @@ class AttendancePage extends Component {
     console.log("New type:", type);
   };
 
+  handleCourseChange = (course) => {
+    this.setState({ course: course }, () => {
+      this.updateFilter();
+    });
+    console.log("New course:", course);
+  };
+
+  //download method
+
   createJSON() {
     this.state.CSVBarChartLabels = [
       "Month and Type",
@@ -590,6 +601,7 @@ class AttendancePage extends Component {
               onCourseType={this.handleCourseType}
               course={this.state.course}
               compareCourse={this.state.compareCourse}
+              onCourseChange={this.handleCourseChange}
             />
             {/* changes what filters & parameters data should be displayed */}
           </div>

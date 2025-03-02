@@ -6,6 +6,7 @@ const CourseOption = ({
   onCourseType,
   comparing,
   comparingType,
+  onCourseChange,
 }) => {
   const {
     register,
@@ -51,7 +52,6 @@ const CourseOption = ({
           <option value="FYS 101H" />
           <option value="QU 105" />
           <option value="EN101" />
-
         </datalist>
 
         <div className="form-group options-form-element">
@@ -61,6 +61,7 @@ const CourseOption = ({
             list="datalistOptions"
             aria-describedby="dateSelect"
             placeholder="ABC 123"
+            onChange={(e) => onCourseChange(e.target.value)}
             disabled={courseType == 0}
           />
           <label htmlFor="course">

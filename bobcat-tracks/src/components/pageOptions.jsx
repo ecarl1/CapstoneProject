@@ -30,6 +30,7 @@ class PageOptions extends Component {
             comparing={this.props.comparing}
             courseType={this.props.courseType}
             onCourseType={this.props.onCourseType}
+            onCourseChange={this.props.onCourseChange}
             // course={this.props.course}
             // compareCourse={this.props.compareCourse}
           />
