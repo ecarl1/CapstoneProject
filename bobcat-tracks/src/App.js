@@ -7,15 +7,32 @@ import UploadPage from "./components/UploadPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
+import MulticheckPage from "./components/MulticheckPage";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path ="/change-password" element={<ChangePasswordPage/>}></Route>
+        <Route path="/change-password" element={<ChangePasswordPage />}></Route>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/attendance" element={ <ProtectedRoute><AttendancePage /></ProtectedRoute>} />
-        <Route path="/upload" element={<ProtectedRoute><UploadPage /></ProtectedRoute>} />
+        <Route path="/multicheck" element={<MulticheckPage />} />
+
+        <Route
+          path="/attendance"
+          element={
+            <ProtectedRoute>
+              <AttendancePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/upload"
+          element={
+            <ProtectedRoute>
+              <UploadPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
     // <div className="App">

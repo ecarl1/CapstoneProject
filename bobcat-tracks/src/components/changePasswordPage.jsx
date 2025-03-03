@@ -16,6 +16,7 @@ const ChangePasswordPage = () => {
     setError,
   } = useForm();
 
+  //add the confrim password here
   const navigate = useNavigate();
 
   //submit function
@@ -30,7 +31,7 @@ const ChangePasswordPage = () => {
         });
 
         console.log("Password changed successfully:", response.data);
-        alert("Password changed successfully!");
+        //alert("Password changed successfully!");
         navigate("/"); //Redirecting to login after password change
     } catch (error) {
         console.error("Password change error:", error);
@@ -83,6 +84,8 @@ const ChangePasswordPage = () => {
           />
           {errors.newPassword && <div className="alert alert-danger">{errors.newPassword.message}</div>}
         </div>
+
+        
 
         <button type="submit" disabled={isSubmitting} className="btn btn-primary submit-btn login-form-element">
           {isSubmitting ? "Loading..." : "Change Password"}
