@@ -6,6 +6,8 @@ const CourseOption = ({
   onCourseType,
   comparing,
   comparingType,
+  onCourseChange,
+  onCompareCourseChange,
 }) => {
   const {
     register,
@@ -50,6 +52,7 @@ const CourseOption = ({
           <option value="BIO 101L" />
           <option value="FYS 101H" />
           <option value="QU 105" />
+          <option value="EN101" />
         </datalist>
 
         <div className="form-group options-form-element">
@@ -59,6 +62,7 @@ const CourseOption = ({
             list="datalistOptions"
             aria-describedby="dateSelect"
             placeholder="ABC 123"
+            onChange={(e) => onCourseChange(e.target.value)}
             disabled={courseType == 0}
           />
           <label htmlFor="course">
@@ -73,6 +77,7 @@ const CourseOption = ({
             list="datalistOptions"
             aria-describedby="dateSelect"
             placeholder="ABC 123"
+            onChange={(e) => onCompareCourseChange(e.target.value)}
             disabled={!(comparing && comparingType == 2)}
           />
           <label htmlFor="course">
