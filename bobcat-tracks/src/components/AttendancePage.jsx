@@ -74,20 +74,14 @@ class AttendancePage extends Component {
       // ],
 
       //USED FOR GRAPH
-      xAxisLabels: [
-        "Rent",
-        "Groceries",
-        "Utilities",
-        "Entertainment",
-        "Transportation",
-      ],
+      xAxisLabels: [],
       //Should be default graph name
-      defaultBarLabel: "April Attendence",
-      defaultBarData: [160, 240, 130, 120, 600],
+      defaultBarLabel: "",
+      defaultBarData: [],
 
       //name of what is being compared & param
-      compareBarLabel: "February Attendence",
-      compareBarData: [600, 240, 240, 150, 130],
+      compareBarLabel: "",
+      compareBarData: [],
 
       //Default graph name, defined in component call
       graphTitle: "Attendance Graph",
@@ -99,7 +93,7 @@ class AttendancePage extends Component {
       comparingType: 1, // value 1 means DATE compare, value 2 means COURSE compare,
       //date
       startDate: "2024-01-01",
-      endDate: "2024-01-01",
+      endDate: "2024-01-08",
       compareStartDate: "2024-01-01",
       duration: null,
       //course
