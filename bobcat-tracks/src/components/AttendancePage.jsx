@@ -98,9 +98,9 @@ class AttendancePage extends Component {
       comparing: false,
       comparingType: 1, // value 1 means DATE compare, value 2 means COURSE compare,
       //date
-      startDate: "2025-01-01",
-      endDate: "2025-01-01",
-      compareStartDate: "2025-01-01",
+      startDate: "2024-01-01",
+      endDate: "2024-01-01",
+      compareStartDate: "2024-01-01",
       duration: null,
       //course
       courseType: 0, //0 means all, 1 means specific course
