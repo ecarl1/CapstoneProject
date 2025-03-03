@@ -42,7 +42,7 @@ class AttendancePage extends Component {
   
   
         console.log("Request successful:", response.data);
-        alert("Request successful!");
+        //alert("Request successful!");
 
         return response.data;
       } catch (error) {
