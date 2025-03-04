@@ -5,45 +5,48 @@ import { useNavigate } from "react-router-dom";
 import LoginNavBar from "./loginNavBar";
 import Footer from "./footer";
 
-const url = "http://localhost:3000/api/user/change-password"; // Backend route for changing password
-
-//when the change password is executed
 const ChangePasswordPage = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
     setError,
   } = useForm();
 
-  //add the confrim password here
   const navigate = useNavigate();
 
-  //submit function
+  // Watching newPassword to compare with confirmPassword
+  const newPassword = watch("newPassword");
+
+  // Submit function
   const onSubmit = async (data) => {
-    try {
-        console.log("Sending password change request:", data); 
-
-        const response = await axios.post("http://localhost:3000/api/user/change-password", {
-            username: data.username,
-            oldPassword: data.oldPassword,
-            newPassword: data.newPassword,
-        });
-
-        console.log("Password changed successfully:", response.data);
-        //alert("Password changed successfully!");
-        navigate("/"); //Redirecting to login after password change
-    } catch (error) {
-        console.error("Password change error:", error);
-        if (error.response) {
-            console.error("Server Response:", error.response.data); 
-            setError("root", { message: error.response.data.message });
-        } else {
-            setError("root", { message: "Something went wrong. Please try again." });
-        }
+    if (data.newPassword !== data.confirmNewPassword) {
+      setError("confirmNewPassword", { message: "Passwords do not match" });
+      return;
     }
-};
 
+    try {
+      console.log("Sending password change request:", data);
+
+      const response = await axios.post("http://localhost:3000/api/user/change-password", {
+        username: data.username,
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword,
+      });
+
+      console.log("Password changed successfully:", response.data);
+      navigate("/"); // Redirecting to login after password change
+    } catch (error) {
+      console.error("Password change error:", error);
+      if (error.response) {
+        console.error("Server Response:", error.response.data);
+        setError("root", { message: error.response.data.message });
+      } else {
+        setError("root", { message: "Something went wrong. Please try again." });
+      }
+    }
+  };
 
   return (
     <div>
@@ -85,7 +88,19 @@ const ChangePasswordPage = () => {
           {errors.newPassword && <div className="alert alert-danger">{errors.newPassword.message}</div>}
         </div>
 
-        
+        <div className="form-group login-form-element">
+          <label htmlFor="confirmNewPassword">Confirm New Password</label>
+          <input
+            {...register("confirmNewPassword", {
+              required: "Please confirm your new password",
+              validate: value => value === newPassword || "Passwords do not match",
+            })}
+            type="password"
+            className="form-control"
+            id="confirmNewPassword"
+          />
+          {errors.confirmNewPassword && <div className="alert alert-danger">{errors.confirmNewPassword.message}</div>}
+        </div>
 
         <button type="submit" disabled={isSubmitting} className="btn btn-primary submit-btn login-form-element">
           {isSubmitting ? "Loading..." : "Change Password"}
@@ -97,7 +112,7 @@ const ChangePasswordPage = () => {
 
         {errors.root && <div className="alert alert-danger">{errors.root.message}</div>}
       </form>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

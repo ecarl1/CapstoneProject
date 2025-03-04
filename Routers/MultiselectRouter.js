@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { Op, Sequelize } = require('sequelize'); // Sequelize functions
 const Question = require('../SessionModels/Question');
 const Answer = require('../SessionModels/Answer');
 const Session_Answer = require('../SessionModels/Session_Answer'); 
@@ -14,6 +15,71 @@ router.get('/questions', async (req, res) => {
     } catch (error) {
         console.error('Error fetching questions:', error);
         res.status(500).json({ error: 'Failed to fetch questions.' });
+    }
+});
+
+//getting all questions
+//create a call with that passes in a specific question id 
+
+router.get('/questions/:id/answer-counts', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // Fetch the question to ensure it exists
+        const question = await Question.findByPk(id, {
+            attributes: ['question_id', 'question_text'],
+        });
+
+        if (!question) {
+            return res.status(404).json({ error: 'Question not found.' });
+        }
+
+        // Fetch answer counts from the Session_Answer table
+        const answerCounts = await Session_Answer.findAll({
+            where: { question_id: id },
+            attributes: [
+                'answer_id',
+                [Sequelize.fn('COUNT', Sequelize.col('answer_id')), 'count'],
+            ],
+            group: ['answer_id'],
+            raw: true,
+        });
+
+        if (answerCounts.length === 0) {
+            return res.status(404).json({ error: 'No answers found for this question.' });
+        }
+
+        // Extract answer IDs from answerCounts to fetch answer texts
+        const answerIds = answerCounts.map(a => a.answer_id);
+
+        // Fetch answer texts from the Answer table
+        const answers = await Answer.findAll({
+            where: { answer_id: { [Op.in]: answerIds } },
+            attributes: ['answer_id', 'answer_text'],
+            raw: true,
+        });
+
+        // Map answerCounts with corresponding answer_texts
+        const results = answerCounts.map(ac => {
+            const answer = answers.find(a => a.answer_id === ac.answer_id);
+            return {
+                answer_id: ac.answer_id,
+                answer_text: answer ? answer.answer_text : 'Unknown',
+                count: ac.count,
+            };
+        });
+
+        res.status(200).json({
+            question: {
+                question_id: question.question_id,
+                question_text: question.question_text,
+            },
+            answers: results,
+        });
+
+    } catch (error) {
+        console.error('Error fetching answer counts:', error);
+        res.status(500).json({ error: 'Failed to fetch answer counts.' });
     }
 });
 
