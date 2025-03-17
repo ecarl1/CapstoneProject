@@ -40,54 +40,48 @@ class AttendancePage extends Component {
 
         console.log("Request successful:", response.data);
         //alert("Request successful!");
-
+        this.setState({ rawData: response.data });
         return response.data; //Attendance Data being returned
       } catch (error) {
         console.error("Request error:", error);
       }
     };
-    //request();
+
     this.state = {
       //
-      //rawData: request(),
-      rawData: [
-        { date: "2025-02-13", courseName: "EN101" },
-        { date: "2025-02-13", courseName: "QU105" },
-        { date: "2025-02-14", courseName: "BIO101" },
-        { date: "2025-02-14", courseName: "EN101" },
-        { date: "2025-02-15", courseName: "CHE101" },
-        { date: "2025-02-15", courseName: "FYS101" },
-        { date: "2025-02-16", courseName: "QU105" },
-        { date: "2025-02-16", courseName: "CHE101" },
-        { date: "2025-02-16", courseName: "EN101" },
-        //{ date: "2025-02-17", courseName: "BIO101" },
-        { date: "2025-02-17", courseName: "FYS101" },
-        { date: "2025-02-18", courseName: "QU105" },
-        { date: "2025-02-18", courseName: "CHE101" },
-        { date: "2025-02-18", courseName: "EN101" },
-        { date: "2025-02-19", courseName: "BIO101" },
-        { date: "2025-02-19", courseName: "CHE101" },
-        { date: "2025-02-19", courseName: "FYS101" },
-        { date: "2025-02-20", courseName: "QU105" },
-        { date: "2025-02-20", courseName: "EN101" },
-        { date: "2025-02-20", courseName: "BIO101" },
-      ],
+      rawData: [],
+      // rawData: [
+      //   { date: "2025-02-13", courseName: "EN101" },
+      //   { date: "2025-02-13", courseName: "QU105" },
+      //   { date: "2025-02-14", courseName: "BIO101" },
+      //   { date: "2025-02-14", courseName: "EN101" },
+      //   { date: "2025-02-15", courseName: "CHE101" },
+      //   { date: "2025-02-15", courseName: "FYS101" },
+      //   { date: "2025-02-16", courseName: "QU105" },
+      //   { date: "2025-02-16", courseName: "CHE101" },
+      //   { date: "2025-02-16", courseName: "EN101" },
+      //   //{ date: "2025-02-17", courseName: "BIO101" },
+      //   { date: "2025-02-17", courseName: "FYS101" },
+      //   { date: "2025-02-18", courseName: "QU105" },
+      //   { date: "2025-02-18", courseName: "CHE101" },
+      //   { date: "2025-02-18", courseName: "EN101" },
+      //   { date: "2025-02-19", courseName: "BIO101" },
+      //   { date: "2025-02-19", courseName: "CHE101" },
+      //   { date: "2025-02-19", courseName: "FYS101" },
+      //   { date: "2025-02-20", courseName: "QU105" },
+      //   { date: "2025-02-20", courseName: "EN101" },
+      //   { date: "2025-02-20", courseName: "BIO101" },
+      // ],
 
       //USED FOR GRAPH
-      xAxisLabels: [
-        "Rent",
-        "Groceries",
-        "Utilities",
-        "Entertainment",
-        "Transportation",
-      ],
+      xAxisLabels: [],
       //Should be default graph name
-      defaultBarLabel: "April Attendence",
-      defaultBarData: [160, 240, 130, 120, 600],
+      defaultBarLabel: "",
+      defaultBarData: [],
 
       //name of what is being compared & param
-      compareBarLabel: "February Attendence",
-      compareBarData: [600, 240, 240, 150, 130],
+      compareBarLabel: "",
+      compareBarData: [],
 
       //Default graph name, defined in component call
       graphTitle: "Attendance Graph",
@@ -98,9 +92,9 @@ class AttendancePage extends Component {
       comparing: false,
       comparingType: 1, // value 1 means DATE compare, value 2 means COURSE compare,
       //date
-      startDate: "2025-01-01",
-      endDate: "2025-01-01",
-      compareStartDate: "2025-01-01",
+      startDate: "2024-01-01",
+      endDate: "2024-01-08",
+      compareStartDate: "2024-01-01",
       duration: null,
       //course
       courseType: 0, //0 means all, 1 means specific course
@@ -114,6 +108,7 @@ class AttendancePage extends Component {
       //used for compare csv download
       compareCSVBarData: [],
     };
+    request();
   }
 
   //update filter
@@ -121,6 +116,7 @@ class AttendancePage extends Component {
   //when any one param is changed, all filtering needs to be re-done (otherwise the filters will stack)
   updateFilter = () => {
     console.log("entered updateFilter()");
+    console.log(this.state.rawData);
 
     //begin with rawData, which will then be filtered according to params
     var processedData = this.state.rawData;
@@ -331,6 +327,7 @@ class AttendancePage extends Component {
   };
 
   filterDates = (objectArr, startDate, endDate) => {
+    console.log(objectArr);
     console.log("enter filterDates");
     return objectArr.filter((entry) => {
       const entryDate = new Date(entry.date + "T00:00:00Z"); //turns value of entry into date object
