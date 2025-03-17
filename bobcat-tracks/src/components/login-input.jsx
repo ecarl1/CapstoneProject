@@ -16,41 +16,37 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const onSubmit = async (data) => {
     try {
-      //console.log(data.username);
-       //const user = await User.findUser("testuser", "password123");
-      console.log("Sending login request:", data);
+        console.log("Sending login request:", data);
 
-      const response = await axios.post(url,{
-        username: data.username,
-        password: data.password,
-      });
+        const response = await axios.post(url, {
+            username: data.username,
+            password: data.password,
+        });
 
+        console.log("Login successful:", response.data);
 
+        if (response.data.user) {  
+            localStorage.setItem('token', response.data.token);
+            console.log("Token stored.");
 
-      console.log("Login is successful:", response.data , "The token is", response.token);
-      //alert("Login is successful!");
+            console.log("User data received:", response.data.user);
+            localStorage.setItem("user", JSON.stringify(response.data.user)); 
 
-      if (response.data.user.token) {
-        localStorage.setItem('token', response.data.user.token);
-        console.log("Token is stored navigating to /attendance");
-        navigate('/attendance');
-      }
+            navigate('/attendance');
+        } else {
+            console.error("Error: User data is missing in response!");
+        }
 
-
-
-      // Redirect user after login (if using React Router)
-      // window.location.href = "/dashboard"; // Or use react-router's useNavigate()
-      return response.data;
     } catch (error) {
-      console.error("Login error:", error);
-
-      if (error.response) {
-        setError("root", { message: error.response.data.error });
-      } else {
-        setError("root", { message: "Something went wrong. Please try again." });
-      }
+        console.error("Login error:", error);
+        if (error.response) {
+            setError("root", { message: error.response.data.error });
+        } else {
+            setError("root", { message: "Something went wrong. Please try again." });
+        }
     }
-  };
+};
+
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
