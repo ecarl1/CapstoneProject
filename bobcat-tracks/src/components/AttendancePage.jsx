@@ -366,7 +366,7 @@ class AttendancePage extends Component {
     );
     if (courseType == 1) {
       return objectArr.filter((entry) => {
-        return entry.courseName == course;
+        return entry.course_name == course;
       });
     }
     return objectArr;
