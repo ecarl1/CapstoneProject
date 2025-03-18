@@ -40,8 +40,11 @@ class AttendancePage extends Component {
 
         console.log("Request successful:", response.data);
         //alert("Request successful!");
-        this.setState({ rawData: response.data });
-        return response.data; //Attendance Data being returned
+
+        //Attendance Data being assigned to state & updating state to init. date values
+        this.setState({ rawData: response.data }, () => {
+          this.initDates();
+        });
       } catch (error) {
         console.error("Request error:", error);
       }
@@ -92,9 +95,9 @@ class AttendancePage extends Component {
       comparing: false,
       comparingType: 1, // value 1 means DATE compare, value 2 means COURSE compare,
       //date
-      startDate: "2024-01-01",
-      endDate: "2024-01-08",
-      compareStartDate: "2024-01-01",
+      startDate: null,
+      endDate: null,
+      compareStartDate: null,
       duration: null,
       //course
       courseType: 0, //0 means all, 1 means specific course
@@ -110,6 +113,24 @@ class AttendancePage extends Component {
     };
     request();
   }
+
+  //init dates based on most recent date in data
+  initDates = () => {
+    let mostRecent = this.state.rawData[0].date;
+    for (let i = 1; i < this.state.rawData.length; i++) {
+      const currDate = this.state.rawData[i].date;
+      if (this.calcDuration(mostRecent, currDate) > 0) {
+        mostRecent = currDate;
+      }
+    }
+
+    let start = this.addDays(mostRecent, -7);
+    let end = mostRecent;
+
+    this.handleStartDate(start);
+    this.handleEndDate(end);
+    this.handleCompareDate(start);
+  };
 
   //update filter
   //needs to be called whenever a state changes, so probably in all the handlers

@@ -20,16 +20,18 @@ const RegisterPage = () => {
     try {
       console.log("Sending registration request:", data);
 
-      const response = await axios.post("http://localhost:3000/api/user/register", {
-        username: data.username,
-        password: data.password,
-        fname: data.fname,
-        lname: data.lname,
-        pref_name: data.pref_name,
-        user_type: "admin",
-        email: data.email,
-    });
-    
+      const response = await axios.post(
+        "http://localhost:3000/api/user/register",
+        {
+          username: data.username,
+          password: data.password,
+          fname: data.fname,
+          lname: data.lname,
+          pref_name: data.pref_name,
+          user_type: "admin",
+          email: data.email,
+        }
+      );
 
       console.log("User registered successfully:", response.data);
       navigate("/"); // Redirect to login page after successful registration
@@ -39,7 +41,9 @@ const RegisterPage = () => {
         console.error("Server Response:", error.response.data);
         setError("root", { message: error.response.data.message });
       } else {
-        setError("root", { message: "Something went wrong. Please try again." });
+        setError("root", {
+          message: "Something went wrong. Please try again.",
+        });
       }
     }
   };
@@ -48,7 +52,7 @@ const RegisterPage = () => {
     <div>
       <LoginNavBar />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-group login-form-element">
+        <div className="form-group login-form-element login-window">
           <label htmlFor="username">Username</label>
           <input
             {...register("username", { required: "Username is required" })}
@@ -56,24 +60,31 @@ const RegisterPage = () => {
             className="form-control"
             id="username"
           />
-          {errors.username && <div className="alert alert-danger">{errors.username.message}</div>}
+          {errors.username && (
+            <div className="alert alert-danger">{errors.username.message}</div>
+          )}
         </div>
 
-        <div className="form-group login-form-element">
+        <div className="form-group login-form-element login-window">
           <label htmlFor="password">Password</label>
           <input
             {...register("password", {
               required: "Password is required",
-              minLength: { value: 8, message: "Password must be at least 8 characters" },
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters",
+              },
             })}
             type="password"
             className="form-control"
             id="password"
           />
-          {errors.password && <div className="alert alert-danger">{errors.password.message}</div>}
+          {errors.password && (
+            <div className="alert alert-danger">{errors.password.message}</div>
+          )}
         </div>
 
-        <div className="form-group login-form-element">
+        <div className="form-group login-form-element login-window">
           <label htmlFor="fname">First Name</label>
           <input
             {...register("fname", { required: "First name is required" })}
@@ -81,10 +92,12 @@ const RegisterPage = () => {
             className="form-control"
             id="fname"
           />
-          {errors.fname && <div className="alert alert-danger">{errors.fname.message}</div>}
+          {errors.fname && (
+            <div className="alert alert-danger">{errors.fname.message}</div>
+          )}
         </div>
 
-        <div className="form-group login-form-element">
+        <div className="form-group login-form-element login-window">
           <label htmlFor="lname">Last Name</label>
           <input
             {...register("lname", { required: "Last name is required" })}
@@ -92,10 +105,12 @@ const RegisterPage = () => {
             className="form-control"
             id="lname"
           />
-          {errors.lname && <div className="alert alert-danger">{errors.lname.message}</div>}
+          {errors.lname && (
+            <div className="alert alert-danger">{errors.lname.message}</div>
+          )}
         </div>
 
-        <div className="form-group login-form-element">
+        <div className="form-group login-form-element login-window">
           <label htmlFor="pref_name">Preferred Name</label>
           <input
             {...register("pref_name")}
@@ -105,29 +120,44 @@ const RegisterPage = () => {
           />
         </div>
 
-        <div className="form-group login-form-element">
+        <div className="form-group login-form-element login-window">
           <label htmlFor="email">Email</label>
           <input
             {...register("email", {
               required: "Email is required",
-              pattern: { value: /\S+@\S+\.\S+/, message: "Invalid email format" },
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "Invalid email format",
+              },
             })}
             type="email"
             className="form-control"
             id="email"
           />
-          {errors.email && <div className="alert alert-danger">{errors.email.message}</div>}
+          {errors.email && (
+            <div className="alert alert-danger">{errors.email.message}</div>
+          )}
         </div>
 
-        <button type="submit" disabled={isSubmitting} className="btn btn-primary submit-btn login-form-element">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="btn btn-primary submit-btn login-form-element login-window"
+        >
           {isSubmitting ? "Loading..." : "Create Account"}
         </button>
 
-        <button type="button" className="btn btn-secondary login-form-element" onClick={() => navigate("/")}>
+        <button
+          type="button"
+          className="btn btn-secondary login-form-element login-window"
+          onClick={() => navigate("/")}
+        >
           Back to Login
         </button>
 
-        {errors.root && <div className="alert alert-danger">{errors.root.message}</div>}
+        {errors.root && (
+          <div className="alert alert-danger">{errors.root.message}</div>
+        )}
       </form>
       <Footer />
     </div>
