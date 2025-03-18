@@ -1,14 +1,45 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 class NavBar extends Component {
   //NavBar reactivity doesn't work once it abbreviates- neither does REACT demo
   //See Ruby after break for help
 
   state = {
+    user: null,
     login: true,
   };
 
+  componentDidMount() {
+    const storedUser = localStorage.getItem("user");
+    console.log("Retrieved from localStorage:", storedUser); 
+
+    if (storedUser) {
+        try {
+            const parsedUser = JSON.parse(storedUser);
+            console.log("Parsed User:", parsedUser);
+
+            if (parsedUser.User && parsedUser.User.fname) {
+                this.setState({ user: parsedUser }, () => {
+                    console.log("Updated State:", this.state.user);
+                });
+            } else {
+                console.warn("User object exists, but fname is missing:", parsedUser);
+            }
+        } catch (error) {
+            console.error("Error parsing user data:", error);
+        }
+    } else {
+        console.warn("No user data found in localStorage");
+    }
+  }
+
+
+
+
+  
   render() {
+    const { user } = this.state;
+
     return (
       //big navbar class
       <nav class="navbar navbar-expand-lg">
@@ -62,7 +93,7 @@ class NavBar extends Component {
 
               {/* this should be where the flexible gap is */}
 
-              <p className="b2 greeting">Hello NAME</p>
+              <p className="b2 greeting">Hello {user ? user.User.fname : "Guest"}</p>
 
               <a class="nav-link" href="#">
                 <img src="/images/profileIcon.png" className="nav-icon" />
