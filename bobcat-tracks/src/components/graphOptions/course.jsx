@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const CourseOption = ({
@@ -15,6 +15,23 @@ const CourseOption = ({
     formState: { errors, isSubmitting },
     setError,
   } = useForm();
+
+  const [courseNames, setCourseNames] = useState([]); // Store fetched courses
+
+  // Fetch course names from the API
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/course/courses");
+        const data = await response.json();
+        setCourseNames(data.map(course => course.course_name)); // Extract names
+      } catch (error) {
+        console.error("API Error:", error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   const onSubmit = async (data) => {
     try {
