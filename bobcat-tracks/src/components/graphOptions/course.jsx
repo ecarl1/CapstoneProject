@@ -32,9 +32,7 @@ const CourseOption = ({
       }
     };
 
-    fetchCourses(() => {
-      console.log("courseNames: ", courseNames);
-    });
+    fetchCourses();
   }, []);
 
   const onSubmit = async (data) => {
