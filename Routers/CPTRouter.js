@@ -9,7 +9,7 @@ const { Op } = require('sequelize');
 
 router.get('/sessions/details', async (req, res) => {
     try {
-        // Fetch all sessions
+        //Fetch all sessions
         const sessions = await Session.findAll({
             attributes: ['entry_id', 'date', 'course_id'],
             raw: true,
@@ -19,14 +19,14 @@ router.get('/sessions/details', async (req, res) => {
             return res.status(404).json({ error: 'No sessions found.' });
         }
 
-        // Prepare results
+        //Prepare results
         const results = [];
 
-        // Loop through each session
+        //Loop through each session
         for (const session of sessions) {
             const sessionObj = { date: session.date };
 
-            // Fetch course name
+            //Fetch course name
             const course = await Course.findByPk(session.course_id, {
                 attributes: ['course_name'],
                 raw: true,
@@ -34,7 +34,7 @@ router.get('/sessions/details', async (req, res) => {
 
             sessionObj.course = course ? course.course_name : 'Unknown';
 
-            // Fetch answers for specific questions
+            //fetch answers for specific questions
             const sessionAnswers = await Session_Answer.findAll({
                 where: {
                     entry_id: session.entry_id,
@@ -44,7 +44,7 @@ router.get('/sessions/details', async (req, res) => {
                 raw: true,
             });
 
-            // Fetch corresponding answer texts
+            //fetch corresponding answer texts
             const answerIds = sessionAnswers.map(sa => sa.answer_id);
 
             const answers = await Answer.findAll({
@@ -53,7 +53,7 @@ router.get('/sessions/details', async (req, res) => {
                 raw: true,
             });
 
-            // Map answers to their questions
+            //map answers to their questions
             sessionAnswers.forEach(sa => {
                 const answer = answers.find(a => a.answer_id === sa.answer_id);
                 switch (sa.question_id) {
