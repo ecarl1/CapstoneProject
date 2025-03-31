@@ -1,30 +1,39 @@
-import React from "react";
+const convertJSONToCSV = (jsonData, columnHeaders) => {
+  if (!Array.isArray(jsonData) || jsonData.length === 0) {
+    console.error(
+      "convertJSONToCSV Error: Input data is not an array or is empty",
+      jsonData
+    );
+    return "";
+  }
 
-// Define the DownloadProducts component
-// Function to convert JSON to CSV string
-const convertJSONToCSV = (jsonData, columnHeaders) =>{
-  // Check if JSON data is empty
-  //console.log("Col headers:" ,columnHeaders); 
-  //console.log("JSON Data:" ,jsonData) 
-  if (jsonData || columnHeaders) {
-    if (jsonData === 0) {
-      console.log("No data in jsonData")
-      return "";
-    }
-  
-    // Create headers string
-    const headers = columnHeaders.join(",") + "\n";
-  
-    // Map JSON data to CSV rows
-    const rows = jsonData .map((row) => {
-        // Map each row to CSV format
-        return columnHeaders.map((field) => row[field] || "").join(",");
-      })
-      .join("\n");
-  
-  // Combine headers and rows
-  return headers + rows;
-  } 
-}
+  // Extract headers (column names) from the first object
+  const keys = columnHeaders;
+
+  // Initialize transposed data storage
+  const transposedData = [];
+
+  // First row should have column headers as the first column
+  transposedData.push([
+    "Label",
+    ...jsonData.map((_, index) => `Dataset ${index + 1}`),
+  ]);
+
+  // Iterate over each key (original columns, now rows)
+  keys.forEach((key) => {
+    // Create a row where the first cell is the key (column name)
+    const row = [key];
+
+    // Push corresponding values from each dataset in jsonData
+    jsonData.forEach((entry) => {
+      row.push(entry[key] ?? ""); // Use empty string if value is undefined
+    });
+
+    transposedData.push(row);
+  });
+
+  // Convert the transposed array into CSV format
+  return transposedData.map((row) => row.join(",")).join("\n");
+};
 
 export default convertJSONToCSV;

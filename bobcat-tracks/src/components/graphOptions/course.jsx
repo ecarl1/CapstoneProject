@@ -22,9 +22,11 @@ const CourseOption = ({
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/course/courses");
+        const response = await fetch(
+          "http://localhost:3000/api/course/courses"
+        );
         const data = await response.json();
-        setCourseNames(data.map(course => course.course_name)); // Extract names
+        setCourseNames(data.map((course) => course.course_name)); // Extract names
       } catch (error) {
         console.error("API Error:", error);
       }
@@ -64,13 +66,10 @@ const CourseOption = ({
 
         {/* there should be a way to populate this list based on a query to the DB returning all course names */}
         <datalist id="datalistOptions">
-          <option value="FYS 101" />
-          <option value="BIO 101" />
-          <option value="BIO 101L" />
-          <option value="FYS 101H" />
-          <option value="QU 105" />
-          <option value="EN101" />
-          <option value="HM600" />
+          {/*How do I populate the options using the courseNames array values instead of hard coded?*/}
+          {courseNames.map((course, index) => (
+            <option key={index} value={course} />
+          ))}
         </datalist>
 
         <div className="form-group options-form-element">
