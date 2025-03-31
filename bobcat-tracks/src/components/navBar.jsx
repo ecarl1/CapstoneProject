@@ -18,7 +18,7 @@ class NavBar extends Component {
             const parsedUser = JSON.parse(storedUser);
             console.log("Parsed User:", parsedUser);
 
-            if (parsedUser.User && parsedUser.User.fname) {
+            if (parsedUser.User && parsedUser.User.pref_Name) {
                 this.setState({ user: parsedUser }, () => {
                     console.log("Updated State:", this.state.user);
                 });
