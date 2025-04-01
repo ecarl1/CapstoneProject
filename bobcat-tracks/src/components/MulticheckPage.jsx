@@ -36,7 +36,7 @@ class MulticheckPage extends Component {
       try {
         console.log("Fetching skills...");
 
-        const response = await axios.get(`${url}`);
+        const response = await axios.get(`${url}/skills`);
 
         console.log("Skills fetched successfully:", response.data);
         this.setState({ rawData: response.data }, () => {
