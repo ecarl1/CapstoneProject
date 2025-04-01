@@ -7,7 +7,7 @@ import SkillOption from "./graphOptions/skill";
 class PageOptions extends Component {
   render() {
     let currPage = this.props.pageName;
-    if (currPage == "Attendance") {
+    if (currPage === "Attendance") {
       return (
         <div className="page-options">
           <CompareOption
@@ -39,7 +39,7 @@ class PageOptions extends Component {
         </div>
       );
     }
-    if (currPage == "Multicheck") {
+    if (currPage === "Multicheck") {
       return (
         <div className="page-options">
           <CompareOption
