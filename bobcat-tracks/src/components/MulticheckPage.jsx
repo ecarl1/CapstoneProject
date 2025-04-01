@@ -7,7 +7,7 @@ import BargraphComp from "./Bar.js";
 import html2canvas from "html2canvas";
 import convertJSONToCSV from "./CSVDown.js";
 import axios from "axios";
-const url = "http://localhost:3000/api/multiselect/skills";
+const url = "http://localhost:3000/api/multiselect/";
 
 
 class MulticheckPage extends Component {
