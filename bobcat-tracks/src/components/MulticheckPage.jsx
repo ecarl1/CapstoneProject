@@ -273,7 +273,7 @@ class MulticheckPage extends Component {
       //comparing 2 dates
       if (this.state.comparingType == 1) {
         newGraphTitle =
-          "Attendance Data: " +
+          "Multicheck Data: " +
           this.state.startDate +
           " VS " +
           this.state.compareStartDate +
@@ -289,7 +289,7 @@ class MulticheckPage extends Component {
         const inputString =
           this.state.courseType == 0 ? "All courses" : this.state.course;
         newGraphTitle =
-          "Attendance Data: " +
+          "Multicheck Data: " +
           inputString +
           " VS " +
           this.state.compareCourse +
@@ -303,7 +303,7 @@ class MulticheckPage extends Component {
     else {
       newDefaultTitle = "start:" + this.state.startDate;
       newGraphTitle =
-        "Attendance Data: " +
+        "Multicheck Data: " +
         this.state.startDate +
         " for " +
         this.state.duration +
