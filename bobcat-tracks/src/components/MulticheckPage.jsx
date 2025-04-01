@@ -83,7 +83,7 @@ class MulticheckPage extends Component {
       compareCourse: null,
 
       //skill
-      skill: null,
+      skill: "Study Skills",
 
       //USED FOR CSVDOWNLOAD
       //used for csv download
@@ -97,7 +97,6 @@ class MulticheckPage extends Component {
 
   //init dates based on most recent date in data
   initDates = () => {
-    console.log("FIRST RAW ", this.state.rawData);
     let mostRecent = this.state.rawData[0].date;
     for (let i = 1; i < this.state.rawData.length; i++) {
       const currDate = this.state.rawData[i].date;
@@ -322,7 +321,7 @@ class MulticheckPage extends Component {
         compareBarLabel: newCompareTitle,
       },
       () => {
-        console.log("data updated successfully! (END FILTER)");
+        console.log("data updated successfully! (END FILTER)", this.state);
       }
     );
     console.log(" (END FILTER)");

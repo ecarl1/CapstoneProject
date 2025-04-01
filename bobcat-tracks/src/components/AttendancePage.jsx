@@ -341,7 +341,7 @@ class AttendancePage extends Component {
         compareBarLabel: newCompareTitle,
       },
       () => {
-        console.log("data updated successfully! (END FILTER)");
+        console.log("data updated successfully! (END FILTER)", this.state);
       }
     );
     console.log(" (END FILTER)");
