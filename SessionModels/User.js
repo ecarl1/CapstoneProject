@@ -31,7 +31,7 @@ const User = sequelize.define('User', {
         allowNull: false,
         unique: true
     },
-    pref_name: {
+    pref_Name: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true

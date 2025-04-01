@@ -7,7 +7,8 @@ import BargraphComp from "./Bar.js";
 import html2canvas from "html2canvas";
 import convertJSONToCSV from "./CSVDown.js";
 import axios from "axios";
-const url = "http://localhost:3000/api/multiselect";
+const url = "http://localhost:3000/api/multiselect/skills";
+
 
 class MulticheckPage extends Component {
   /*
@@ -28,6 +29,7 @@ class MulticheckPage extends Component {
  */
   //INFORMATION SET & CONTROLLED HERE
   //so that bargraph & page options can both edit & view these props
+  
 
   //THIS is all the data from the DB held by attendance AND the filter information needed
   constructor(props) {
@@ -92,6 +94,8 @@ class MulticheckPage extends Component {
       compareCSVBarData: [],
     };
   }
+
+  
 
   //Compare settings
   handleComparisonToggle = (isChecked) => {
@@ -267,6 +271,21 @@ class MulticheckPage extends Component {
 
     document.body.appendChild(link);
     link.click();
+  };
+
+  getSkills = async () => {
+    try {
+      console.log("Fetching skills...");
+
+      const response = await axios.get(`${url}/skills`);  
+      
+      console.log("Skills fetched successfully:", response.data);
+      this.setState({ skills: response.data }); 
+
+    } catch (error) {
+      console.error("Error fetching skills:", error);
+      this.setState({ error: "Failed to fetch skills." }); 
+    }
   };
 
   render() {

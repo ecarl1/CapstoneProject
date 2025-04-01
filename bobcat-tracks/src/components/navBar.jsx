@@ -18,12 +18,12 @@ class NavBar extends Component {
             const parsedUser = JSON.parse(storedUser);
             console.log("Parsed User:", parsedUser);
 
-            if (parsedUser.User && parsedUser.User.pref_Name) {
+            if (parsedUser.User && parsedUser.User.fname) {  //for some reason pref name is not working
                 this.setState({ user: parsedUser }, () => {
                     console.log("Updated State:", this.state.user);
                 });
             } else {
-                console.warn("User object exists, but fname is missing:", parsedUser);
+                console.warn("User object exists, but pref_Name is missing:", parsedUser);
             }
         } catch (error) {
             console.error("Error parsing user data:", error);

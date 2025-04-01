@@ -159,7 +159,7 @@ router.get('/questions/:id/answers', async (req, res) => {
     }
 });
 
-router.get('/sessions/details', async (req, res) => {
+router.get('/skills', async (req, res) => {
     try {
         const sessions = await Session.findAll({
             attributes: ['entry_id', 'date', 'course_id'],
