@@ -4,6 +4,10 @@ const { Op, Sequelize } = require('sequelize'); // Sequelize functions
 const Question = require('../SessionModels/Question');
 const Answer = require('../SessionModels/Answer');
 const Session_Answer = require('../SessionModels/Session_Answer'); 
+const Course = require('../SessionModels/Course');
+const Session = require('../SessionModels/Session');  // Adjust if needed
+
+
 
 //getting all questions
 router.get('/questions', async (req, res) => {
@@ -154,6 +158,71 @@ router.get('/questions/:id/answers', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch answers for question.' });
     }
 });
+
+router.get('/sessions/details', async (req, res) => {
+    try {
+        const sessions = await Session.findAll({
+            attributes: ['entry_id', 'date', 'course_id'],
+            raw: true,
+        });
+
+        if (!sessions.length) {
+            return res.status(404).json({ error: 'No sessions found.' });
+        }
+
+        const results = {};
+
+        for (const session of sessions) {
+            const sessionObj = { date: session.date };
+
+            const course = await Course.findByPk(session.course_id, {
+                attributes: ['course_name'],
+                raw: true,
+            });
+
+            sessionObj.course = course ? course.course_name : 'Unknown';
+
+            const sessionAnswers = await Session_Answer.findAll({
+                where: {
+                    entry_id: session.entry_id,
+                    question_id: 22,
+                },
+                attributes: ['answer_id'],
+                raw: true,
+            });
+
+            if (sessionAnswers.length === 0) {
+                console.log(`No answers found for session ${session.entry_id}`);
+            }
+
+            const answerIds = sessionAnswers.map(sa => sa.answer_id);
+
+            const answers = await Answer.findAll({
+                where: { 
+                    answer_id: { [Op.in]: answerIds },
+                    answer_text: { [Op.ne]: '' }
+                },
+                attributes: ['answer_text'],
+                raw: true,
+            });
+
+            if (answers.length > 0) {
+                sessionObj.answer_texts = answers.map(a => a.answer_text);
+            } else {
+                sessionObj.answer_texts = [];  
+            }
+
+            results[session.entry_id] = sessionObj;
+        }
+
+        return res.status(200).json(results);
+    } catch (error) {
+        console.error('Error fetching session details:', error);
+        return res.status(500).json({ error: 'Failed to fetch session details.', message: error.message });
+    }
+});
+
+
 
 //will need to work on getting an entry count and how to do this
 //need the muliselect data to be specified in order to better understand how to do this
