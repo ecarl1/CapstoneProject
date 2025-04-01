@@ -36,12 +36,12 @@ class MulticheckPage extends Component {
       try {
         console.log("Fetching skills...");
 
-        const response = await axios.get(`${url}/skills`);
+        const response = await axios.get(`${url}`);
 
         console.log("Skills fetched successfully:", response.data);
         this.setState({ rawData: response.data }, () => {
+          //console.log("SKILL DATA: ", this.state.rawData);
           this.initDates();
-          console.log("SKILL DATA: ", this.state.rawData);
         });
         //this.setState({ skills: response.data });
       } catch (error) {
@@ -97,6 +97,7 @@ class MulticheckPage extends Component {
 
   //init dates based on most recent date in data
   initDates = () => {
+    console.log("FIRST RAW ", this.state.rawData);
     let mostRecent = this.state.rawData[0].date;
     for (let i = 1; i < this.state.rawData.length; i++) {
       const currDate = this.state.rawData[i].date;
