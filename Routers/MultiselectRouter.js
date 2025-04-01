@@ -160,64 +160,64 @@ router.get('/questions/:id/answers', async (req, res) => {
 });
 
 router.get('/skills', async (req, res) => {
-    try {
-      const sessions = await Session.findAll({
-        attributes: ['entry_id', 'date', 'course_id'],
+  try {
+    const sessions = await Session.findAll({
+      attributes: ['entry_id', 'date', 'course_id'],
+      raw: true,
+    });
+
+    if (!sessions.length) {
+      return res.status(404).json({ error: 'No sessions found.' });
+    }
+
+    const results = [];
+
+    for (const session of sessions) {
+      const sessionObj = { date: session.date };
+
+      const course = await Course.findByPk(session.course_id, {
+        attributes: ['course_name'],
         raw: true,
       });
-  
-      if (!sessions.length) {
-        return res.status(404).json({ error: 'No sessions found.' });
+
+      sessionObj.course = course ? course.course_name : 'Unknown';
+
+      const sessionAnswers = await Session_Answer.findAll({
+        where: {
+          entry_id: session.entry_id,
+          question_id: 22,
+        },
+        attributes: ['answer_id'],
+        raw: true,
+      });
+
+      if (sessionAnswers.length === 0) {
+        console.log(`No answers found for session ${session.entry_id}`);
       }
-  
-      const results = [];
-  
-      for (const session of sessions) {
-        const sessionObj = { date: session.date };
-  
-        const course = await Course.findByPk(session.course_id, {
-          attributes: ['course_name'],
-          raw: true,
-        });
-  
-        sessionObj.course = course ? course.course_name : 'Unknown';
-  
-        const sessionAnswers = await Session_Answer.findAll({
-          where: {
-            entry_id: session.entry_id,
-            question_id: 22,
-          },
-          attributes: ['answer_id'],
-          raw: true,
-        });
-  
-        if (sessionAnswers.length === 0) {
-          console.log(`No answers found for session ${session.entry_id}`);
-        }
-  
-        const answerIds = sessionAnswers.map(sa => sa.answer_id);
-  
-        const answers = await Answer.findAll({
-          where: {
-            answer_id: { [Op.in]: answerIds },
-            answer_text: { [Op.ne]: '' },
-          },
-          attributes: ['answer_text'],
-          raw: true,
-        });
-  
-        sessionObj.answer_texts = answers.length > 0 ? answers.map(a => a.answer_text) : [];
-  
-        results.push(sessionObj);
-      }
-  
-      return res.status(200).json(results);
-    } catch (error) {
-      console.error('Error fetching session details:', error);
-      return res.status(500).json({ error: 'Failed to fetch session details.', message: error.message });
+
+      const answerIds = sessionAnswers.map(sa => sa.answer_id);
+
+      const answers = await Answer.findAll({
+        where: {
+          answer_id: { [Op.in]: answerIds },
+          answer_text: { [Op.ne]: '' },
+        },
+        attributes: ['answer_text'],
+        raw: true,
+      });
+
+      sessionObj.answer_texts = answers.length > 0 ? answers.map(a => a.answer_text) : [];
+
+      results.push(sessionObj);
     }
-  });
-  
+
+    return res.status(200).json(results);
+  } catch (error) {
+    console.error('Error fetching session details:', error);
+    return res.status(500).json({ error: 'Failed to fetch session details.', message: error.message });
+  }
+});
+
 
 
 
