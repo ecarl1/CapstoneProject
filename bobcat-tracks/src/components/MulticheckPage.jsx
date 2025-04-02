@@ -84,7 +84,7 @@ class MulticheckPage extends Component {
       compareCourse: null,
 
       //skill
-      skill: "Study Skills",
+      skill: "",
 
       //USED FOR CSVDOWNLOAD
       //used for csv download
@@ -340,6 +340,7 @@ class MulticheckPage extends Component {
   };
 
   filterSkills = (objectArr, skill) => {
+    if (skill === "") return objectArr;
     const lowerSkill = skill.toLowerCase();
     console.log(lowerSkill);
     return objectArr.filter((entry) => entry.answer_texts.includes(lowerSkill));
