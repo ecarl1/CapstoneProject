@@ -175,8 +175,12 @@ class MulticheckPage extends Component {
     console.log("end filterDates: ", processedData);
 
     // // //filter course on default Data
-    processedData = this.filterCourses(processedData, courseType, course);
-    console.log("end filterCourses: ", processedData);
+    processedData = this.filterCourses(
+      processedData,
+      courseType,
+      this.state.course
+    );
+    console.log("end filterCourses: ", this.state.course, processedData);
 
     //Now that processedData is filtered, we need to count occurances on each date
     console.log("starting dataToCountArray");
@@ -342,7 +346,7 @@ class MulticheckPage extends Component {
   filterSkills = (objectArr, skill) => {
     if (skill === "") return objectArr;
     const lowerSkill = skill.toLowerCase();
-    console.log(lowerSkill);
+    //console.log(lowerSkill);
     return objectArr.filter((entry) => entry.answer_texts.includes(lowerSkill));
   };
 
@@ -365,7 +369,7 @@ class MulticheckPage extends Component {
     );
     if (courseType == 1) {
       return objectArr.filter((entry) => {
-        return entry.course_name == course;
+        return entry.course == course;
       });
     }
     return objectArr;
