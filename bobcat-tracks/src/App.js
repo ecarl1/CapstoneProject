@@ -9,6 +9,7 @@ import React from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MulticheckPage from "./components/MulticheckPage";
 import AdminPage from "./components/createAdminAccount";
+import CPTPage from "./components/CPTPage";
 
 function App() {
   return (
@@ -16,8 +17,10 @@ function App() {
       <Routes>
         <Route path="/change-password" element={<ChangePasswordPage />}></Route>
         <Route path="/" element={<LoginPage />} />
-        {/* <Route path="/multicheck" element={<MulticheckPage />} /> */}
         <Route path="/AdminCreate" element={<AdminPage />}></Route>
+
+        {/* unprotected route for development */}
+        <Route path="/CPT" element={<CPTPage />}></Route>
 
         <Route
           path="/attendance"
