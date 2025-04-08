@@ -33,21 +33,20 @@ class CPTPage extends Component {
   //THIS is all the data from the DB held by attendance AND the filter information needed
   constructor(props) {
     super(props);
-    const getSkills = async () => {
+    const getCPT = async () => {
       try {
-        console.log("Fetching skills...");
+        console.log("Fetching CPT...");
 
         const response = await axios.get(`${url}`);
 
-        console.log("Skills fetched successfully:", response.data);
+        console.log("CPT fetched successfully:", response.data);
         this.setState({ rawData: response.data }, () => {
-          //console.log("SKILL DATA: ", this.state.rawData);
+          //console.log("CPT DATA: ", this.state.rawData);
           this.initDates();
         });
-        //this.setState({ skills: response.data });
       } catch (error) {
-        console.error("Error fetching skills:", error);
-        this.setState({ error: "Failed to fetch skills." });
+        console.error("Error fetching CPT:", error);
+        this.setState({ error: "Failed to fetch CPT." });
       }
     };
 
@@ -83,8 +82,8 @@ class CPTPage extends Component {
       course: null,
       compareCourse: null,
 
-      //skill
-      skill: "",
+      //topics
+      topics: [],
 
       //USED FOR CSVDOWNLOAD
       //used for csv download
@@ -93,7 +92,7 @@ class CPTPage extends Component {
       //used for compare csv download
       compareCSVBarData: [],
     };
-    getSkills();
+    getCPT();
   }
 
   //init dates based on most recent date in data
@@ -135,16 +134,6 @@ class CPTPage extends Component {
 
     //if start & end are not defined, no filtering can be done (In final, these should be defined on init with most recent week in DB)
     if (this.state.startDate == null || this.state.endDate == null) return;
-
-    //process both by skill
-    processedData = this.filterSkills(processedData, this.state.skill);
-    processedCompareData = this.filterSkills(
-      processedCompareData,
-      this.state.skill
-    );
-
-    console.log("skill: ", this.state.skill);
-    console.log("post skill filter- ", processedData);
 
     const startDate = this.state.startDate;
     const endDate = this.state.endDate;
@@ -341,13 +330,6 @@ class CPTPage extends Component {
       }
     );
     console.log(" (END FILTER)");
-  };
-
-  filterSkills = (objectArr, skill) => {
-    if (skill === "") return objectArr;
-    const lowerSkill = skill.toLowerCase();
-    //console.log(lowerSkill);
-    return objectArr.filter((entry) => entry.answer_texts.includes(lowerSkill));
   };
 
   filterDates = (objectArr, startDate, endDate) => {
@@ -558,12 +540,12 @@ class CPTPage extends Component {
     console.log("New compare course:", course);
   };
 
-  //skill method
-  handleSkillChange = (skill) => {
-    this.setState({ skill: skill }, () => {
+  //topic method
+  handleTopicChange = (topics) => {
+    this.setState({ topics: topics }, () => {
       this.updateFilter();
     });
-    console.log("New type:", skill);
+    console.log("New type:", topics);
   };
   //download method
 
@@ -689,8 +671,9 @@ class CPTPage extends Component {
               compareCourse={this.state.compareCourse}
               onCourseChange={this.handleCourseChange}
               onCompareCourseChange={this.handleCompareCourseChange}
-              //skill method
-              onSkillChange={this.handleSkillChange}
+              //Topic method
+              onTopicChange={this.handleTopicChange}
+              topics={this.state.topics}
             />
             {/* changes what filters & parameters data should be displayed */}
           </div>

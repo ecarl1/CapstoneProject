@@ -3,6 +3,7 @@ import CompareOption from "./graphOptions/compare";
 import DateOption from "./graphOptions/date";
 import CourseOption from "./graphOptions/course";
 import SkillOption from "./graphOptions/skill";
+import TopicOption from "./graphOptions/topic";
 
 class PageOptions extends Component {
   render() {
@@ -100,6 +101,10 @@ class PageOptions extends Component {
             onCompareCourseChange={this.props.onCompareCourseChange}
             // course={this.props.course}
             // compareCourse={this.props.compareCourse}
+          />
+          <TopicOption
+            topics={this.props.topics}
+            onTopicChange={this.props.onTopicChange}
           />
         </div>
       );

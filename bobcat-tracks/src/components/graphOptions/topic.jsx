@@ -11,7 +11,6 @@ const TopicOption = ({
   //   onCompareCourseChange,
   onTopicChange,
   topics,
-  onTopi,
 }) => {
   const { handleSubmit } = useForm();
   const [topicOptions, setTopicOptions] = useState([]);
@@ -42,7 +41,7 @@ const TopicOption = ({
       <h1>Topic</h1>
       <form onSubmit={handleSubmit(() => {})}>
         {/* Multi-select dropdown */}
-        <div className="form-group options-form-element">
+        <div className="form-group options-form-element compare-select-box">
           <Select
             options={topicOptions}
             isMulti
@@ -50,6 +49,7 @@ const TopicOption = ({
               onTopicChange(selectedOptions.map((option) => option.value))
             }
             placeholder="Select Topics..."
+            className="multiselect"
           />
           <label>
             <p className="b1">Select Course(s)</p>
