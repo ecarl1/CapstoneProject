@@ -7,6 +7,7 @@ import BargraphComp from "./Bar.js";
 import html2canvas from "html2canvas";
 import convertJSONToCSV from "./CSVDown.js";
 import axios from "axios";
+import Linegraph from "./Line.js";
 
 const url = "http://localhost:3000/api/CPT/sessions/details";
 
@@ -60,9 +61,17 @@ class CPTPage extends Component {
       defaultBarLabel: "",
       defaultBarData: [],
 
+      //CAMRYN -  here is data for confidence and prep from default params
+      defaultConfidence: [1, 2, 3],
+      defaultPrep: [4, 5, 6],
+
       //name of what is being compared & param
       compareBarLabel: "",
       compareBarData: [],
+
+      //CAMRYN -  here is data for confidence and prep from comparison params
+      compareConfidence: [],
+      comparePrep: [],
 
       //Default graph name, defined in component call
       graphTitle: "Confidence/Prep/Topic Graph",
@@ -680,7 +689,7 @@ class CPTPage extends Component {
           {/* right graphs & buttons */}
           <div className="col-lg-9 graph-box">
             <div id="print">
-              <BargraphComp
+              {/* <BargraphComp
                 graphTitle={this.state.graphTitle}
                 xAxisLabels={this.state.xAxisLabels}
                 defaultBarLabel={this.state.defaultBarLabel}
@@ -688,6 +697,15 @@ class CPTPage extends Component {
                 compareBarLabel={this.state.compareBarLabel}
                 compareBarData={this.state.compareBarData}
                 comparing={this.state.comparing}
+              /> */}
+              <Linegraph
+                graphTitle={this.state.graphTitle}
+                xAxisLabels={this.state.xAxisLabels}
+                comparing={this.state.comparing}
+                defaultPrep={this.state.defaultPrep}
+                defaultConfidence={this.state.defaultConfidence}
+                comparePrep={this.state.comparePrep}
+                compareConfidence={this.state.compareConfidence}
               />
             </div>
             {/* displays data based on filters & params*/}

@@ -1,47 +1,29 @@
-import { Bar } from "react-chartjs-2"; //connects chart to React
+import { Line } from "react-chartjs-2"; //connects chart to React
 import React from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
+  LineElement,
   Legend,
   Title,
   Tooltip,
-  scales,
 } from "chart.js"; //from chart library
-// import { barChartData } from "../fakeData";
-// import { fontString } from "chart.js/helpers";
+import { fontString } from "chart.js/helpers";
 import { paletteColors } from "./palette";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
+  LineElement,
   Legend,
   Title,
   Tooltip
 );
 
-//HOW TO USE BARGRAPH
-/*
-State variables to control & what they do- SET BY PROPS
-
-barCharLabels : Label each value in horizontal axis. For our purposes, this should be the DATES
-graphTitle: Overall title of the graph
-comparing: Is the graph doing a comparison? False- only default data is shown. true, compare data also displayed.
-
-defaultBarLabel : This labels this collection of data. Yet to determine policy.
-defaultBarData: An array of the values in each col. Should have same quantity as the above defaultBarLabel
-
-WHEN COMPARISON IS ON, defaultBarLabel & compareBarLabel should relate to what is being compared.
-EX, if two courses are being compared, each BarLabel should be named after the two things being compared.
-
-compareBarLabel : This labels this collection of data. Yet to determine policy.
-compareBarData: An array of the values in each col. Should have same quantity as the above compareBarLabel
- */
-
-class BargraphComp extends React.Component {
+class Linegraph extends React.Component {
   //RECIEVES ALL DATA FROM PARENT COMPONENT
 
   //controls the styling & features of the graph - should be the same for every graph, static
@@ -80,6 +62,7 @@ class BargraphComp extends React.Component {
       grouped: true,
       offset: true,
       barPercentage: 1,
+      //style options for the x axis (dates) at bottom of graph
       scales: {
         x: {
           grid: { display: true },
@@ -130,20 +113,48 @@ class BargraphComp extends React.Component {
         labels: this.props.xAxisLabels,
         datasets: [
           {
-            label: this.props.defaultBarLabel,
-            data: this.props.defaultBarData,
-            borderWidth: 0,
+            //Confidence
+            label: "Confidence",
+            data: this.props.defaultConfidence,
 
-            backgroundColor: paletteColors.mediumBlue,
-            hoverBackgroundColor: paletteColors.navy,
+            borderWidth: 2.5,
+            borderColor: paletteColors.gold,
+            backgroundColor: paletteColors.gold,
+
+            hoverBackgroundColor: paletteColors.white,
           },
           {
-            label: this.props.compareBarLabel,
-            data: this.props.compareBarData,
-            borderWidth: 0,
+            //Prep
+            label: "Preperation",
+            data: this.props.defaultPrep,
 
-            backgroundColor: paletteColors.gold,
-            hoverBackgroundColor: paletteColors.burntGold,
+            borderWidth: 2.5,
+            borderColor: paletteColors.mediumBlue,
+            backgroundColor: paletteColors.mediumBlue,
+
+            hoverBackgroundColor: paletteColors.white,
+          },
+          {
+            //Confidence(compare)
+            label: "Comparing Confidence",
+            data: this.props.compareConfidence,
+
+            borderWidth: 2.5,
+            borderColor: paletteColors.burntGold,
+            backgroundColor: paletteColors.burntGold,
+
+            hoverBackgroundColor: paletteColors.white,
+          },
+          {
+            //Prep (compare)
+            label: "Comparing Preperation",
+            data: this.props.comparePrep,
+
+            borderWidth: 2.5,
+            borderColor: paletteColors.navy,
+            backgroundColor: paletteColors.navy,
+
+            hoverBackgroundColor: paletteColors.white,
           },
         ],
       };
@@ -153,12 +164,26 @@ class BargraphComp extends React.Component {
         labels: this.props.xAxisLabels,
         datasets: [
           {
-            label: this.props.defaultBarLabel,
-            data: this.props.defaultBarData,
-            borderWidth: 0,
+            //Confidence
+            label: "Confidence",
+            data: this.props.defaultConfidence,
 
+            borderWidth: 2.5,
+            borderColor: paletteColors.gold,
+            backgroundColor: paletteColors.gold,
+
+            hoverBackgroundColor: paletteColors.white,
+          },
+          {
+            //Prep
+            label: "Preperation",
+            data: this.props.defaultPrep,
+
+            borderWidth: 2.5,
+            borderColor: paletteColors.mediumBlue,
             backgroundColor: paletteColors.mediumBlue,
-            hoverBackgroundColor: paletteColors.navy,
+
+            hoverBackgroundColor: paletteColors.white,
           },
         ],
       };
@@ -166,9 +191,9 @@ class BargraphComp extends React.Component {
   };
 
   render() {
-    return <Bar options={this.getOptions()} data={this.getData()} />;
+    return <Line options={this.getOptions()} data={this.getData()} />;
     // return <p> TITLE: {this.state.graphTitle}</p>;
   }
 } //end react component
 
-export default BargraphComp;
+export default Linegraph;
