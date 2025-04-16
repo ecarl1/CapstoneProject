@@ -11,32 +11,32 @@ class NavBar extends Component {
 
   componentDidMount() {
     const storedUser = localStorage.getItem("user");
-    console.log("Retrieved from localStorage:", storedUser); 
+    console.log("Retrieved from localStorage:", storedUser);
 
     if (storedUser) {
-        try {
-            const parsedUser = JSON.parse(storedUser);
-            console.log("Parsed User:", parsedUser);
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        console.log("Parsed User:", parsedUser);
 
-            if (parsedUser.User && parsedUser.User.fname) {  //for some reason pref name is not working
-                this.setState({ user: parsedUser }, () => {
-                    console.log("Updated State:", this.state.user);
-                });
-            } else {
-                console.warn("User object exists, but pref_Name is missing:", parsedUser);
-            }
-        } catch (error) {
-            console.error("Error parsing user data:", error);
+        if (parsedUser.User && parsedUser.User.fname) {
+          //for some reason pref name is not working
+          this.setState({ user: parsedUser }, () => {
+            console.log("Updated State:", this.state.user);
+          });
+        } else {
+          console.warn(
+            "User object exists, but pref_Name is missing:",
+            parsedUser
+          );
         }
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
     } else {
-        console.warn("No user data found in localStorage");
+      console.warn("No user data found in localStorage");
     }
   }
 
-
-
-
-  
   render() {
     const { user } = this.state;
 
@@ -46,7 +46,7 @@ class NavBar extends Component {
         {/* fluid container for collapsing? */}
         <div className="container-fluid">
           {/* START paw & bobcat tracks  */}
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="/">
             <img src="/images/paw.png" className="brand-icon" />
             <h2 className="brand-txt">Bobcat Tracks</h2>
           </a>
@@ -81,7 +81,7 @@ class NavBar extends Component {
                 <p className="m1">Attendance</p>
               </a>
 
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/multicheck">
                 <img src="/images/skillsMenu.png" className="nav-icon" />
                 <p className="m1">Skills</p>
               </a>
@@ -93,7 +93,9 @@ class NavBar extends Component {
 
               {/* this should be where the flexible gap is */}
 
-              <p className="b2 greeting">Hello {user ? user.User.fname : "Guest"}</p>
+              <p className="b2 greeting">
+                Hello {user ? user.User.fname : "Guest"}
+              </p>
 
               <a class="nav-link" href="#">
                 <img src="/images/profileIcon.png" className="nav-icon" />

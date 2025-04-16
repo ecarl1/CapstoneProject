@@ -7,7 +7,8 @@ import BargraphComp from "./Bar.js";
 import html2canvas from "html2canvas";
 import convertJSONToCSV from "./CSVDown.js";
 import axios from "axios";
-const url = "http://localhost:3000/api/multiselect/";
+const url = "http://localhost:3000/api/multiselect/skills";
+//const url = "http://localhost:3000/api/attendance";
 
 class MulticheckPage extends Component {
   /*
@@ -36,7 +37,7 @@ class MulticheckPage extends Component {
       try {
         console.log("Fetching skills...");
 
-        const response = await axios.get(`${url}/skills`);
+        const response = await axios.get(`${url}`);
 
         console.log("Skills fetched successfully:", response.data);
         this.setState({ rawData: response.data }, () => {
@@ -83,7 +84,7 @@ class MulticheckPage extends Component {
       compareCourse: null,
 
       //skill
-      skill: null,
+      skill: "",
 
       //USED FOR CSVDOWNLOAD
       //used for csv download
@@ -97,7 +98,6 @@ class MulticheckPage extends Component {
 
   //init dates based on most recent date in data
   initDates = () => {
-    console.log("FIRST RAW ", this.state.rawData);
     let mostRecent = this.state.rawData[0].date;
     for (let i = 1; i < this.state.rawData.length; i++) {
       const currDate = this.state.rawData[i].date;
@@ -114,8 +114,9 @@ class MulticheckPage extends Component {
     this.handleCompareDate(start);
   };
 
-  //Update Filters on a change
-  //TODO: Add skill filtering & adjust for multicheck
+  //update filter
+  //needs to be called whenever a state changes, so probably in all the handlers
+  //when any one param is changed, all filtering needs to be re-done (otherwise the filters will stack)
   updateFilter = () => {
     console.log("entered updateFilter()");
     console.log(this.state.rawData);
@@ -134,6 +135,16 @@ class MulticheckPage extends Component {
 
     //if start & end are not defined, no filtering can be done (In final, these should be defined on init with most recent week in DB)
     if (this.state.startDate == null || this.state.endDate == null) return;
+
+    //process both by skill
+    processedData = this.filterSkills(processedData, this.state.skill);
+    processedCompareData = this.filterSkills(
+      processedCompareData,
+      this.state.skill
+    );
+
+    console.log("skill: ", this.state.skill);
+    console.log("post skill filter- ", processedData);
 
     const startDate = this.state.startDate;
     const endDate = this.state.endDate;
@@ -164,8 +175,12 @@ class MulticheckPage extends Component {
     console.log("end filterDates: ", processedData);
 
     // // //filter course on default Data
-    processedData = this.filterCourses(processedData, courseType, course);
-    console.log("end filterCourses: ", processedData);
+    processedData = this.filterCourses(
+      processedData,
+      courseType,
+      this.state.course
+    );
+    console.log("end filterCourses: ", this.state.course, processedData);
 
     //Now that processedData is filtered, we need to count occurances on each date
     console.log("starting dataToCountArray");
@@ -273,7 +288,7 @@ class MulticheckPage extends Component {
       //comparing 2 dates
       if (this.state.comparingType == 1) {
         newGraphTitle =
-          "Attendance Data: " +
+          "Multicheck Data: " +
           this.state.startDate +
           " VS " +
           this.state.compareStartDate +
@@ -289,7 +304,7 @@ class MulticheckPage extends Component {
         const inputString =
           this.state.courseType == 0 ? "All courses" : this.state.course;
         newGraphTitle =
-          "Attendance Data: " +
+          "Multicheck Data: " +
           inputString +
           " VS " +
           this.state.compareCourse +
@@ -303,7 +318,7 @@ class MulticheckPage extends Component {
     else {
       newDefaultTitle = "start:" + this.state.startDate;
       newGraphTitle =
-        "Attendance Data: " +
+        "Multicheck Data: " +
         this.state.startDate +
         " for " +
         this.state.duration +
@@ -328,6 +343,13 @@ class MulticheckPage extends Component {
     console.log(" (END FILTER)");
   };
 
+  filterSkills = (objectArr, skill) => {
+    if (skill === "") return objectArr;
+    const lowerSkill = skill.toLowerCase();
+    //console.log(lowerSkill);
+    return objectArr.filter((entry) => entry.answer_texts.includes(lowerSkill));
+  };
+
   filterDates = (objectArr, startDate, endDate) => {
     console.log(objectArr);
     console.log("enter filterDates");
@@ -347,13 +369,11 @@ class MulticheckPage extends Component {
     );
     if (courseType == 1) {
       return objectArr.filter((entry) => {
-        return entry.course_name == course;
+        return entry.course == course;
       });
     }
     return objectArr;
   };
-
-  //TODO make filter for skill
 
   dataToCountArray = (start, end, data) => {
     console.log("enter dataCountToArray");
@@ -531,6 +551,13 @@ class MulticheckPage extends Component {
     console.log("New course:", course);
   };
 
+  handleCompareCourseChange = (course) => {
+    this.setState({ compareCourse: course }, () => {
+      this.updateFilter();
+    });
+    console.log("New compare course:", course);
+  };
+
   //skill method
   handleSkillChange = (skill) => {
     this.setState({ skill: skill }, () => {
@@ -538,13 +565,12 @@ class MulticheckPage extends Component {
     });
     console.log("New type:", skill);
   };
-
-  //Download methods
+  //download method
 
   createJSON() {
     this.state.CSVBarChartLabels = [
       "Month and Type",
-      ...this.state.barChartLabels,
+      ...this.state.xAxisLabels,
     ];
     this.state.CSVBarData = [
       this.state.defaultBarLabel,
@@ -661,7 +687,9 @@ class MulticheckPage extends Component {
               onCourseType={this.handleCourseType}
               course={this.state.course}
               compareCourse={this.state.compareCourse}
-              //skill info
+              onCourseChange={this.handleCourseChange}
+              onCompareCourseChange={this.handleCompareCourseChange}
+              //skill method
               onSkillChange={this.handleSkillChange}
             />
             {/* changes what filters & parameters data should be displayed */}
@@ -671,7 +699,7 @@ class MulticheckPage extends Component {
             <div id="print">
               <BargraphComp
                 graphTitle={this.state.graphTitle}
-                barChartLabels={this.state.barChartLabels}
+                xAxisLabels={this.state.xAxisLabels}
                 defaultBarLabel={this.state.defaultBarLabel}
                 defaultBarData={this.state.defaultBarData}
                 compareBarLabel={this.state.compareBarLabel}
@@ -714,5 +742,4 @@ class MulticheckPage extends Component {
     );
   }
 }
-
 export default MulticheckPage;
