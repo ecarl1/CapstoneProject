@@ -46,7 +46,7 @@ Session.parse = async function(filePath){
     let questionsData = [];
     let sessionData = null;
 
-    await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         fs.createReadStream(filePath)
             .pipe(csv({separator: ',', quote: '"', escape:'"', relax_column_count: true, skip_empty_lines: true, headers: true}))
             .on('data', (row) => {
@@ -63,9 +63,12 @@ Session.parse = async function(filePath){
                 if (rowValues[10].includes("Does the student want the comment e-mailed to their professor?")) {
                     if (sessionData) {
                         parsedData.push({ sessionData, questionsData, answersData });
+                        console.log(parsedData);
                         count++;
+
                     }
-                    
+                    console.log("HERERERE")
+
                     answersData = [];
                     questionsData = [];
                     sessionData = {
@@ -82,11 +85,12 @@ Session.parse = async function(filePath){
                 for (const data of parsedData) {
                     await Session.save(data.sessionData, data.questionsData, data.answersData);
                 }
-                resolve();
+                resolve(parsedData);
             })
             .on('error', reject);
     });
 };
+
 
 Session.save = async function(sessionData, questionData, answerData) {
     const transaction = await sequelize.transaction();
