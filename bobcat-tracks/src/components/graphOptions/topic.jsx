@@ -54,7 +54,7 @@ const TopicOption = ({ onTopicChange, topics }) => {
             className="multiselect"
           />
           <label>
-            <p className="b1">Select Course(s)</p>
+            <p className="b1">Select Topic(s)</p>
           </label>
         </div>
       </form>
