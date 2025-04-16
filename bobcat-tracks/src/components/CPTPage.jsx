@@ -184,8 +184,13 @@ class CPTPage extends Component {
     console.log("end filterCourses: ", this.state.course, processedData);
 
     //FILTER BY TOPIC
-    if (this.state.topics.length != 0)
+    if (this.state.topics.length != 0) {
       processedData = this.filterTopic(processedData, this.state.topics);
+      processedCompareData = this.filterTopic(
+        processedCompareData,
+        this.state.topics
+      );
+    }
 
     //Now that processedData is filtered, we need to count occurances on each date
     console.log("starting dataToCountArray");
@@ -252,7 +257,7 @@ class CPTPage extends Component {
         //change X axis to reflect the dates. Append is FALSE because we aren't adding to an existing label (the compare WILL add to an existing label- the one made here!)
         newXLabel = this.createXaxisLabels(
           this.state.compareStartDate,
-          this.addDays(this.state.compareStartDate, this.state.duration),
+          compareEndDate,
           true,
           newXLabel
         );
@@ -363,6 +368,14 @@ class CPTPage extends Component {
 
     //SET STATE WITH ALL UPDATED VARS
     console.log("starting state change on Filter");
+    console.log(
+      "DATA LENGTHS : default ",
+      newPrep.length,
+      newConfidence.length,
+      " COMPARE : ",
+      newCompareConfidence.length,
+      newComparePrep.length
+    );
     this.setState(
       {
         xAxisLabels: newXLabel, //adjusts X axis labels
@@ -509,8 +522,9 @@ class CPTPage extends Component {
     // }
 
     while (currDate >= start && currDate <= end) {
-      console.log(currDate);
+      //console.log(currDate);
       const index = this.calcDuration(start, currDate); //duration from start to curr == index in arr because I'm a genius
+      // if (append && Xlabel[index] == undefined) return returnXLabel;
       returnXLabel[index] = append
         ? Xlabel[index] + " vs " + currDate
         : currDate;

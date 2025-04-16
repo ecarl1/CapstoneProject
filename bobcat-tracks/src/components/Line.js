@@ -30,6 +30,7 @@ class Linegraph extends React.Component {
   getOptions = () => {
     return {
       responsive: true,
+
       plugins: {
         ticks: {
           font: {
@@ -37,6 +38,19 @@ class Linegraph extends React.Component {
           },
         },
         legend: {
+          onHover: (e, legendItem, legend) => {
+            const index = legendItem.datasetIndex;
+            const dataset = legend.chart.data.datasets[index];
+            dataset.borderWidth = 6; // make it bold
+            legend.chart.update();
+          },
+          onLeave: (e, legendItem, legend) => {
+            const index = legendItem.datasetIndex;
+            const dataset = legend.chart.data.datasets[index];
+            dataset.borderWidth = 2.5; // reset to original width
+            legend.chart.update();
+          },
+
           position: "top",
 
           labels: {
@@ -68,9 +82,23 @@ class Linegraph extends React.Component {
           grid: { display: true },
           ticks: {
             color: (context) => {
-              return context.index % 2 === 0
+              const total = context.chart.data.labels.length;
+              const maxVisible = 30;
+
+              // Determine how often to skip if we have too many labels
+              const skip =
+                total > maxVisible ? Math.ceil(total / maxVisible) : 1;
+
+              // Only color labels that match the skip pattern
+              if (context.index % skip != 0) {
+                return "transparent"; // or null, or 'rgba(0,0,0,0)' to hide
+              }
+
+              // Alternate colors for visible labels
+              const visibleIndex = Math.floor(context.index / skip);
+              return visibleIndex % 2 === 0
                 ? paletteColors.burntGold
-                : paletteColors.gold; // Alternating colors
+                : paletteColors.gold;
             },
             font: {
               size: 15,
