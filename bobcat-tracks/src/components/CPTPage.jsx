@@ -454,7 +454,7 @@ class CPTPage extends Component {
                 dateTotal += 1;
               case "LOW":
                 dateTotal += 1;
-              case "default":
+              default:
                 break;
             }
             break; //end confidence case
@@ -471,18 +471,18 @@ class CPTPage extends Component {
                 dateTotal += 1;
               case "POOR - none of the 3 elements":
                 dateTotal += 1;
-              case "default":
+              default:
                 break;
             }
             break; //end prep case
 
-          case "default":
+          default:
             console.log("Improper target for dataCountToAverageArray");
         } //end target switch case
       });
       const index = this.calcDuration(start, currDate); //duration from start to curr == index in arr because I'm a genius
 
-      numEntries == 0
+      numEntries === 0
         ? (returnData[index] = 0)
         : (returnData[index] = dateTotal / numEntries);
       //puts the sum of how many entries are on that date in that index of the array (which is what actually is passed to the graph)
