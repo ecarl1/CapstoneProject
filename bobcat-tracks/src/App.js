@@ -20,7 +20,7 @@ function App() {
         <Route path="/AdminCreate" element={<AdminPage />}></Route>
 
         {/* unprotected route for development */}
-        <Route path="/CPT" element={<CPTPage />}></Route>
+        <Route path="/shortcut/cpt" element={<CPTPage />}></Route>
 
         <Route
           path="/attendance"
@@ -35,6 +35,14 @@ function App() {
           element={
             <ProtectedRoute>
               <MulticheckPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cpt"
+          element={
+            <ProtectedRoute>
+              <CPTPage />
             </ProtectedRoute>
           }
         />

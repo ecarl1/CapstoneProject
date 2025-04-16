@@ -62,8 +62,8 @@ class CPTPage extends Component {
       defaultBarData: [],
 
       //CAMRYN -  here is data for confidence and prep from default params
-      defaultConfidence: [1, 2, 3],
-      defaultPrep: [4, 5, 6],
+      defaultConfidence: [1, 2, 3, 0, 12, 4],
+      defaultPrep: [4, 5, 6, 10, 2, 5],
 
       //name of what is being compared & param
       compareBarLabel: "",

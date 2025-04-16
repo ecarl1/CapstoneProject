@@ -173,6 +173,8 @@ class Linegraph extends React.Component {
             backgroundColor: paletteColors.gold,
 
             hoverBackgroundColor: paletteColors.white,
+            pointHoverBorderWidth: 5,
+            pointHoverRadius: 5,
           },
           {
             //Prep
