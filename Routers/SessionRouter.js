@@ -3,21 +3,47 @@ const router = express.Router();
 const Session = require('../SessionModels/Session'); 
 const Session_Answer = require('../SessionModels/Session_Answer');
 const Question = require('../SessionModels/Question');
+const multer = require('multer');
+const path = require('path');
 
 Session.hasOne(Session_Answer, {foreignKey: 'entry_id'})
 // Session_Answer.belongsTo(Session, {foreignKey: 'entry_id'})
 
 // Session.hasOne(Session_Answer)
 
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
+
+router.post('/upload-file', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded.' });
+  }
+
+  // Return the file path to the frontend
+  res.status(200).json({ filePath: req.file.path });
+});
+
+
 router.post('/sessions/parse-and-save', async (req, res) => {
     try {
-        const { filePath } = req.body;
+        let { filePath } = req.body;
         if (!filePath) {
             return res.status(400).json({ error: 'filePath needed' });
         }
+        filePath = path.normalize(filePath);
+
         const parsedData = await Session.parse(filePath);
         for (const data of parsedData) {
-            await Session.save(data);
+            await Session.save(data.sessionData, data.questionsData, data.answersData);
         }
         res.status(200).json({ message: 'All sessions saved' });
     } catch (error) {

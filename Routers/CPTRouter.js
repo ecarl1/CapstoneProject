@@ -98,5 +98,44 @@ router.get('/sessions/details', async (req, res) => {
     }
 });
 
+// Route to fetch all answers associated with question ID 30
+router.get('/questions/30/answers', async (req, res) => {
+    try {
+        // Find all session answers for question_id 30
+        const sessionAnswers = await Session_Answer.findAll({
+            where: { question_id: 30 },
+            attributes: ['answer_id'],
+            raw: true,
+        });
+
+        if (!sessionAnswers.length) {
+            return res.status(404).json({ error: 'No answers found for question ID 30.' });
+        }
+
+        // Extract unique answer IDs
+        const answerIds = [...new Set(sessionAnswers.map(sa => sa.answer_id))];
+
+        // Fetch answer texts
+        const answers = await Answer.findAll({
+            where: { answer_id: { [Op.in]: answerIds } },
+            attributes: ['answer_id', 'answer_text'],
+            raw: true,
+        });
+
+        // Process answers to split and trim text properly
+        const processedAnswers = answers.map(a => ({
+            answer_id: a.answer_id,
+            answer_text: a.answer_text.split(/\r?\n/).map(text => text.trim()).filter(Boolean)
+        }));
+
+        // Respond with processed answers
+        return res.status(200).json(processedAnswers);
+
+    } catch (error) {
+        console.error('Error fetching answers for question 30:', error);
+        return res.status(500).json({ error: 'Failed to fetch answers.' });
+    }
+});
+
 
 module.exports = router;
