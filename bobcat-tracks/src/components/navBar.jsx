@@ -86,7 +86,7 @@ class NavBar extends Component {
                 <p className="m1">Skills</p>
               </a>
 
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/cpt">
                 <img src="/images/CPT menu.png" className="nav-icon" />
                 <p className="m1">Confidence</p>
               </a>

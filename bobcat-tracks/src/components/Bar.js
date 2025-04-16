@@ -11,7 +11,7 @@ import {
   scales,
 } from "chart.js"; //from chart library
 // import { barChartData } from "../fakeData";
-import { fontString } from "chart.js/helpers";
+// import { fontString } from "chart.js/helpers";
 import { paletteColors } from "./palette";
 
 ChartJS.register(
