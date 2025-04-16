@@ -8,21 +8,26 @@ class UploadPage extends Component {
     super(props);
     this.state = {
       file: null,
+      message: "",
+      loading: false,
     };
   }
 
   handleFileChange = (event) => {
-    this.setState({ file: event.target.files[0] });
+    this.setState({ file: event.target.files[0], message: "" });
   };
 
   handleUpload = async () => {
     if (!this.state.file) {
-      alert("Please select a CSV file first.");
+      this.setState({ message: "Please select a CSV file first." });
       return;
     }
 
     const formData = new FormData();
     formData.append("file", this.state.file);
+
+    this.setState({ loading: true, message: "" });
+
     try {
       // STEP 1: Upload file to /uploads
       const uploadResponse = await axios.post(
@@ -39,16 +44,21 @@ class UploadPage extends Component {
       console.log("Uploaded file path:", uploadedPath);
 
       // STEP 2: Call parse-and-save with filePath
-      console.log("DDDD")
       const parseResponse = await axios.post(
         "http://localhost:3000/api/session/sessions/parse-and-save",
         { filePath: uploadedPath }
       );
 
-      alert(parseResponse.data.message || "Upload and parse successful!");
+      this.setState({
+        message: parseResponse.data.message || "Upload and parse successful!",
+        loading: false,
+      });
     } catch (error) {
       console.error("Error uploading or parsing:", error);
-      alert("Upload or parsing failed.");
+      this.setState({
+        message: "Upload or parsing failed.",
+        loading: false,
+      });
     }
   };
 
@@ -57,11 +67,7 @@ class UploadPage extends Component {
       <div>
         <NavBar />
         <div style={{ margin: "20px" }}>
-          <input
-            type="file"
-            accept=".csv"
-            onChange={this.handleFileChange}
-          />
+          <input type="file" accept=".csv" onChange={this.handleFileChange} />
           <button
             type="button"
             className="btn btn-download"
@@ -70,6 +76,31 @@ class UploadPage extends Component {
           >
             <h2>UPLOAD .CSV</h2>
           </button>
+
+          {this.state.message && (
+            <div style={{ marginTop: "10px", color: "red" }}>
+              {this.state.message}
+            </div>
+          )}
+
+          {this.state.loading && (
+            <div
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundColor: "rgba(0,0,0,0.6)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 1000,
+              }}
+            >
+              <img src="/images/itisloading.png" alt="Uploading..." />
+            </div>
+          )}
         </div>
 
         <div className="uploadLog">
