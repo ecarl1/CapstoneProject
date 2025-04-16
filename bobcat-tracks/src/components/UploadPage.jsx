@@ -29,7 +29,6 @@ class UploadPage extends Component {
     this.setState({ loading: true, message: "" });
 
     try {
-      // STEP 1: Upload file to /uploads
       const uploadResponse = await axios.post(
         "http://localhost:3000/api/session/upload-file",
         formData,
@@ -43,7 +42,6 @@ class UploadPage extends Component {
       const uploadedPath = uploadResponse.data.filePath;
       console.log("Uploaded file path:", uploadedPath);
 
-      // STEP 2: Call parse-and-save with filePath
       const parseResponse = await axios.post(
         "http://localhost:3000/api/session/sessions/parse-and-save",
         { filePath: uploadedPath }
@@ -98,7 +96,33 @@ class UploadPage extends Component {
                 zIndex: 1000,
               }}
             >
-              <img src="/images/itisloading.png" alt="Uploading..." />
+              <div
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgba(0,0,0,0.6)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  zIndex: 1000,
+                  color: "#fff",
+                  textAlign: "center",
+                }}
+              >
+                <img
+                  src="/images/itisloading.png"
+                  alt="Uploading..."
+                  style={{ maxWidth: "200px", marginBottom: "20px" }}
+                />
+                <p style={{ fontSize: "1.5rem" }}>
+                  Uploading in progress...<br />
+                  The page is temporarily disabled.
+                </p>
+              </div>
             </div>
           )}
         </div>
