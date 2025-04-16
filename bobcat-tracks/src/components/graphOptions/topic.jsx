@@ -35,7 +35,10 @@ const TopicOption = ({ onTopicChange, topics }) => {
         {/* Multi-select dropdown */}
         <div className="form-group options-form-element compare-select-box">
           <Select
+            //TODO - uncomment out the 'options={topicOptions}' to switch the options back to the router results
             //options={topicOptions}
+
+            //TODO - remove the dummy options below that were populated by hand
             options={[
               { value: "grammar", label: "grammar" },
               { value: "grammar, spelling", label: "grammar, spelling" },
