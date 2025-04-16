@@ -7,26 +7,6 @@ const TopicOption = ({ onTopicChange, topics }) => {
   const [topicOptions, setTopicOptions] = useState([]);
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await fetch(
-          //TODO - update to fetch all topics
-          "http://localhost:3000/api/course/courses"
-        );
-        const data = await response.json();
-        setTopicOptions(
-          data.map((course) => ({
-            value: course.course_name,
-            label: course.course_name,
-          }))
-        );
-        console.log("topicoptions: ", topicOptions);
-      } catch (error) {
-        console.error("API Error:", error);
-      }
-    };
-    fetchCourses();
-
     const fetchTopics = async () => {
       try {
         const response = await fetch(
