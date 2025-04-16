@@ -122,6 +122,8 @@ class Linegraph extends React.Component {
             backgroundColor: paletteColors.gold,
 
             hoverBackgroundColor: paletteColors.white,
+            pointHoverBorderWidth: 5,
+            pointHoverRadius: 5,
           },
           {
             //Prep
@@ -133,6 +135,8 @@ class Linegraph extends React.Component {
             backgroundColor: paletteColors.mediumBlue,
 
             hoverBackgroundColor: paletteColors.white,
+            pointHoverBorderWidth: 5,
+            pointHoverRadius: 5,
           },
           {
             //Confidence(compare)
@@ -144,6 +148,8 @@ class Linegraph extends React.Component {
             backgroundColor: paletteColors.burntGold,
 
             hoverBackgroundColor: paletteColors.white,
+            pointHoverBorderWidth: 5,
+            pointHoverRadius: 5,
           },
           {
             //Prep (compare)
@@ -155,6 +161,8 @@ class Linegraph extends React.Component {
             backgroundColor: paletteColors.navy,
 
             hoverBackgroundColor: paletteColors.white,
+            pointHoverBorderWidth: 5,
+            pointHoverRadius: 5,
           },
         ],
       };
@@ -186,6 +194,8 @@ class Linegraph extends React.Component {
             backgroundColor: paletteColors.mediumBlue,
 
             hoverBackgroundColor: paletteColors.white,
+            pointHoverBorderWidth: 5,
+            pointHoverRadius: 5,
           },
         ],
       };
