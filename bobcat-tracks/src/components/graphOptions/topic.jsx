@@ -26,6 +26,30 @@ const TopicOption = ({ onTopicChange, topics }) => {
       }
     };
     fetchCourses();
+
+    const fetchTopics = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:3000/api/CPT/questions/30/answers"
+        );
+        const data = await response.json();
+  
+        const formattedOptions = data.flatMap(item =>
+          item.answer_text.map(text => ({
+            value: text,
+            label: text,
+          }))
+        );
+  
+        setTopicOptions(formattedOptions);
+        console.log("Fetched topic options:", formattedOptions);
+      } catch (error) {
+        console.error("API Error fetching topics:", error);
+      }
+    };
+  
+    fetchTopics();
+
   }, []);
 
   return (
@@ -36,9 +60,10 @@ const TopicOption = ({ onTopicChange, topics }) => {
         <div className="form-group options-form-element compare-select-box">
           <Select
             //TODO - uncomment out the 'options={topicOptions}' to switch the options back to the router results
-            //options={topicOptions}
+            options={topicOptions}
 
             //TODO - remove the dummy options below that were populated by hand
+            /*
             options={[
               { value: "grammar", label: "grammar" },
               { value: "grammar, spelling", label: "grammar, spelling" },
@@ -46,6 +71,7 @@ const TopicOption = ({ onTopicChange, topics }) => {
               { value: "grammar (commas)", label: "grammar (commas)" },
               { value: "spelling", label: "spelling" },
             ]}
+            */
             isMulti
             onChange={(selectedOptions) =>
               onTopicChange(selectedOptions.map((option) => option.value))
