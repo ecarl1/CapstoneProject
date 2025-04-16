@@ -10,6 +10,23 @@ class UploadPage extends Component {
       file: null,
       message: "",
       loading: false,
+      logs: [
+        {
+          name: "Sarah",
+          date: "2025-04-15T10:30:00Z",
+          filename: "report1.pdf",
+        },
+        {
+          name: "Alex",
+          date: "2025-04-14T14:20:00Z",
+          filename: "data_export.csv",
+        },
+        {
+          name: "Jamie",
+          date: "2025-04-13T09:10:00Z",
+          filename: "summary.docx",
+        },
+      ],
     };
   }
 
@@ -119,7 +136,8 @@ class UploadPage extends Component {
                   style={{ maxWidth: "200px", marginBottom: "20px" }}
                 />
                 <p style={{ fontSize: "1.5rem" }}>
-                  Uploading in progress...<br />
+                  Uploading in progress...
+                  <br />
                   The page is temporarily disabled.
                 </p>
               </div>
@@ -131,11 +149,26 @@ class UploadPage extends Component {
           <table className="uploadTable">
             <thead>
               <tr className="headerRow">
-                <th className="uploadHeader"><h1>Date</h1></th>
-                <th className="uploadHeader"><h1>Name</h1></th>
-                <th className="uploadHeader"><h1>File Name</h1></th>
+                <th className="uploadHeader">
+                  <h1>Date</h1>
+                </th>
+                <th className="uploadHeader">
+                  <h1>Name</h1>
+                </th>
+                <th className="uploadHeader">
+                  <h1>File Name</h1>
+                </th>
               </tr>
             </thead>
+            <tbody className="tableBody">
+              {this.state.logs.map((log, index) => (
+                <tr key={index}>
+                  <td>{new Date(log.date).toLocaleDateString()}</td>
+                  <td>{log.name}</td>
+                  <td>{log.filename}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
         <Footer />
