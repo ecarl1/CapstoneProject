@@ -135,8 +135,11 @@ class CPTPage extends Component {
 
     //processed data vars above will be tallied per date & stored in the below arrays, which will be what gets passed to the graph
     //console.log("duration:", this.state.duration);
-    var newBarData = new Array(this.state.duration + 1); //+1 since indexing starts at 0
-    var newCompareBarData = new Array(this.state.duration + 1); //+1 since indexing starts at 0
+    var newConfidence = new Array(this.state.duration + 1); //+1 since indexing starts at 0
+    var newPrep = new Array(this.state.duration + 1); //+1 since indexing starts at 0
+
+    var newCompareConfidence = new Array(this.state.duration + 1); //+1 since indexing starts at 0
+    var newComparePrep = new Array(this.state.duration + 1); //+1 since indexing starts at 0
 
     //this is the X label array (text that will be below each bar)
     var newXLabel = new Array(this.state.duration + 1);
@@ -180,10 +183,25 @@ class CPTPage extends Component {
     );
     console.log("end filterCourses: ", this.state.course, processedData);
 
+    //FILTER BY TOPIC
+    if (this.state.topics.length != 0)
+      processedData = this.filterTopic(processedData, this.state.topics);
+
     //Now that processedData is filtered, we need to count occurances on each date
     console.log("starting dataToCountArray");
-    newBarData = this.dataToCountArray(startDate, endDate, processedData);
-    console.log("end dataToCountArray", newBarData);
+    newConfidence = this.dataCountToAverageArray(
+      startDate,
+      endDate,
+      processedData,
+      "confidence"
+    );
+    newPrep = this.dataCountToAverageArray(
+      startDate,
+      endDate,
+      processedData,
+      "prep"
+    );
+    console.log("end dataToCountArray", newConfidence);
 
     //change X axis to reflect the dates. Append is FALSE because we aren't adding to an existing label (the compare WILL add to an existing label- the one made here!)
     console.log("starting create X labels");
@@ -219,10 +237,17 @@ class CPTPage extends Component {
         );
 
         //Now that processedData is filtered, we need to count occurances on each date
-        newCompareBarData = this.dataToCountArray(
+        newCompareConfidence = this.dataCountToAverageArray(
           this.state.compareStartDate,
           this.addDays(this.state.compareStartDate, this.state.duration),
-          processedCompareData
+          processedCompareData,
+          "confidence"
+        );
+        newComparePrep = this.dataCountToAverageArray(
+          this.state.compareStartDate,
+          this.addDays(this.state.compareStartDate, this.state.duration),
+          processedCompareData,
+          "prep"
         );
         //change X axis to reflect the dates. Append is FALSE because we aren't adding to an existing label (the compare WILL add to an existing label- the one made here!)
         newXLabel = this.createXaxisLabels(
@@ -255,13 +280,20 @@ class CPTPage extends Component {
         console.log("step 3", processedCompareData);
 
         //compare data should be properly filtered.
-        newCompareBarData = this.dataToCountArray(
+        newCompareConfidence = this.dataCountToAverageArray(
           startDate,
           endDate,
-          processedCompareData
+          processedCompareData,
+          "confidence"
+        );
+        newComparePrep = this.dataCountToAverageArray(
+          startDate,
+          endDate,
+          processedCompareData,
+          "prep"
         );
         console.log("step 4", processedCompareData);
-        console.log("step 4 data", newCompareBarData);
+        console.log("step 4 data", newCompareConfidence);
 
         //X axis does not need updating
       }
@@ -269,11 +301,11 @@ class CPTPage extends Component {
 
     /* //THESE SHOULD ALL BE UPDATED & READY
     // var newBarData;
-    // var newCompareBarData;
+    // var newCompareConfidence;
     // var newXLabel;*/
 
-    console.log("newCompareBarData: ", newCompareBarData);
-    console.log("newBarData: ", newBarData);
+    // console.log("newCompareConfidence: ", newCompareConfidence);
+    // console.log("newBarData: ", newBarData);
 
     // //need to update titles
     // //defaultBarLabel compareBarLabel
@@ -286,7 +318,9 @@ class CPTPage extends Component {
       //comparing 2 dates
       if (this.state.comparingType == 1) {
         newGraphTitle =
-          "Confidence/Prep/Topic Data: " +
+          "Average Confidence/Prep per topics " +
+          this.state.topics +
+          " Data: " +
           this.state.startDate +
           " VS " +
           this.state.compareStartDate +
@@ -302,7 +336,9 @@ class CPTPage extends Component {
         const inputString =
           this.state.courseType == 0 ? "All courses" : this.state.course;
         newGraphTitle =
-          "Confidence/Prep/Topic Data: " +
+          "Average Confidence/Prep for topics " +
+          this.state.topics +
+          " Data: " +
           inputString +
           " VS " +
           this.state.compareCourse +
@@ -316,7 +352,9 @@ class CPTPage extends Component {
     else {
       newDefaultTitle = "start:" + this.state.startDate;
       newGraphTitle =
-        "Confidence/Prep/Topic Data: " +
+        "Average Confidence/Prep for " +
+        this.state.topics +
+        " : " +
         this.state.startDate +
         " for " +
         this.state.duration +
@@ -328,8 +366,10 @@ class CPTPage extends Component {
     this.setState(
       {
         xAxisLabels: newXLabel, //adjusts X axis labels
-        defaultBarData: newBarData,
-        compareBarData: newCompareBarData,
+        defaultConfidence: newConfidence,
+        defaultPrep: newPrep,
+        compareConfidence: newCompareConfidence,
+        comparePrep: newComparePrep,
         graphTitle: newGraphTitle,
         defaultBarLabel: newDefaultTitle,
         compareBarLabel: newCompareTitle,
@@ -364,6 +404,81 @@ class CPTPage extends Component {
       });
     }
     return objectArr;
+  };
+
+  filterTopic = (objectArr, topics) => {
+    console.log("enter filter topics");
+    return objectArr.filter((entry) => {
+      const entryTopics = entry.topic;
+      //const topicsObject = { "topic1": true, "topic2": true, "topic3": true };
+      //const searchArray = ["topic3", "topic4"]; == topics
+
+      return topics.some((topic) => entryTopics[topic]);
+      //const hasMatch = searchArray.some((topic) => topicsObject[topic]);
+
+      //console.log(hasMatch); // true, because "topic3" exists in topicsObject
+    });
+  };
+
+  dataCountToAverageArray = (start, end, data, target) => {
+    console.log("enter dataCountToArray");
+    var returnData = new Array(this.state.duration + 1); //+1 since indexing starts at 0
+    var currDate = start; //will walk from start date to end
+
+    //count occurences on each date
+    while (currDate >= start && currDate <= end) {
+      const onCurrDate = data.filter((entry) => entry.date === currDate);
+      //onCurrDate is all data on current date- now we need the average
+      var numEntries = onCurrDate.length;
+      var dateTotal = 0;
+      onCurrDate.forEach((element) => {
+        switch (target) {
+          case "confidence":
+            switch (element.reported_confidence) {
+              case "HIGH":
+                dateTotal += 1;
+              case "MEDIUM":
+                dateTotal += 1;
+              case "LOW":
+                dateTotal += 1;
+              case "default":
+                break;
+            }
+            break; //end confidence case
+
+          case "prep":
+            switch (element.preparation) {
+              case "VERY WELL PREPARED - all 3 elements plus self-reflection on learning or planning for independent study/work ":
+                dateTotal += 1;
+              case "WELL PREPARED - all 3 elements":
+                dateTotal += 1;
+              case "MODERATE - 2 of 3 elements":
+                dateTotal += 1;
+              case "MINIMAL - one of the 3 elements":
+                dateTotal += 1;
+              case "POOR - none of the 3 elements":
+                dateTotal += 1;
+              case "default":
+                break;
+            }
+            break; //end prep case
+
+          case "default":
+            console.log("Improper target for dataCountToAverageArray");
+        } //end target switch case
+      });
+      const index = this.calcDuration(start, currDate); //duration from start to curr == index in arr because I'm a genius
+
+      numEntries == 0
+        ? (returnData[index] = 0)
+        : (returnData[index] = dateTotal / numEntries);
+      //puts the sum of how many entries are on that date in that index of the array (which is what actually is passed to the graph)
+      //returnXLabel[index] = Xlabel[index] + " vs " + currDate; // X label will be each date
+      currDate = this.addDays(currDate, 1); //increment currDate by adding a day
+    }
+    console.log("returning dataCountToAverageArray");
+
+    return returnData;
   };
 
   dataToCountArray = (start, end, data) => {
@@ -550,11 +665,12 @@ class CPTPage extends Component {
   };
 
   //topic method
-  handleTopicChange = (topics) => {
-    this.setState({ topics: topics }, () => {
+  handleTopicChange = (topic) => {
+    this.setState({ topics: topic }, () => {
       this.updateFilter();
+      console.log("New topics:", this.state.topics);
     });
-    console.log("New type:", topics);
+    //console.log("New type:", this.state.topics);
   };
   //download method
 

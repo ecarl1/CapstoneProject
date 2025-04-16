@@ -2,16 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Select from "react-select";
 
-const TopicOption = ({
-  //   courseType,
-  //   onCourseType,
-  //   onCourseChange,
-  //   comparing,
-  //   comparingType,
-  //   onCompareCourseChange,
-  onTopicChange,
-  topics,
-}) => {
+const TopicOption = ({ onTopicChange, topics }) => {
   const { handleSubmit } = useForm();
   const [topicOptions, setTopicOptions] = useState([]);
 
@@ -29,6 +20,7 @@ const TopicOption = ({
             label: course.course_name,
           }))
         );
+        console.log("topicoptions: ", topicOptions);
       } catch (error) {
         console.error("API Error:", error);
       }
@@ -43,7 +35,14 @@ const TopicOption = ({
         {/* Multi-select dropdown */}
         <div className="form-group options-form-element compare-select-box">
           <Select
-            options={topicOptions}
+            //options={topicOptions}
+            options={[
+              { value: "grammar", label: "grammar" },
+              { value: "grammar, spelling", label: "grammar, spelling" },
+              { value: "spelling and grammar", label: "spelling and grammar" },
+              { value: "grammar (commas)", label: "grammar (commas)" },
+              { value: "spelling", label: "spelling" },
+            ]}
             isMulti
             onChange={(selectedOptions) =>
               onTopicChange(selectedOptions.map((option) => option.value))
