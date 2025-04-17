@@ -83,7 +83,7 @@ const CourseOption = ({
             disabled={courseType == 0}
           />
           <label htmlFor="course">
-            <p className="b1">Select Course</p>
+            <p className="m1">Select Course</p>
           </label>
         </div>
 
@@ -98,7 +98,7 @@ const CourseOption = ({
             disabled={!(comparing && comparingType == 2)}
           />
           <label htmlFor="course">
-            <p className="b1">Select Course</p>
+            <p className="m1">Select Comparison Course</p>
           </label>
         </div>
       </form>

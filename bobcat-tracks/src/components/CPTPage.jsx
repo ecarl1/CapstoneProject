@@ -426,7 +426,12 @@ class CPTPage extends Component {
       //const topicsObject = { "topic1": true, "topic2": true, "topic3": true };
       //const searchArray = ["topic3", "topic4"]; == topics
 
-      return topics.some((topic) => entryTopics[topic]);
+      return topics.some((topic) => {
+        const lowerTopic = topic.toLowerCase();
+        return Object.keys(entryTopics).some(
+          (entryKey) => entryKey.toLowerCase() === lowerTopic
+        );
+      });
       //const hasMatch = searchArray.some((topic) => topicsObject[topic]);
 
       //console.log(hasMatch); // true, because "topic3" exists in topicsObject
