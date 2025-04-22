@@ -423,13 +423,15 @@ class CPTPage extends Component {
     console.log("enter filter topics");
     return objectArr.filter((entry) => {
       const entryTopics = entry.topic;
-      //const topicsObject = { "topic1": true, "topic2": true, "topic3": true };
-      //const searchArray = ["topic3", "topic4"]; == topics
 
-      return topics.some((topic) => entryTopics[topic]);
-      //const hasMatch = searchArray.some((topic) => topicsObject[topic]);
+      //all lowercase to ignore cases
+      const entryTopicKeys = Object.keys(entryTopics).map((k) =>
+        k.toLowerCase()
+      );
 
-      //console.log(hasMatch); // true, because "topic3" exists in topicsObject
+      return topics.some((topic) =>
+        entryTopicKeys.includes(topic.toLowerCase())
+      );
     });
   };
 
