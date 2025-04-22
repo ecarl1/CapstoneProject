@@ -83,7 +83,7 @@ class Linegraph extends React.Component {
           ticks: {
             color: (context) => {
               const total = context.chart.data.labels.length;
-              const maxVisible = 30;
+              const maxVisible = 40;
 
               // Determine how often to skip if we have too many labels
               const skip =
@@ -155,7 +155,7 @@ class Linegraph extends React.Component {
           },
           {
             //Prep
-            label: "Preperation",
+            label: "Preparation",
             data: this.props.defaultPrep,
 
             borderWidth: 2.5,
@@ -181,7 +181,7 @@ class Linegraph extends React.Component {
           },
           {
             //Prep (compare)
-            label: "Comparing Preperation",
+            label: "Comparing Preparation",
             data: this.props.comparePrep,
 
             borderWidth: 2.5,
@@ -214,7 +214,7 @@ class Linegraph extends React.Component {
           },
           {
             //Prep
-            label: "Preperation",
+            label: "Preparation",
             data: this.props.defaultPrep,
 
             borderWidth: 2.5,

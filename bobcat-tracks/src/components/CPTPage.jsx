@@ -419,17 +419,19 @@ class CPTPage extends Component {
     return objectArr;
   };
 
-  filterTopic = (objectArr, topics) => {
+   filterTopic = (objectArr, topics) => {
     console.log("enter filter topics");
     return objectArr.filter((entry) => {
       const entryTopics = entry.topic;
-      //const topicsObject = { "topic1": true, "topic2": true, "topic3": true };
-      //const searchArray = ["topic3", "topic4"]; == topics
 
-      return topics.some((topic) => entryTopics[topic]);
-      //const hasMatch = searchArray.some((topic) => topicsObject[topic]);
+      //all lowercase to ignore cases
+      const entryTopicKeys = Object.keys(entryTopics).map((k) =>
+        k.toLowerCase()
+      );
 
-      //console.log(hasMatch); // true, because "topic3" exists in topicsObject
+      return topics.some((topic) =>
+        entryTopicKeys.includes(topic.toLowerCase())
+      );
     });
   };
 
@@ -454,7 +456,7 @@ class CPTPage extends Component {
                 dateTotal += 1;
               case "LOW":
                 dateTotal += 1;
-              case "default":
+              default:
                 break;
             }
             break; //end confidence case
@@ -471,18 +473,18 @@ class CPTPage extends Component {
                 dateTotal += 1;
               case "POOR - none of the 3 elements":
                 dateTotal += 1;
-              case "default":
+              default:
                 break;
             }
             break; //end prep case
 
-          case "default":
+          default:
             console.log("Improper target for dataCountToAverageArray");
         } //end target switch case
       });
       const index = this.calcDuration(start, currDate); //duration from start to curr == index in arr because I'm a genius
 
-      numEntries == 0
+      numEntries === 0
         ? (returnData[index] = 0)
         : (returnData[index] = dateTotal / numEntries);
       //puts the sum of how many entries are on that date in that index of the array (which is what actually is passed to the graph)

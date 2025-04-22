@@ -22,9 +22,7 @@ const SkillOption = ({ onSkillChange }) => {
       <h1>Skill</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group options-form-element compare-select-box">
-          <label htmlFor="skill">
-            <p className="b1">Select Skill</p>
-          </label>
+          <p className="m1">Select Skill</p>
 
           <select
             id="skill"

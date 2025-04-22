@@ -7,6 +7,8 @@ const TopicOption = ({ onTopicChange, topics }) => {
   const [topicOptions, setTopicOptions] = useState([]);
 
   useEffect(() => {
+    let isMounted = true;
+  
     const fetchTopics = async () => {
       try {
         const response = await fetch(
@@ -21,15 +23,19 @@ const TopicOption = ({ onTopicChange, topics }) => {
           }))
         );
   
-        setTopicOptions(formattedOptions);
-        console.log("Fetched topic options:", formattedOptions);
+        if (isMounted) {
+          setTopicOptions(formattedOptions);
+        }
       } catch (error) {
         console.error("API Error fetching topics:", error);
       }
     };
   
     fetchTopics();
-
+  
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
