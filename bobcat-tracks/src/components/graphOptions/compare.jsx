@@ -51,7 +51,7 @@ const CompareOption = ({
             disabled={!comparing} //this isn't working
           >
             <option value="1">
-              <p className="b1">Date Comparison</p>
+              <p className="b1">Date Range Comparison</p>
             </option>
             <option value="2">
               <p className="b1">Course Comparison</p>

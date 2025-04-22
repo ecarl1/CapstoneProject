@@ -63,9 +63,8 @@ const DateOption = ({
         {/* SECOND DATE INPUTS FOR COMPARING */}
 
         <div className="form-group options-form-element">
-          <label htmlFor="date">
-            <p className="b1">Select Date for Comparison</p>
-          </label>
+          <p className="m1">Select Start Date for Comparison</p>
+
           <input
             type="date"
             name="compareDate"

@@ -419,7 +419,7 @@ class CPTPage extends Component {
     return objectArr;
   };
 
-  filterTopic = (objectArr, topics) => {
+   filterTopic = (objectArr, topics) => {
     console.log("enter filter topics");
     return objectArr.filter((entry) => {
       const entryTopics = entry.topic;
