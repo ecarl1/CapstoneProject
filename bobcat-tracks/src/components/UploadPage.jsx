@@ -48,7 +48,7 @@ class UploadPage extends Component {
       );
 
       this.setState({
-        message: parseResponse.data.message || "Upload and parse successful!",
+        message: parseResponse.data.message || "Upload Successful!",
         loading: false,
       });
     } catch (error) {
