@@ -71,11 +71,6 @@ class NavBar extends Component {
 
           <div className="collapse navbar-collapse" id="bobcatNavbar">
             <div class="navbar-nav  w-100 mr-auto">
-              <a class="nav-link" href="/upload">
-                <img src="/images/Upload Icon.png" className="nav-icon" />
-                <p className="m1">Upload</p>
-              </a>
-
               <a class="nav-link" href="/attendance">
                 <img src="/images/attendanceMenu.png" className="nav-icon" />
                 <p className="m1">Attendance</p>
@@ -97,10 +92,9 @@ class NavBar extends Component {
                 Hello {user ? user.User.fname : "Guest"}
               </p>
 
-              <a class="nav-link" href="#">
-                <img src="/images/profileIcon.png" className="nav-icon" />
-
-                <p className="m1">Profile</p>
+              <a class="nav-link" href="/upload">
+                <img src="/images/Upload Icon.png" className="nav-icon" />
+                <p className="m1">Upload</p>
               </a>
               <a class="nav-link" href="/">
                 <img src="/images/Logout.png" className="nav-icon" />
