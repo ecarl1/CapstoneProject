@@ -15,7 +15,7 @@ class NavBar extends Component {
         {/* fluid container for collapsing? */}
         <div className="container-fluid">
           {/* START paw & bobcat tracks  */}
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="/">
             <img src="/images/paw.png" className="brand-icon" />
             <h2 className="brand-txt">Bobcat Tracks</h2>
           </a>
