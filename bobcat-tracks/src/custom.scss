@@ -133,6 +133,12 @@ h3 {
   margin-left: 10%;
 }
 
+.loginButtonBox {
+  display: flex;
+  justify-content: space-between;
+  // padding: 0 16px;
+}
+
 //the picture of boomer overlapping the banner & responsive!
 .over-image {
   height: fit-content;
