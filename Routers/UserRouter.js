@@ -99,10 +99,10 @@ router.post('/register', async (req, res) => {
         // Create the user (password is hashed automatically in the model)
         const newUser = await User.create({
             username,
-            password,  // NO manual hashing needed! Sequelize will handle it.
+            password,  
             fname,
             lname,
-            pref_name,
+            pref_Name,
             user_type,
             email,
         });
