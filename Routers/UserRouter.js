@@ -88,7 +88,7 @@ router.post("/change-password", async (req, res) => {
 
 router.post('/register', async (req, res) => {
     try {
-        const { username, password, fname, lname, pref_name, user_type, email } = req.body;
+        const { username, password, fname, lname, pref_Name, user_type, email } = req.body;
 
         // Check if username already exists
         const existingUser = await User.findOne({ where: { username } });

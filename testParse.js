@@ -9,9 +9,9 @@ async function testParseAndSave() {
         const parsedData = await parse(filePath);
 
        
-        // for (const data of parsedData) {
-        //     await save(data); 
-        // }
+         for (const data of parsedData) {
+             await save(data); 
+         }
 
         console.log('All sessions have been saved successfully.');
     } catch (error) {
