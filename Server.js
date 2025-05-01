@@ -7,6 +7,7 @@ const userRouter = require('./Routers/UserRouter');
 const attendanceRouter = require('./Routers/AttendanceRouter')
 const courseRouter = require('./Routers/CourseRouter')
 const CPTRouter = require('./Routers/CPTRouter')
+const Upload_logRouter = require('./Routers/Upload_logRouter')
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use('/api/user', userRouter);
 app.use('/api/attendance', attendanceRouter)
 app.use('/api/course', courseRouter)
 app.use('/api/CPT', CPTRouter)
+app.use('/upload', Upload_logRouter)
 
 
 const PORT = 3000;

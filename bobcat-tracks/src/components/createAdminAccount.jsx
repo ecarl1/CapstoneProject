@@ -149,7 +149,7 @@ const RegisterPage = () => {
 
         <button
           type="button"
-          className="btn btn-secondary login-form-element login-window"
+          className="btn btn-primary submit-btn login-form-element login-window"
           onClick={() => navigate("/")}
         >
           Back to Login

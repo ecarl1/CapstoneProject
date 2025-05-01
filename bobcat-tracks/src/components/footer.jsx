@@ -6,7 +6,7 @@ class Footer extends Component {
     return (
       <div className="footer">
         <h1 className="footer-txt">Bobcat Tracks</h1>
-        <p className="b2 footer-txt">Version 1.0 published on 12.14.24</p>
+        <p className="b2 footer-txt">Version 6.0 published on 4.29.25</p>
         <img src="/images/paw.png" className="footer-paw paw1" />
         <img src="/images/paw.png" className="footer-paw paw2" />
         <img src="/images/paw.png" className="footer-paw paw3" />
