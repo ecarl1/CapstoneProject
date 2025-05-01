@@ -27,7 +27,7 @@ const RegisterPage = () => {
           password: data.password,
           fname: data.fname,
           lname: data.lname,
-          pref_name: data.pref_name,
+          pref_Name: data.pref_Name,
           user_type: "admin",
           email: data.email,
         }
@@ -111,12 +111,12 @@ const RegisterPage = () => {
         </div>
 
         <div className="form-group login-form-element login-window">
-          <label htmlFor="pref_name">Preferred Name</label>
+          <label htmlFor="pref_Name">Preferred Name</label>
           <input
-            {...register("pref_name")}
+            {...register("pref_Name")}
             type="text"
             className="form-control"
-            id="pref_name"
+            id="pref_Name"
           />
         </div>
 
