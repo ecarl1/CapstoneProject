@@ -2,32 +2,57 @@ import React, { Component } from "react";
 import NavBar from "./navBar";
 import Footer from "./footer";
 import axios from "axios";
+const url = "http://localhost:3000/upload";
 
 class UploadPage extends Component {
   constructor(props) {
     super(props);
+
+    const request = async (data) => {
+      try {
+        console.log("Sending Upload request:", data);
+
+        const response = await axios.get(url);
+
+        console.log("Request successful:", response.data);
+        //alert("Request successful!");
+
+
+        this.setState({ uploadlog: response.data }, () => {
+          
+        });
+
+        this.setState({logs: response.data})
+
+      } catch (error) {
+        console.error("Request error:", error);
+      }
+    };
+    request();
+
     this.state = {
       file: null,
       message: "",
       loading: false,
       logs: [
-        {
-          name: "Sarah",
-          date: "2025-04-15T10:30:00Z",
-          filename: "report1.pdf",
-        },
-        {
-          name: "Alex",
-          date: "2025-04-14T14:20:00Z",
-          filename: "data_export.csv",
-        },
-        {
-          name: "Jamie",
-          date: "2025-04-13T09:10:00Z",
-          filename: "summary.docx",
-        },
+        // {
+        //   name: "Sarah",
+        //   date: "2025-04-15T10:30:00Z",
+        //   filename: "report1.pdf",
+        // },
+        // {
+        //   name: "Alex",
+        //   date: "2025-04-14T14:20:00Z",
+        //   filename: "data_export.csv",
+        // },
+        // {
+        //   name: "Jamie",
+        //   date: "2025-04-13T09:10:00Z",
+        //   filename: "summary.docx",
+        // },
       ],
     };
+    console.log(this.state.logs);
   }
 
   handleFileChange = (event) => {
@@ -198,8 +223,8 @@ class UploadPage extends Component {
               {this.state.logs.map((log, index) => (
                 <tr key={index}>
                   <td>{new Date(log.date).toLocaleDateString()}</td>
-                  <td>{log.name}</td>
-                  <td>{log.filename}</td>
+                  <td>{log.user_name}</td>
+                  <td>{log.file_name}</td>
                 </tr>
               ))}
             </tbody>
