@@ -31,6 +31,9 @@ const LoginForm = () => {
         console.log("User data received:", response.data.user);
         localStorage.setItem("user", JSON.stringify(response.data.user));
 
+        localStorage.setItem("ID", response.data.user_id);
+        console.log("IT IS HERE" + JSON.stringify(response.data.user));
+
         navigate("/attendance");
       } else {
         console.error("Error: User data is missing in response!");

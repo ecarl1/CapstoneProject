@@ -5,6 +5,7 @@ const Session_Answer = require('../SessionModels/Session_Answer');
 const Question = require('../SessionModels/Question');
 const multer = require('multer');
 const path = require('path');
+const UploadLog = require('../SessionModels/Upload_logs');
 
 Session.hasOne(Session_Answer, {foreignKey: 'entry_id'})
 // Session_Answer.belongsTo(Session, {foreignKey: 'entry_id'})
@@ -34,23 +35,52 @@ router.post('/upload-file', upload.single('file'), (req, res) => {
 
 
 router.post('/sessions/parse-and-save', async (req, res) => {
-    try {
-        let { filePath } = req.body;
-        if (!filePath) {
-            return res.status(400).json({ error: 'filePath needed' });
-        }
-        filePath = path.normalize(filePath);
+  let filePath = null;
+  let filename = 'unknown';
 
-        const parsedData = await Session.parse(filePath);
-        for (const data of parsedData) {
-            await Session.save(data.sessionData, data.questionsData, data.answersData);
-        }
-        res.status(200).json({ message: 'All sessions saved' });
-    } catch (error) {
-        console.error('error when parsing or saving', error);
-        res.status(500).json({ error: 'error occured' });
-    }
+  try {
+      filePath = path.normalize(req.body.filePath);
+      filename = path.basename(filePath);
+
+      if (!filePath) {
+          return res.status(400).json({ error: 'filePath needed' });
+      }
+
+      const parsedData = await Session.parse(filePath);
+
+      await UploadLog.create({
+        user_id: req.user?.id || 1, //have this be the actual user
+        file_name: filename,
+        filePath: filePath,
+        date: new Date(), 
+        status: 'success',
+        message: `Parsed ${parsedData.length} session(s) successfully`
+      });
+      
+
+      for (const data of parsedData) {
+          await Session.save(data.sessionData, data.questionsData, data.answersData);
+      }
+
+      res.status(200).json({ message: 'All sessions saved' });
+
+  } catch (error) {
+      console.error('error when parsing or saving', error);
+
+      await UploadLog.create({
+        user_id: req.body.user_id || 1,
+        file_name: filename,
+        filePath: filePath,
+        date: new Date(),
+        status: 'error',
+        message: error.message
+      });
+      
+
+      res.status(500).json({ error: 'error occurred' });
+  }
 });
+
 
 router.get('/sessions', async (req, res) => {
     try {

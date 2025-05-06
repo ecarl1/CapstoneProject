@@ -84,9 +84,13 @@ class UploadPage extends Component {
       const uploadedPath = uploadResponse.data.filePath;
       console.log("Uploaded file path:", uploadedPath);
 
+      const userData = JSON.parse(localStorage.getItem("user"));
+      const userId = userData?.User?.id;
+
+
       const parseResponse = await axios.post(
         "http://localhost:3000/api/session/sessions/parse-and-save",
-        { filePath: uploadedPath }
+        { filePath: uploadedPath, user_id: userId}
       );
 
       this.setState({

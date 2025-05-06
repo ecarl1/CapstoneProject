@@ -115,6 +115,7 @@ User.findUser = async function (tUsername, tPassword) {
         if (tPassword.trim() === sanitizedPassword.trim()){
             return {
                 token,
+                user_id: user.user_id,
                 User: {
                 username: user.username,
                 id: user.user_id,
